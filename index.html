@@ -675,7 +675,7 @@
     color: var(--ink);
   }
 
-  /* ============ KOREAN PHRASES ============ */
+  /* ============ KOREAN PHRASEBOOK (Interactive) ============ */
   .phrases-section {
     padding: 0 32px 80px;
     background: var(--ink);
@@ -696,136 +696,342 @@
     border-color: var(--paper);
   }
 
-  .phrase-categories {
+  /* Situation tabs */
+  .situation-tabs {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 0;
-    border-top: 1px solid rgba(244,239,230,0.3);
-    border-left: 1px solid rgba(244,239,230,0.3);
+    border: 1px solid rgba(244,239,230,0.3);
+    background: rgba(244,239,230,0.02);
   }
 
-  .phrase-category {
+  .situation-tab {
+    border: none;
+    background: transparent;
     border-right: 1px solid rgba(244,239,230,0.3);
-    border-bottom: 1px solid rgba(244,239,230,0.3);
-    padding: 32px;
-  }
-
-  .phrase-category-title {
+    padding: 24px 12px;
+    cursor: pointer;
+    color: rgba(244,239,230,0.6);
     font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.25em;
+    font-size: 10px;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 4px;
-  }
-
-  .phrase-category-subtitle {
-    font-family: 'Fraunces', serif;
-    font-style: italic;
-    font-size: 24px;
-    font-weight: 400;
-    margin-bottom: 28px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid rgba(244,239,230,0.3);
-  }
-
-  .phrase-list {
+    transition: all 0.3s;
     display: flex;
     flex-direction: column;
-    gap: 22px;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+    line-height: 1.3;
   }
 
-  .phrase-item {
+  .situation-tab:last-child { border-right: none; }
+
+  .situation-tab .situation-icon {
+    width: 36px;
+    height: 36px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.2;
+    transition: all 0.3s;
+  }
+
+  .situation-tab:hover {
+    background: rgba(184, 146, 74, 0.1);
+    color: var(--gold);
+  }
+
+  .situation-tab.active {
+    background: var(--gold);
+    color: var(--ink);
+  }
+
+  .situation-panel {
+    display: none;
+    border: 1px solid rgba(244,239,230,0.3);
+    border-top: none;
+    background: rgba(244,239,230,0.02);
+  }
+
+  .situation-panel.active {
     display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 16px;
-    align-items: start;
-    cursor: pointer;
-    padding: 6px 0;
-    transition: padding 0.3s;
+    grid-template-columns: 1.3fr 1fr;
   }
 
-  .phrase-item:hover { padding-left: 8px; }
+  .situation-content {
+    padding: 36px 32px;
+    border-right: 1px solid rgba(244,239,230,0.3);
+  }
 
-  .phrase-korean {
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 22px;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 6px;
-    color: var(--paper);
+  .situation-title {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 400;
+    margin-bottom: 8px;
     letter-spacing: -0.01em;
   }
 
-  .phrase-romanization {
+  .situation-title em {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  .situation-subtitle {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: rgba(244,239,230,0.6);
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(244,239,230,0.2);
+  }
+
+  .phrase-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .phrase-card {
+    border: 1px solid rgba(244,239,230,0.2);
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: center;
+    background: rgba(244,239,230,0.02);
+  }
+
+  .phrase-card:hover {
+    border-color: var(--gold);
+    background: rgba(184, 146, 74, 0.08);
+    transform: translateX(4px);
+  }
+
+  .phrase-card-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+    padding: 3px 8px;
+    border: 1px solid var(--gold);
+  }
+
+  .phrase-card-korean {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 6px;
+    color: var(--paper);
+  }
+
+  .phrase-card-roman {
     font-family: 'Fraunces', serif;
     font-style: italic;
-    font-size: 15px;
+    font-size: 13px;
     color: var(--gold);
     margin-bottom: 4px;
   }
 
-  .phrase-english {
+  .phrase-card-english {
     font-family: 'Fraunces', serif;
-    font-size: 14px;
+    font-size: 13px;
     color: rgba(244,239,230,0.7);
     line-height: 1.4;
   }
 
-  .phrase-play {
-    width: 36px;
-    height: 36px;
-    border: 1px solid rgba(244,239,230,0.4);
+  .phrase-card-play {
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgba(244,239,230,0.3);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--gold);
-    font-size: 12px;
     flex-shrink: 0;
     transition: all 0.3s;
   }
 
-  .phrase-item:hover .phrase-play {
+  .phrase-card:hover .phrase-card-play {
     background: var(--gold);
     color: var(--ink);
     border-color: var(--gold);
   }
 
-  .phrases-tip {
-    margin-top: 40px;
-    padding: 24px 28px;
-    border: 1px solid var(--gold);
-    background: rgba(184, 146, 74, 0.08);
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 24px;
-    align-items: center;
+  /* Translator side panel */
+  .translator-side {
+    padding: 36px 32px;
+    background: rgba(0,0,0,0.3);
   }
 
-  .phrases-tip-icon {
+  .translator-title {
     font-family: 'Fraunces', serif;
     font-style: italic;
-    font-size: 48px;
-    color: var(--gold);
-    line-height: 1;
+    font-size: 24px;
+    margin-bottom: 6px;
   }
 
-  .phrases-tip-text h6 {
+  .translator-subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+  }
+
+  .lang-toggle {
+    display: flex;
+    border: 1px solid rgba(244,239,230,0.3);
+    margin-bottom: 16px;
+  }
+
+  .lang-toggle button {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 10px;
+    color: rgba(244,239,230,0.6);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .lang-toggle button:first-child {
+    border-right: 1px solid rgba(244,239,230,0.3);
+  }
+
+  .lang-toggle button.active {
+    background: var(--gold);
+    color: var(--ink);
+  }
+
+  .translator-input {
+    width: 100%;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(244,239,230,0.3);
+    color: var(--paper);
+    padding: 16px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    resize: vertical;
+    min-height: 80px;
+    margin-bottom: 12px;
+    transition: border 0.3s;
+    box-sizing: border-box;
+  }
+
+  .translator-input:focus {
+    outline: none;
+    border-color: var(--gold);
+  }
+
+  .translator-input::placeholder {
+    color: rgba(244,239,230,0.4);
+  }
+
+  .translate-btn {
+    width: 100%;
+    background: var(--gold);
+    color: var(--ink);
+    border: none;
+    padding: 14px;
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 20px;
+  }
+
+  .translate-btn:hover:not(:disabled) {
+    background: var(--paper);
+  }
+
+  .translate-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .translation-result {
+    border: 1px solid var(--gold);
+    background: rgba(184, 146, 74, 0.08);
+    padding: 18px;
+    min-height: 100px;
+  }
+
+  .translation-result-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 8px;
+    margin-bottom: 12px;
   }
 
-  .phrases-tip-text p {
+  .translation-result-text {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--paper);
+    margin-bottom: 12px;
+    word-break: keep-all;
+  }
+
+  .translation-result-empty {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
     font-size: 14px;
-    line-height: 1.6;
-    color: rgba(244,239,230,0.85);
+    color: rgba(244,239,230,0.4);
   }
 
+  .translation-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .translation-action-btn {
+    flex: 1;
+    background: transparent;
+    border: 1px solid rgba(244,239,230,0.3);
+    color: rgba(244,239,230,0.8);
+    padding: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .translation-action-btn:hover {
+    background: var(--gold);
+    color: var(--ink);
+    border-color: var(--gold);
+  }
+
+  .translator-loading {
+    color: var(--gold);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    animation: pulse 1.5s infinite;
+  }
   /* ============ FESTIVALS ============ */
   .festivals {
     padding: 0 32px 80px;
@@ -1383,9 +1589,12 @@
     .festival-map-grid { grid-template-columns: 1fr; gap: 32px; }
     .faq-grid { grid-template-columns: 1fr; }
     .faq-item { border-right: none; }
-    .phrase-categories { grid-template-columns: 1fr; border-left: none; }
-    .phrase-category { border-right: none; padding: 24px; }
-    .phrases-tip { grid-template-columns: 1fr; gap: 12px; }
+    .situation-tabs { grid-template-columns: repeat(3, 1fr); }
+    .situation-tab:nth-child(3) { border-right: none; }
+    .situation-tab:nth-child(-n+3) { border-bottom: 1px solid rgba(244,239,230,0.3); }
+    .situation-panel.active { grid-template-columns: 1fr; }
+    .situation-content { border-right: none; border-bottom: 1px solid rgba(244,239,230,0.3); padding: 28px 20px; }
+    .translator-side { padding: 28px 20px; }
   }
 </style>
 </head>
@@ -2328,211 +2537,662 @@
   </div>
 </section>
 
-<!-- KOREAN PHRASES -->
+<!-- KOREAN PHRASEBOOK -->
 <section class="phrases-section" id="phrases">
   <div class="section-header">
     <div>
-      <div class="section-num">— 05 / Essential Korean</div>
-      <h3>A few words go a <em>long</em> way.</h3>
+      <div class="section-num">— 05 / Korean Phrasebook</div>
+      <h3>Speak Korean, <em>situation</em> by situation.</h3>
     </div>
-    <div class="desc">Locals genuinely appreciate the effort. Even a single word in Korean often turns a transactional moment into a warm one. Tap any phrase to hear it pronounced.</div>
+    <div class="desc">Tap a situation, get the phrases you actually need. Hear them pronounced. Or use the live translator at right for anything else — works in both directions.</div>
   </div>
 
-  <div class="phrase-categories">
-    <div class="phrase-category">
-      <div class="phrase-category-title">— 01</div>
-      <div class="phrase-category-subtitle">Greetings & Basics</div>
-      <div class="phrase-list">
-        <div class="phrase-item" data-text="안녕하세요">
+  <!-- Situation Tabs -->
+  <div class="situation-tabs">
+    <button class="situation-tab active" data-situation="restaurant">
+      <svg class="situation-icon" viewBox="0 0 36 36">
+        <path d="M 8 6 L 8 22 M 12 6 L 12 14 Q 12 18 8 18 M 24 6 L 24 30 M 28 6 L 28 14 Q 28 18 24 18"/>
+        <line x1="6" y1="30" x2="32" y2="30"/>
+      </svg>
+      Restaurant
+    </button>
+    <button class="situation-tab" data-situation="taxi">
+      <svg class="situation-icon" viewBox="0 0 36 36">
+        <rect x="6" y="14" width="24" height="12" rx="2"/>
+        <rect x="10" y="9" width="16" height="5" rx="1"/>
+        <circle cx="11" cy="28" r="2.5"/>
+        <circle cx="25" cy="28" r="2.5"/>
+        <line x1="14" y1="20" x2="22" y2="20"/>
+      </svg>
+      Taxi
+    </button>
+    <button class="situation-tab" data-situation="shopping">
+      <svg class="situation-icon" viewBox="0 0 36 36">
+        <path d="M 8 12 L 28 12 L 26 30 L 10 30 Z"/>
+        <path d="M 13 12 L 13 8 Q 13 5 18 5 Q 23 5 23 8 L 23 12"/>
+      </svg>
+      Shopping
+    </button>
+    <button class="situation-tab" data-situation="transit">
+      <svg class="situation-icon" viewBox="0 0 36 36">
+        <rect x="8" y="6" width="20" height="22" rx="3"/>
+        <line x1="8" y1="20" x2="28" y2="20"/>
+        <circle cx="13" cy="24" r="1.5" fill="currentColor"/>
+        <circle cx="23" cy="24" r="1.5" fill="currentColor"/>
+        <line x1="12" y1="11" x2="24" y2="11"/>
+        <line x1="13" y1="30" x2="11" y2="33"/>
+        <line x1="23" y1="30" x2="25" y2="33"/>
+      </svg>
+      Subway/Bus
+    </button>
+    <button class="situation-tab" data-situation="hotel">
+      <svg class="situation-icon" viewBox="0 0 36 36">
+        <path d="M 6 30 L 6 14 L 18 6 L 30 14 L 30 30"/>
+        <rect x="14" y="20" width="8" height="10"/>
+        <rect x="9" y="17" width="4" height="4"/>
+        <rect x="23" y="17" width="4" height="4"/>
+      </svg>
+      Hotel
+    </button>
+    <button class="situation-tab" data-situation="medical">
+      <svg class="situation-icon" viewBox="0 0 36 36">
+        <rect x="6" y="10" width="24" height="20" rx="2"/>
+        <line x1="18" y1="14" x2="18" y2="26"/>
+        <line x1="12" y1="20" x2="24" y2="20"/>
+        <path d="M 12 10 L 12 6 L 24 6 L 24 10"/>
+      </svg>
+      Medical
+    </button>
+  </div>
+
+  <!-- RESTAURANT PANEL -->
+  <div class="situation-panel active" data-situation="restaurant">
+    <div class="situation-content">
+      <div class="situation-title">At a <em>restaurant</em></div>
+      <div class="situation-subtitle">음식점에서 — Tap any phrase to hear it pronounced</div>
+      <div class="phrase-cards">
+        <div class="phrase-card" data-text="몇 명이세요?" data-context="They'll ask you this">
           <div>
-            <div class="phrase-korean">안녕하세요</div>
-            <div class="phrase-romanization">An-nyeong-ha-se-yo</div>
-            <div class="phrase-english">Hello / Hi (polite, all situations)</div>
+            <span class="phrase-card-tag">Server says</span>
+            <div class="phrase-card-korean">몇 명이세요?</div>
+            <div class="phrase-card-roman">Myeot myeong-i-se-yo?</div>
+            <div class="phrase-card-english">How many people?</div>
           </div>
-          <div class="phrase-play">▶</div>
+          <div class="phrase-card-play">▶</div>
         </div>
-        <div class="phrase-item" data-text="감사합니다">
+        <div class="phrase-card" data-text="두 명이요">
           <div>
-            <div class="phrase-korean">감사합니다</div>
-            <div class="phrase-romanization">Gam-sa-ham-ni-da</div>
-            <div class="phrase-english">Thank you (formal)</div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">두 명이요</div>
+            <div class="phrase-card-roman">Du myeong-i-yo</div>
+            <div class="phrase-card-english">Two people (change to 한 / 세 / 네 for 1 / 3 / 4)</div>
           </div>
-          <div class="phrase-play">▶</div>
+          <div class="phrase-card-play">▶</div>
         </div>
-        <div class="phrase-item" data-text="죄송합니다">
+        <div class="phrase-card" data-text="메뉴 좀 주세요">
           <div>
-            <div class="phrase-korean">죄송합니다</div>
-            <div class="phrase-romanization">Joe-song-ham-ni-da</div>
-            <div class="phrase-english">I'm sorry / Excuse me</div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">메뉴 좀 주세요</div>
+            <div class="phrase-card-roman">Me-nyu jom ju-se-yo</div>
+            <div class="phrase-card-english">Menu, please</div>
           </div>
-          <div class="phrase-play">▶</div>
+          <div class="phrase-card-play">▶</div>
         </div>
-        <div class="phrase-item" data-text="네">
+        <div class="phrase-card" data-text="이거 주세요">
           <div>
-            <div class="phrase-korean">네 / 아니요</div>
-            <div class="phrase-romanization">Ne / A-ni-yo</div>
-            <div class="phrase-english">Yes / No</div>
+            <span class="phrase-card-tag">You say (point)</span>
+            <div class="phrase-card-korean">이거 주세요</div>
+            <div class="phrase-card-roman">I-geo ju-se-yo</div>
+            <div class="phrase-card-english">I'll have this (while pointing at menu)</div>
           </div>
-          <div class="phrase-play">▶</div>
+          <div class="phrase-card-play">▶</div>
         </div>
-        <div class="phrase-item" data-text="안녕히 가세요">
+        <div class="phrase-card" data-text="맵지 않게 해주세요">
           <div>
-            <div class="phrase-korean">안녕히 가세요</div>
-            <div class="phrase-romanization">An-nyeong-hi ga-se-yo</div>
-            <div class="phrase-english">Goodbye (to person leaving)</div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">맵지 않게 해주세요</div>
+            <div class="phrase-card-roman">Maep-ji an-ke hae-ju-se-yo</div>
+            <div class="phrase-card-english">Not spicy, please</div>
           </div>
-          <div class="phrase-play">▶</div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="저는 채식주의자예요">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">저는 채식주의자예요</div>
+            <div class="phrase-card-roman">Jeo-neun chae-sik-ju-ui-ja-ye-yo</div>
+            <div class="phrase-card-english">I'm a vegetarian</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="알레르기가 있어요">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">알레르기가 있어요</div>
+            <div class="phrase-card-roman">Al-le-reu-gi-ga i-sseo-yo</div>
+            <div class="phrase-card-english">I have an allergy</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="물 좀 더 주세요">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">물 좀 더 주세요</div>
+            <div class="phrase-card-roman">Mul jom deo ju-se-yo</div>
+            <div class="phrase-card-english">More water, please</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="정말 맛있어요">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">정말 맛있어요</div>
+            <div class="phrase-card-roman">Jeong-mal ma-si-sseo-yo</div>
+            <div class="phrase-card-english">It's really delicious</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="계산해 주세요">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">계산해 주세요</div>
+            <div class="phrase-card-roman">Gye-san-hae ju-se-yo</div>
+            <div class="phrase-card-english">Check, please / I'd like to pay</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
         </div>
       </div>
     </div>
-
-    <div class="phrase-category">
-      <div class="phrase-category-title">— 02</div>
-      <div class="phrase-category-subtitle">At a Restaurant</div>
-      <div class="phrase-list">
-        <div class="phrase-item" data-text="메뉴 주세요">
-          <div>
-            <div class="phrase-korean">메뉴 주세요</div>
-            <div class="phrase-romanization">Me-nyu ju-se-yo</div>
-            <div class="phrase-english">Menu, please</div>
-          </div>
-          <div class="phrase-play">▶</div>
-        </div>
-        <div class="phrase-item" data-text="이거 주세요">
-          <div>
-            <div class="phrase-korean">이거 주세요</div>
-            <div class="phrase-romanization">I-geo ju-se-yo</div>
-            <div class="phrase-english">I'll have this one (while pointing)</div>
-          </div>
-          <div class="phrase-play">▶</div>
-        </div>
-        <div class="phrase-item" data-text="맵지 않게 해주세요">
-          <div>
-            <div class="phrase-korean">맵지 않게 해주세요</div>
-            <div class="phrase-romanization">Maep-ji an-ke hae-ju-se-yo</div>
-            <div class="phrase-english">Not spicy, please</div>
-          </div>
-          <div class="phrase-play">▶</div>
-        </div>
-        <div class="phrase-item" data-text="물 주세요">
-          <div>
-            <div class="phrase-korean">물 주세요</div>
-            <div class="phrase-romanization">Mul ju-se-yo</div>
-            <div class="phrase-english">Water, please</div>
-          </div>
-          <div class="phrase-play">▶</div>
-        </div>
-        <div class="phrase-item" data-text="계산해 주세요">
-          <div>
-            <div class="phrase-korean">계산해 주세요</div>
-            <div class="phrase-romanization">Gye-san-hae ju-se-yo</div>
-            <div class="phrase-english">Check, please / I'd like to pay</div>
-          </div>
-          <div class="phrase-play">▶</div>
-        </div>
+    <div class="translator-side">
+      <div class="translator-title">Live Translator</div>
+      <div class="translator-subtitle">— Need something else?</div>
+      <div class="lang-toggle">
+        <button class="active" data-direction="en-ko">EN → 한국어</button>
+        <button data-direction="ko-en">한국어 → EN</button>
       </div>
-    </div>
-
-    <div class="phrase-category">
-      <div class="phrase-category-title">— 03</div>
-      <div class="phrase-category-subtitle">Getting Around</div>
-      <div class="phrase-list">
-        <div class="phrase-item" data-text="얼마예요">
-          <div>
-            <div class="phrase-korean">얼마예요?</div>
-            <div class="phrase-romanization">Eol-ma-ye-yo?</div>
-            <div class="phrase-english">How much is it?</div>
-          </div>
-          <div class="phrase-play">▶</div>
-        </div>
-        <div class="phrase-item" data-text="어디에 있어요">
-          <div>
-            <div class="phrase-korean">어디에 있어요?</div>
-            <div class="phrase-romanization">Eo-di-e i-sseo-yo?</div>
-            <div class="phrase-english">Where is it?</div>
-          </div>
-          <div class="phrase-play">▶</div>
-        </div>
-        <div class="phrase-item" data-text="화장실이 어디예요">
-          <div>
-            <div class="phrase-korean">화장실이 어디예요?</div>
-            <div class="phrase-romanization">Hwa-jang-sil-i eo-di-ye-yo?</div>
-            <div class="phrase-english">Where is the restroom?</div>
-          </div>
-          <div class="phrase-play">▶</div>
-        </div>
-        <div class="phrase-item" data-text="이 주소로 가주세요">
-          <div>
-            <div class="phrase-korean">이 주소로 가주세요</div>
-            <div class="phrase-romanization">I ju-so-ro ga-ju-se-yo</div>
-            <div class="phrase-english">Please go to this address (in taxi)</div>
-          </div>
-          <div class="phrase-play">▶</div>
-        </div>
-        <div class="phrase-item" data-text="여기서 세워주세요">
-          <div>
-            <div class="phrase-korean">여기서 세워주세요</div>
-            <div class="phrase-romanization">Yeo-gi-seo se-wo-ju-se-yo</div>
-            <div class="phrase-english">Please stop here</div>
-          </div>
-          <div class="phrase-play">▶</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="phrase-category">
-      <div class="phrase-category-title">— 04</div>
-      <div class="phrase-category-subtitle">Emergencies & Help</div>
-      <div class="phrase-list">
-        <div class="phrase-item" data-text="도와주세요">
-          <div>
-            <div class="phrase-korean">도와주세요!</div>
-            <div class="phrase-romanization">Do-wa-ju-se-yo!</div>
-            <div class="phrase-english">Help me, please!</div>
-          </div>
-          <div class="phrase-play">▶</div>
-        </div>
-        <div class="phrase-item" data-text="영어 할 수 있어요">
-          <div>
-            <div class="phrase-korean">영어 할 수 있어요?</div>
-            <div class="phrase-romanization">Yeong-eo hal su i-sseo-yo?</div>
-            <div class="phrase-english">Do you speak English?</div>
-          </div>
-          <div class="phrase-play">▶</div>
-        </div>
-        <div class="phrase-item" data-text="길을 잃었어요">
-          <div>
-            <div class="phrase-korean">길을 잃었어요</div>
-            <div class="phrase-romanization">Gil-eul ir-eo-sseo-yo</div>
-            <div class="phrase-english">I'm lost</div>
-          </div>
-          <div class="phrase-play">▶</div>
-        </div>
-        <div class="phrase-item" data-text="병원이 어디예요">
-          <div>
-            <div class="phrase-korean">병원이 어디예요?</div>
-            <div class="phrase-romanization">Byeong-won-i eo-di-ye-yo?</div>
-            <div class="phrase-english">Where is the hospital?</div>
-          </div>
-          <div class="phrase-play">▶</div>
-        </div>
-        <div class="phrase-item" data-text="경찰을 불러주세요">
-          <div>
-            <div class="phrase-korean">경찰을 불러주세요</div>
-            <div class="phrase-romanization">Gyeong-chal-eul bul-leo-ju-se-yo</div>
-            <div class="phrase-english">Please call the police</div>
-          </div>
-          <div class="phrase-play">▶</div>
+      <textarea class="translator-input" placeholder="Type what you want to say..."></textarea>
+      <button class="translate-btn">Translate</button>
+      <div class="translation-result">
+        <div class="translation-result-label">Translation</div>
+        <div class="translation-result-text translation-result-empty">Your translation will appear here.</div>
+        <div class="translation-actions" style="display:none">
+          <button class="translation-action-btn btn-speak">▶ Speak</button>
+          <button class="translation-action-btn btn-copy">⧉ Copy</button>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="phrases-tip">
-    <div class="phrases-tip-icon">!</div>
-    <div class="phrases-tip-text">
-      <h6>Pro Tip — A Small Bow Goes Far</h6>
-      <p>When saying hello or thank you, a slight nod of the head adds warmth. It's not required, but Koreans notice and appreciate the gesture. No need for deep bows — that's reserved for formal occasions.</p>
+  <!-- TAXI PANEL -->
+  <div class="situation-panel" data-situation="taxi">
+    <div class="situation-content">
+      <div class="situation-title">In a <em>taxi</em></div>
+      <div class="situation-subtitle">택시 안에서 — Show the driver your destination, or use these</div>
+      <div class="phrase-cards">
+        <div class="phrase-card" data-text="이 주소로 가주세요">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">이 주소로 가주세요</div>
+            <div class="phrase-card-roman">I ju-so-ro ga-ju-se-yo</div>
+            <div class="phrase-card-english">Please go to this address (show phone)</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="공항으로 가주세요">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">공항으로 가주세요</div>
+            <div class="phrase-card-roman">Gong-hang-eu-ro ga-ju-se-yo</div>
+            <div class="phrase-card-english">To the airport, please</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="얼마나 걸려요?">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">얼마나 걸려요?</div>
+            <div class="phrase-card-roman">Eol-ma-na geol-lyeo-yo?</div>
+            <div class="phrase-card-english">How long will it take?</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="좀 빨리 가주세요">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">좀 빨리 가주세요</div>
+            <div class="phrase-card-roman">Jom ppal-li ga-ju-se-yo</div>
+            <div class="phrase-card-english">Please hurry / Please go faster</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="여기서 세워주세요">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">여기서 세워주세요</div>
+            <div class="phrase-card-roman">Yeo-gi-seo se-wo-ju-se-yo</div>
+            <div class="phrase-card-english">Please stop here</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="카드로 결제할게요">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">카드로 결제할게요</div>
+            <div class="phrase-card-roman">Ka-deu-ro gyeol-je-hal-ge-yo</div>
+            <div class="phrase-card-english">I'll pay by card</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="영수증 주세요">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">영수증 주세요</div>
+            <div class="phrase-card-roman">Yeong-su-jeung ju-se-yo</div>
+            <div class="phrase-card-english">Receipt, please</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="미터기로 가주세요">
+          <div>
+            <span class="phrase-card-tag">You say (if needed)</span>
+            <div class="phrase-card-korean">미터기로 가주세요</div>
+            <div class="phrase-card-roman">Mi-teo-gi-ro ga-ju-se-yo</div>
+            <div class="phrase-card-english">Please use the meter</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+      </div>
+    </div>
+    <div class="translator-side">
+      <div class="translator-title">Live Translator</div>
+      <div class="translator-subtitle">— Need something else?</div>
+      <div class="lang-toggle">
+        <button class="active" data-direction="en-ko">EN → 한국어</button>
+        <button data-direction="ko-en">한국어 → EN</button>
+      </div>
+      <textarea class="translator-input" placeholder="Type what you want to say..."></textarea>
+      <button class="translate-btn">Translate</button>
+      <div class="translation-result">
+        <div class="translation-result-label">Translation</div>
+        <div class="translation-result-text translation-result-empty">Your translation will appear here.</div>
+        <div class="translation-actions" style="display:none">
+          <button class="translation-action-btn btn-speak">▶ Speak</button>
+          <button class="translation-action-btn btn-copy">⧉ Copy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHOPPING PANEL -->
+  <div class="situation-panel" data-situation="shopping">
+    <div class="situation-content">
+      <div class="situation-title">While <em>shopping</em></div>
+      <div class="situation-subtitle">쇼핑할 때 — Markets, malls, and convenience stores</div>
+      <div class="phrase-cards">
+        <div class="phrase-card" data-text="얼마예요?">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">얼마예요?</div>
+            <div class="phrase-card-roman">Eol-ma-ye-yo?</div>
+            <div class="phrase-card-english">How much is it?</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="좀 깎아주세요">
+          <div>
+            <span class="phrase-card-tag">You say (markets only)</span>
+            <div class="phrase-card-korean">좀 깎아주세요</div>
+            <div class="phrase-card-roman">Jom kkak-ka-ju-se-yo</div>
+            <div class="phrase-card-english">Can you give me a discount? (traditional markets)</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="다른 색깔 있어요?">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">다른 색깔 있어요?</div>
+            <div class="phrase-card-roman">Da-reun saek-kkal i-sseo-yo?</div>
+            <div class="phrase-card-english">Do you have other colors?</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="입어봐도 돼요?">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">입어봐도 돼요?</div>
+            <div class="phrase-card-roman">I-beo-bwa-do dwae-yo?</div>
+            <div class="phrase-card-english">Can I try it on?</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="더 큰 사이즈 있어요?">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">더 큰 사이즈 있어요?</div>
+            <div class="phrase-card-roman">Deo keun sa-i-jeu i-sseo-yo?</div>
+            <div class="phrase-card-english">Do you have a bigger size?</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="택스 리펀드 되나요?">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">택스 리펀드 되나요?</div>
+            <div class="phrase-card-roman">Taek-seu ri-peon-deu doe-na-yo?</div>
+            <div class="phrase-card-english">Is tax refund available?</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="그냥 보는 거예요">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">그냥 보는 거예요</div>
+            <div class="phrase-card-roman">Geu-nyang bo-neun geo-ye-yo</div>
+            <div class="phrase-card-english">I'm just looking</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="봉투 주세요">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">봉투 주세요</div>
+            <div class="phrase-card-roman">Bong-tu ju-se-yo</div>
+            <div class="phrase-card-english">A bag, please</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+      </div>
+    </div>
+    <div class="translator-side">
+      <div class="translator-title">Live Translator</div>
+      <div class="translator-subtitle">— Need something else?</div>
+      <div class="lang-toggle">
+        <button class="active" data-direction="en-ko">EN → 한국어</button>
+        <button data-direction="ko-en">한국어 → EN</button>
+      </div>
+      <textarea class="translator-input" placeholder="Type what you want to say..."></textarea>
+      <button class="translate-btn">Translate</button>
+      <div class="translation-result">
+        <div class="translation-result-label">Translation</div>
+        <div class="translation-result-text translation-result-empty">Your translation will appear here.</div>
+        <div class="translation-actions" style="display:none">
+          <button class="translation-action-btn btn-speak">▶ Speak</button>
+          <button class="translation-action-btn btn-copy">⧉ Copy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRANSIT PANEL -->
+  <div class="situation-panel" data-situation="transit">
+    <div class="situation-content">
+      <div class="situation-title">On the <em>subway</em> or bus</div>
+      <div class="situation-subtitle">지하철·버스에서 — Getting around the city</div>
+      <div class="phrase-cards">
+        <div class="phrase-card" data-text="이 역이 어디예요?">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">이 역이 어디예요?</div>
+            <div class="phrase-card-roman">I yeo-gi eo-di-ye-yo?</div>
+            <div class="phrase-card-english">Where is this station?</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="강남역으로 어떻게 가요?">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">강남역으로 어떻게 가요?</div>
+            <div class="phrase-card-roman">Gang-nam-yeok-eu-ro eo-tteo-ke ga-yo?</div>
+            <div class="phrase-card-english">How do I get to Gangnam Station? (swap station name)</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="몇 정거장이에요?">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">몇 정거장이에요?</div>
+            <div class="phrase-card-roman">Myeot jeong-geo-jang-i-e-yo?</div>
+            <div class="phrase-card-english">How many stops?</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="여기서 갈아타요?">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">여기서 갈아타요?</div>
+            <div class="phrase-card-roman">Yeo-gi-seo gar-a-ta-yo?</div>
+            <div class="phrase-card-english">Do I transfer here?</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="티머니 카드 충전해 주세요">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">티머니 카드 충전해 주세요</div>
+            <div class="phrase-card-roman">Ti-meo-ni ka-deu chung-jeon-hae ju-se-yo</div>
+            <div class="phrase-card-english">Please charge my T-Money card</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="지나가도 될까요?">
+          <div>
+            <span class="phrase-card-tag">You say (in crowd)</span>
+            <div class="phrase-card-korean">지나가도 될까요?</div>
+            <div class="phrase-card-roman">Ji-na-ga-do doel-kka-yo?</div>
+            <div class="phrase-card-english">May I pass through? (polite)</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+      </div>
+    </div>
+    <div class="translator-side">
+      <div class="translator-title">Live Translator</div>
+      <div class="translator-subtitle">— Need something else?</div>
+      <div class="lang-toggle">
+        <button class="active" data-direction="en-ko">EN → 한국어</button>
+        <button data-direction="ko-en">한국어 → EN</button>
+      </div>
+      <textarea class="translator-input" placeholder="Type what you want to say..."></textarea>
+      <button class="translate-btn">Translate</button>
+      <div class="translation-result">
+        <div class="translation-result-label">Translation</div>
+        <div class="translation-result-text translation-result-empty">Your translation will appear here.</div>
+        <div class="translation-actions" style="display:none">
+          <button class="translation-action-btn btn-speak">▶ Speak</button>
+          <button class="translation-action-btn btn-copy">⧉ Copy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOTEL PANEL -->
+  <div class="situation-panel" data-situation="hotel">
+    <div class="situation-content">
+      <div class="situation-title">At your <em>hotel</em></div>
+      <div class="situation-subtitle">호텔에서 — Check-in, requests, and checkout</div>
+      <div class="phrase-cards">
+        <div class="phrase-card" data-text="체크인할게요">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">체크인할게요</div>
+            <div class="phrase-card-roman">Che-keu-in-hal-ge-yo</div>
+            <div class="phrase-card-english">I'd like to check in</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="예약했어요">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">예약했어요</div>
+            <div class="phrase-card-roman">Ye-yak-hae-sseo-yo</div>
+            <div class="phrase-card-english">I have a reservation</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="와이파이 비밀번호 뭐예요?">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">와이파이 비밀번호 뭐예요?</div>
+            <div class="phrase-card-roman">Wa-i-pa-i bi-mil-beon-ho mwo-ye-yo?</div>
+            <div class="phrase-card-english">What's the WiFi password?</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="수건 좀 더 주세요">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">수건 좀 더 주세요</div>
+            <div class="phrase-card-roman">Su-geon jom deo ju-se-yo</div>
+            <div class="phrase-card-english">More towels, please</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="짐 좀 맡길 수 있어요?">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">짐 좀 맡길 수 있어요?</div>
+            <div class="phrase-card-roman">Jim jom mat-gil su i-sseo-yo?</div>
+            <div class="phrase-card-english">Can I store my luggage?</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="체크아웃은 몇 시예요?">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">체크아웃은 몇 시예요?</div>
+            <div class="phrase-card-roman">Che-keu-a-u-seun myeot si-ye-yo?</div>
+            <div class="phrase-card-english">What time is checkout?</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="택시 좀 불러주세요">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">택시 좀 불러주세요</div>
+            <div class="phrase-card-roman">Taek-si jom bul-leo-ju-se-yo</div>
+            <div class="phrase-card-english">Could you call a taxi?</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+      </div>
+    </div>
+    <div class="translator-side">
+      <div class="translator-title">Live Translator</div>
+      <div class="translator-subtitle">— Need something else?</div>
+      <div class="lang-toggle">
+        <button class="active" data-direction="en-ko">EN → 한국어</button>
+        <button data-direction="ko-en">한국어 → EN</button>
+      </div>
+      <textarea class="translator-input" placeholder="Type what you want to say..."></textarea>
+      <button class="translate-btn">Translate</button>
+      <div class="translation-result">
+        <div class="translation-result-label">Translation</div>
+        <div class="translation-result-text translation-result-empty">Your translation will appear here.</div>
+        <div class="translation-actions" style="display:none">
+          <button class="translation-action-btn btn-speak">▶ Speak</button>
+          <button class="translation-action-btn btn-copy">⧉ Copy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MEDICAL PANEL -->
+  <div class="situation-panel" data-situation="medical">
+    <div class="situation-content">
+      <div class="situation-title">When you're <em>not well</em></div>
+      <div class="situation-subtitle">아플 때 — Pharmacy, hospital, or feeling sick</div>
+      <div class="phrase-cards">
+        <div class="phrase-card" data-text="병원이 어디예요?">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">병원이 어디예요?</div>
+            <div class="phrase-card-roman">Byeong-won-i eo-di-ye-yo?</div>
+            <div class="phrase-card-english">Where is the hospital?</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="약국이 어디예요?">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">약국이 어디예요?</div>
+            <div class="phrase-card-roman">Yak-guk-i eo-di-ye-yo?</div>
+            <div class="phrase-card-english">Where is the pharmacy?</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="머리가 아파요">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">머리가 아파요</div>
+            <div class="phrase-card-roman">Meo-ri-ga a-pa-yo</div>
+            <div class="phrase-card-english">I have a headache</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="배가 아파요">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">배가 아파요</div>
+            <div class="phrase-card-roman">Bae-ga a-pa-yo</div>
+            <div class="phrase-card-english">I have a stomachache</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="감기에 걸렸어요">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">감기에 걸렸어요</div>
+            <div class="phrase-card-roman">Gam-gi-e geol-lyeo-sseo-yo</div>
+            <div class="phrase-card-english">I have a cold</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="알레르기가 있어요">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">알레르기가 있어요</div>
+            <div class="phrase-card-roman">Al-le-reu-gi-ga i-sseo-yo</div>
+            <div class="phrase-card-english">I have an allergy</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="119를 불러주세요">
+          <div>
+            <span class="phrase-card-tag">Emergency</span>
+            <div class="phrase-card-korean">119를 불러주세요!</div>
+            <div class="phrase-card-roman">Il-il-gu-reul bul-leo-ju-se-yo!</div>
+            <div class="phrase-card-english">Please call 119! (ambulance)</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+        <div class="phrase-card" data-text="영어 하시는 의사 있어요?">
+          <div>
+            <span class="phrase-card-tag">You say</span>
+            <div class="phrase-card-korean">영어 하시는 의사 있어요?</div>
+            <div class="phrase-card-roman">Yeong-eo ha-si-neun ui-sa i-sseo-yo?</div>
+            <div class="phrase-card-english">Is there a doctor who speaks English?</div>
+          </div>
+          <div class="phrase-card-play">▶</div>
+        </div>
+      </div>
+    </div>
+    <div class="translator-side">
+      <div class="translator-title">Live Translator</div>
+      <div class="translator-subtitle">— Need something else?</div>
+      <div class="lang-toggle">
+        <button class="active" data-direction="en-ko">EN → 한국어</button>
+        <button data-direction="ko-en">한국어 → EN</button>
+      </div>
+      <textarea class="translator-input" placeholder="Type what you want to say..."></textarea>
+      <button class="translate-btn">Translate</button>
+      <div class="translation-result">
+        <div class="translation-result-label">Translation</div>
+        <div class="translation-result-text translation-result-empty">Your translation will appear here.</div>
+        <div class="translation-actions" style="display:none">
+          <button class="translation-action-btn btn-speak">▶ Speak</button>
+          <button class="translation-action-btn btn-copy">⧉ Copy</button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -2807,32 +3467,168 @@
   if (currentTab) currentTab.click();
 
   // Korean phrase pronunciation - uses browser's built-in speech synthesis
-  const phraseItems = document.querySelectorAll('.phrase-item');
-  phraseItems.forEach(item => {
-    item.addEventListener('click', () => {
-      const text = item.dataset.text;
-      if (!text || !('speechSynthesis' in window)) return;
+  function speakKorean(text, btnElement) {
+    if (!text || !('speechSynthesis' in window)) return;
 
-      // Stop any currently playing speech
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'ko-KR';
+    utterance.rate = 0.85;
+
+    if (btnElement) {
+      const originalContent = btnElement.innerHTML;
+      btnElement.innerHTML = '♪';
+      utterance.onend = () => { btnElement.innerHTML = originalContent; };
+      utterance.onerror = () => { btnElement.innerHTML = originalContent; };
+    }
+
+    window.speechSynthesis.speak(utterance);
+  }
+
+  function speakEnglish(text) {
+    if (!text || !('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.95;
+    window.speechSynthesis.speak(utterance);
+  }
+
+  // Phrase card click → speak Korean
+  document.querySelectorAll('.phrase-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const text = card.dataset.text;
+      const playBtn = card.querySelector('.phrase-card-play');
+      speakKorean(text, playBtn);
+    });
+  });
+
+  // Situation tabs switching
+  const situationTabs = document.querySelectorAll('.situation-tab');
+  const situationPanels = document.querySelectorAll('.situation-panel');
+
+  situationTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const situation = tab.dataset.situation;
+
+      situationTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+
+      situationPanels.forEach(panel => {
+        if (panel.dataset.situation === situation) {
+          panel.classList.add('active');
+        } else {
+          panel.classList.remove('active');
+        }
+      });
+
+      // Cancel any ongoing translation
       window.speechSynthesis.cancel();
+    });
+  });
 
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'ko-KR';
-      utterance.rate = 0.85;
+  // Live Translator (uses MyMemory free public API - no key required)
+  document.querySelectorAll('.translator-side').forEach(translator => {
+    const langButtons = translator.querySelectorAll('.lang-toggle button');
+    const input = translator.querySelector('.translator-input');
+    const translateBtn = translator.querySelector('.translate-btn');
+    const resultText = translator.querySelector('.translation-result-text');
+    const resultActions = translator.querySelector('.translation-actions');
+    const speakBtn = translator.querySelector('.btn-speak');
+    const copyBtn = translator.querySelector('.btn-copy');
 
-      // Visual feedback
-      const playBtn = item.querySelector('.phrase-play');
-      const originalContent = playBtn.innerHTML;
-      playBtn.innerHTML = '♪';
+    let direction = 'en-ko';
+    let lastTranslation = '';
+    let lastTargetLang = 'ko';
 
-      utterance.onend = () => {
-        playBtn.innerHTML = originalContent;
-      };
-      utterance.onerror = () => {
-        playBtn.innerHTML = originalContent;
-      };
+    // Language direction toggle
+    langButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        langButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        direction = btn.dataset.direction;
 
-      window.speechSynthesis.speak(utterance);
+        // Update placeholder
+        if (direction === 'en-ko') {
+          input.placeholder = 'Type in English...';
+        } else {
+          input.placeholder = '한국어로 입력하세요...';
+        }
+      });
+    });
+
+    // Translate button
+    translateBtn.addEventListener('click', async () => {
+      const text = input.value.trim();
+      if (!text) {
+        resultText.textContent = 'Please enter some text first.';
+        resultText.classList.add('translation-result-empty');
+        resultActions.style.display = 'none';
+        return;
+      }
+
+      const langPair = direction === 'en-ko' ? 'en|ko' : 'ko|en';
+
+      resultText.innerHTML = '<span class="translator-loading">Translating...</span>';
+      resultText.classList.remove('translation-result-empty');
+      resultActions.style.display = 'none';
+      translateBtn.disabled = true;
+
+      try {
+        const response = await fetch(
+          `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${langPair}`
+        );
+        const data = await response.json();
+
+        if (data.responseStatus === 200 && data.responseData) {
+          const translated = data.responseData.translatedText;
+          resultText.textContent = translated;
+          resultText.classList.remove('translation-result-empty');
+          lastTranslation = translated;
+          lastTargetLang = direction === 'en-ko' ? 'ko' : 'en';
+          resultActions.style.display = 'flex';
+        } else {
+          throw new Error('Translation failed');
+        }
+      } catch (error) {
+        resultText.textContent = 'Translation service unavailable. Please try again.';
+        resultText.classList.add('translation-result-empty');
+        resultActions.style.display = 'none';
+      } finally {
+        translateBtn.disabled = false;
+      }
+    });
+
+    // Enter key to translate (Shift+Enter for new line)
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        translateBtn.click();
+      }
+    });
+
+    // Speak translated text
+    speakBtn.addEventListener('click', () => {
+      if (!lastTranslation) return;
+      if (lastTargetLang === 'ko') {
+        speakKorean(lastTranslation);
+      } else {
+        speakEnglish(lastTranslation);
+      }
+    });
+
+    // Copy translated text
+    copyBtn.addEventListener('click', async () => {
+      if (!lastTranslation) return;
+      try {
+        await navigator.clipboard.writeText(lastTranslation);
+        const original = copyBtn.textContent;
+        copyBtn.textContent = '✓ Copied';
+        setTimeout(() => { copyBtn.textContent = original; }, 1500);
+      } catch (err) {
+        copyBtn.textContent = '✕ Failed';
+      }
     });
   });
 </script>

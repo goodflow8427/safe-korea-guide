@@ -107,6 +107,35 @@
   .nbh-place-name { font-family: 'Fraunces', serif; font-size: 17px; font-weight: 600; line-height: 1.2; margin-bottom: 2px; }
   .nbh-place-name-kr { font-family: 'Noto Sans KR', sans-serif; font-size: 11px; color: var(--muted); margin-bottom: 6px; }
   .nbh-place-tip { font-size: 13px; line-height: 1.5; color: var(--muted); font-style: italic; }
+  .nbh-place-desc { font-size: 13px; line-height: 1.6; color: var(--ink); margin-bottom: 8px; }
+  .nbh-place-meta { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 8px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.05em; color: var(--muted); }
+  .nbh-place-meta span { display: inline-flex; align-items: center; gap: 4px; }
+  .nbh-place-meta strong { color: var(--gold); font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+
+  /* Magazine-style hero for zones */
+  .nbh-hero { width: 100%; height: 200px; border-bottom: 1px solid var(--ink); position: relative; overflow: hidden; display: flex; align-items: center; padding: 0 40px; }
+  .nbh-hero-pattern { position: absolute; inset: 0; opacity: 0.12; pointer-events: none; }
+  .nbh-hero-content { position: relative; z-index: 1; display: flex; align-items: baseline; gap: 32px; width: 100%; flex-wrap: wrap; }
+  .nbh-hero-num { font-family: 'Fraunces', serif; font-size: 100px; font-weight: 200; line-height: 1; color: var(--paper); font-style: italic; opacity: 0.95; letter-spacing: -0.04em; }
+  .nbh-hero-text { flex: 1; min-width: 200px; }
+  .nbh-hero-name { font-family: 'Fraunces', serif; font-size: clamp(48px, 6vw, 72px); font-weight: 800; font-style: italic; line-height: 0.95; letter-spacing: -0.03em; color: var(--paper); margin-bottom: 4px; }
+  .nbh-hero-kr { font-family: 'Noto Sans KR', sans-serif; font-size: 20px; color: var(--paper); opacity: 0.7; margin-bottom: 8px; }
+  .nbh-hero-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--paper); opacity: 0.85; padding: 4px 10px; border: 1px solid rgba(244,239,230,0.5); display: inline-block; }
+  .nbh-hero.color-north { background: linear-gradient(135deg, #1a3d4a 0%, #2d5d6b 100%); }
+  .nbh-hero.color-east { background: linear-gradient(135deg, #6b4423 0%, #b8924a 100%); }
+  .nbh-hero.color-south { background: linear-gradient(135deg, #1e4438 0%, #2d5d4f 100%); }
+  .nbh-hero.color-west { background: linear-gradient(135deg, #8b1e18 0%, #c8362d 100%); }
+  .nbh-hero.color-center { background: linear-gradient(135deg, #4a3a2a 0%, #6b5544 100%); }
+
+  /* Restaurant detail block */
+  .food-restaurant-list { border-top: 1px dashed var(--ink); padding-top: 16px; margin-top: 16px; }
+  .food-restaurant-list h6 { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--crimson); margin-bottom: 12px; }
+  .food-restaurant-item { padding: 10px 0; border-bottom: 1px dashed var(--paper-warm); }
+  .food-restaurant-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .food-restaurant-name { font-family: 'Fraunces', serif; font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+  .food-restaurant-name-kr { font-family: 'Noto Sans KR', sans-serif; font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .food-restaurant-meta { display: flex; flex-wrap: wrap; gap: 6px 12px; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 0.05em; }
+  .food-restaurant-meta strong { color: var(--gold); }
   .nbh-place-type { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--jade); border: 1px solid var(--jade); padding: 2px 6px; text-align: center; }
 
   .city-map-section { padding: 0 32px 80px; border-bottom: 1px solid var(--ink); }
@@ -192,6 +221,9 @@
     .nbh-tabs { grid-template-columns: repeat(2, 1fr); }
     .nbh-tab { border-bottom: 1px solid var(--ink); }
     .nbh-panel-grid { grid-template-columns: 1fr; }
+    .nbh-hero { height: 160px; padding: 0 20px; }
+    .nbh-hero-num { font-size: 60px; }
+    .nbh-hero-content { gap: 16px; }
     .nbh-info { border-right: none; border-bottom: 1px solid var(--ink); }
     .day-tabs { grid-template-columns: 1fr; }
     .day-tab { border-right: none; border-bottom: 1px solid rgba(244,239,230,0.3); }
@@ -306,12 +338,31 @@
 
   <!-- NORTH -->
   <div class="nbh-panel active" data-nbh="north">
+    <div class="nbh-hero color-north">
+      <svg class="nbh-hero-pattern" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <pattern id="airport-north" x="0" y="0" width="80" height="60" patternUnits="userSpaceOnUse">
+            <path d="M 10 30 L 35 30 L 50 20 L 60 30 L 70 30" fill="none" stroke="#f4efe6" stroke-width="2"/>
+            <line x1="20" y1="40" x2="60" y2="40" stroke="#f4efe6" stroke-width="1" stroke-dasharray="3,3"/>
+          </pattern>
+        </defs>
+        <rect width="600" height="200" fill="url(#airport-north)"/>
+      </svg>
+      <div class="nbh-hero-content">
+        <div class="nbh-hero-num">01</div>
+        <div class="nbh-hero-text">
+          <div class="nbh-hero-name">North</div>
+          <div class="nbh-hero-kr">제주시 · The Gateway City</div>
+          <div class="nbh-hero-tag">Airport, Markets & City Beach</div>
+        </div>
+      </div>
+    </div>
     <div class="nbh-panel-grid">
       <div class="nbh-info">
         <div class="nbh-vibe">★ Where you arrive</div>
         <h4 class="nbh-headline">The <em>gateway</em> city.</h4>
         <div class="nbh-headline-kr">제주시 · Most flights land here</div>
-        <p class="nbh-desc">Jeju's largest city and your first impression. Most travelers rent cars here and head out, but the city itself has working markets, traditional black-stone houses, and a famous beach within walking distance. A perfect first day before exploring deeper.</p>
+        <p class="nbh-desc">Jeju's largest city and your first impression of the island. Most travelers rent cars here and head out to explore, but the city itself rewards exploration — working markets, traditional black-stone houses, and a famous beach within walking distance. A perfect first day to acclimatize before venturing deeper into the island. The airport is just 15 minutes from downtown.</p>
         <div class="nbh-meta">
           <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Day 1 base, urban Jeju<span class="value-kr">도착·시내</span></div></div>
           <div class="nbh-meta-item"><div class="label">Get there</div><div class="value">Direct from airport</div></div>
@@ -320,51 +371,116 @@
         </div>
       </div>
       <div class="nbh-places">
-        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-places-title">10 must-see places</div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">1</div>
           <div>
             <div class="nbh-place-name">Dongmun Traditional Market</div>
-            <div class="nbh-place-name-kr">동문시장 · Heart of Jeju</div>
-            <div class="nbh-place-tip">Try heuk-dwaeji (black pig) skewers and hallabong oranges. Best at lunch.</div>
+            <div class="nbh-place-name-kr">동문시장 · The heart of Jeju City</div>
+            <p class="nbh-place-desc">Jeju's largest traditional market, operating since 1945. Five sections: produce, seafood, prepared foods, clothing, and the famous night market (5pm onwards). Try heuk-dwaeji (black pig) skewers, hallabong oranges fresh off the tree, and live abalone. Great for souvenirs — local cosmetics, dried seafood, and tea.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>8am–9pm</strong></span><span>Night market <strong>6–10pm</strong></span><span>💵 Cash preferred</span></div>
           </div>
           <div class="nbh-place-type">Market</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">2</div>
           <div>
             <div class="nbh-place-name">Iho Tewoo Beach</div>
             <div class="nbh-place-name-kr">이호테우 해수욕장 · Red & white horses</div>
-            <div class="nbh-place-tip">Famous for the lighthouse pair shaped like horses. Great sunset spot, 20 min from airport.</div>
+            <p class="nbh-place-desc">Famous for its iconic pair of horse-shaped lighthouses (one red, one white) standing at the harbor entrance. Black volcanic sand beach with calm waters. Just 15 minutes from Jeju Airport, making it the perfect first stop or sunset spot on departure day. Walking trail along the coast.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🌅 Best at sunset</span></div>
           </div>
           <div class="nbh-place-type">Beach</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">3</div>
           <div>
-            <div class="nbh-place-name">Yongduam Rock</div>
-            <div class="nbh-place-name-kr">용두암 · Dragon head rock</div>
-            <div class="nbh-place-tip">Volcanic rock formation shaped like a dragon. Free, brief but iconic.</div>
+            <div class="nbh-place-name">Yongduam Rock (Dragon Head)</div>
+            <div class="nbh-place-name-kr">용두암 · Volcanic dragon-shaped rock</div>
+            <p class="nbh-place-desc">A volcanic rock formation shaped exactly like a dragon emerging from the sea, formed by ancient lava 2 million years ago. Brief visit (15-20 minutes) but visually striking. Coastal path connects to Yongyeon Pond, an old swimming hole used by Joseon-era scholars. Free, always open.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>📸 Iconic photo spot</span></div>
           </div>
           <div class="nbh-place-type">Nature</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">4</div>
           <div>
             <div class="nbh-place-name">Samseonghyeol Shrine</div>
-            <div class="nbh-place-name-kr">삼성혈 · Jeju's founding myth</div>
-            <div class="nbh-place-tip">Three holes where the founders of Jeju supposedly emerged. Quiet park, ₩2.5k.</div>
+            <div class="nbh-place-name-kr">삼성혈 · Jeju's founding myth site</div>
+            <p class="nbh-place-desc">Three holes in the ground where, according to legend, the three founding gods of Jeju (Go, Yang, Bu) emerged 4,300 years ago. A peaceful park with ancient trees, a small museum explaining the myth, and traditional ceremonies held in spring and autumn. Quiet, contemplative, deeply local.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–6pm</strong></span><span>₩ <strong>2,500</strong></span><span>📅 Closed Mon (winter)</span></div>
           </div>
           <div class="nbh-place-type">Historic</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">5</div>
           <div>
             <div class="nbh-place-name">Tapdong Promenade</div>
-            <div class="nbh-place-name-kr">탑동 산책로 · Coastal walk</div>
-            <div class="nbh-place-tip">Late afternoon walk along the harbor. Great cafés and ocean views.</div>
+            <div class="nbh-place-name-kr">탑동 산책로 · Coastal evening walk</div>
+            <p class="nbh-place-desc">A 2km coastal walking path along Jeju City's harbor, starting near Dongmun Market. Lined with cafés, food trucks (evenings), and the iconic Cheonjeyeon-themed sculptures. Best in late afternoon when fishing boats return. Local families gather here on weekends. Free.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🌅 Best 5–7pm</span></div>
           </div>
           <div class="nbh-place-type">Walk</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">6</div>
+          <div>
+            <div class="nbh-place-name">Jeju Folk & Natural History Museum</div>
+            <div class="nbh-place-name-kr">제주민속자연사박물관 · Free island history</div>
+            <p class="nbh-place-desc">A surprisingly comprehensive free museum covering Jeju's volcanic geology, native species, and traditional culture. Indoor and outdoor exhibits include reconstructed traditional Jeju houses and the unique stone walls (dol hareubang). About 1.5 hours to fully explore. English signage throughout.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–6pm</strong></span><span>Free</span><span>📅 Closed Mon</span></div>
+          </div>
+          <div class="nbh-place-type">Museum</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">7</div>
+          <div>
+            <div class="nbh-place-name">Heuk-dwaeji Street (Black Pig Street)</div>
+            <div class="nbh-place-name-kr">흑돼지거리 · Jeju's BBQ alley</div>
+            <p class="nbh-place-desc">A 200m street in Jeju City packed with restaurants specializing in heuk-dwaeji (Jeju's famous black pork). Most places are family-run for decades. Order pork belly grilled at your table, wrapped in lettuce with anchovy sauce — the local way. Average dinner: ₩30k per person with drinks.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>11am–11pm</strong></span><span>₩ <strong>30k</strong> /person</span><span>🐷 Local specialty</span></div>
+          </div>
+          <div class="nbh-place-type">Food</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">8</div>
+          <div>
+            <div class="nbh-place-name">Hamdeok Beach</div>
+            <div class="nbh-place-name-kr">함덕해수욕장 · Crystal clear close beach</div>
+            <p class="nbh-place-desc">25 minutes from Jeju Airport, this is the closest "perfect beach" experience. Shallow turquoise water, white sand, and a striking volcanic peak (Seoubong) on one side. Cafés line the coast. Family-friendly with shallow swim areas. Good day-trip option if you don't have time for the east.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>👨‍👩‍👧 Family-friendly</span></div>
+          </div>
+          <div class="nbh-place-type">Beach</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">9</div>
+          <div>
+            <div class="nbh-place-name">Nuwemaru Street (Old Town)</div>
+            <div class="nbh-place-name-kr">누웨마루거리 · Hipster downtown</div>
+            <p class="nbh-place-desc">Jeju City's revitalized old downtown — formerly the main shopping street, now full of indie cafés, vintage shops, and design-forward restaurants. The aesthetic mixes traditional Jeju black stone with modern minimalism. Best for slow afternoon exploration. Many shops feature local Jeju artists.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>11am–10pm</strong></span><span>Coffee ₩ <strong>5–8k</strong></span><span>🎨 Indie shops</span></div>
+          </div>
+          <div class="nbh-place-type">Shopping</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">10</div>
+          <div>
+            <div class="nbh-place-name">Jeju Culture & Art Center</div>
+            <div class="nbh-place-name-kr">제주문화예술회관 · Local culture hub</div>
+            <p class="nbh-place-desc">The cultural heart of Jeju City — hosts traditional Jeju music performances, visual art exhibitions, and folk dance shows. Many events are free or cheap (₩5-15k). Excellent way to experience authentic Jeju culture beyond tourist traps. Check their website for the current monthly schedule.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–6pm</strong></span><span>Free–₩ <strong>15k</strong></span><span>🎭 Check schedule</span></div>
+          </div>
+          <div class="nbh-place-type">Culture</div>
         </div>
       </div>
     </div>
@@ -372,12 +488,33 @@
 
   <!-- EAST -->
   <div class="nbh-panel" data-nbh="east">
+    <div class="nbh-hero color-east">
+      <svg class="nbh-hero-pattern" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <pattern id="sunrise-east" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+            <circle cx="50" cy="60" r="20" fill="none" stroke="#f4efe6" stroke-width="2"/>
+            <line x1="50" y1="20" x2="50" y2="35" stroke="#f4efe6" stroke-width="2"/>
+            <line x1="20" y1="60" x2="30" y2="60" stroke="#f4efe6" stroke-width="2"/>
+            <line x1="70" y1="60" x2="80" y2="60" stroke="#f4efe6" stroke-width="2"/>
+          </pattern>
+        </defs>
+        <rect width="600" height="200" fill="url(#sunrise-east)"/>
+      </svg>
+      <div class="nbh-hero-content">
+        <div class="nbh-hero-num">02</div>
+        <div class="nbh-hero-text">
+          <div class="nbh-hero-name">East</div>
+          <div class="nbh-hero-kr">동부 · The Sunrise Coast</div>
+          <div class="nbh-hero-tag">Volcanic Drama & Photo Beaches</div>
+        </div>
+      </div>
+    </div>
     <div class="nbh-panel-grid">
       <div class="nbh-info">
         <div class="nbh-vibe">★ Sunrise & cliffs</div>
         <h4 class="nbh-headline">Where Korea greets the <em>sun</em>.</h4>
         <div class="nbh-headline-kr">동부 · The dramatic coast</div>
-        <p class="nbh-desc">Jeju's east is volcanic geography at its most theatrical — Sunrise Peak rising from the sea, lava tubes you can walk through, and beaches where black sand meets turquoise water. This is the side most photographed, and for good reason.</p>
+        <p class="nbh-desc">Jeju's east is volcanic geography at its most theatrical — Sunrise Peak rising from the sea, lava tubes you can walk through, and beaches where black sand meets turquoise water. This is the side most photographed by visitors, and for good reason. The drive itself is stunning, with gentle ridges and sea views around every bend. Most travelers spend at least one full day here.</p>
         <div class="nbh-meta">
           <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Sunrise, dramatic landscapes<span class="value-kr">일출·자연</span></div></div>
           <div class="nbh-meta-item"><div class="label">Get there</div><div class="value">1hr drive from Jeju City</div></div>
@@ -386,49 +523,114 @@
         </div>
       </div>
       <div class="nbh-places">
-        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-places-title">10 must-see places</div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">1</div>
           <div>
             <div class="nbh-place-name">Seongsan Sunrise Peak</div>
-            <div class="nbh-place-name-kr">성산일출봉 · UNESCO heritage</div>
-            <div class="nbh-place-tip">A 30-min hike up. Catch the sunrise from the rim. ₩5k entry.</div>
+            <div class="nbh-place-name-kr">성산일출봉 · UNESCO World Heritage</div>
+            <p class="nbh-place-desc">A 180m volcanic crater that erupted from the seabed 5,000 years ago, now standing as Jeju's most iconic landmark. The 30-minute hike to the rim rewards with panoramic views of the crater lake, sea cliffs, and (at sunrise) one of the world's most beautiful natural phenomena. Strenuous but accessible to most.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>5am–8pm</strong></span><span>₩ <strong>5,000</strong></span><span>🌅 Sunrise: 30 min early</span></div>
           </div>
           <div class="nbh-place-type">Volcano</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">2</div>
           <div>
             <div class="nbh-place-name">Manjanggul Lava Tube</div>
             <div class="nbh-place-name-kr">만장굴 · World's longest lava tube</div>
-            <div class="nbh-place-tip">A walkable cave formed by ancient lava. ₩4k. Bring a light jacket — it's cold inside.</div>
+            <p class="nbh-place-desc">A 13km lava tube formed 250,000 years ago, with 1km open to the public. Walk through ancient volcanic underground — see massive lava columns, lava stalactites, and the world's largest lava column at the end. Stays a constant 15°C year-round, so bring a jacket even in summer. Surreal experience.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–6pm</strong></span><span>₩ <strong>4,000</strong></span><span>🧥 Bring jacket</span></div>
           </div>
           <div class="nbh-place-type">Cave</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">3</div>
           <div>
             <div class="nbh-place-name">Woljeongri Beach</div>
-            <div class="nbh-place-name-kr">월정리 해변 · Café beach</div>
-            <div class="nbh-place-tip">Turquoise water, white sand, lined with cafés. Most Instagrammed beach.</div>
+            <div class="nbh-place-name-kr">월정리 해변 · The "café beach"</div>
+            <p class="nbh-place-desc">Jeju's most photographed beach — turquoise water meeting white sand, with rows of design-forward cafés along the coast. Each café has a distinct concept (industrial, surfer, minimalist). Order a coffee, sit on the terrace, watch the waves. Less crowded on weekday mornings. The water here is genuinely Caribbean-clear.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7 (cafés 10am–9pm)</strong></span><span>Coffee ₩ <strong>6–8k</strong></span><span>📸 Most Instagrammed</span></div>
           </div>
           <div class="nbh-place-type">Beach</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">4</div>
           <div>
             <div class="nbh-place-name">Bijarim Forest</div>
-            <div class="nbh-place-name-kr">비자림 · 800-year nutmeg trees</div>
-            <div class="nbh-place-tip">Easy 1-hour forest walk among ancient trees. Cooler in summer. ₩3k.</div>
+            <div class="nbh-place-name-kr">비자림 · 800-year-old nutmeg trees</div>
+            <p class="nbh-place-desc">A protected forest of ancient nutmeg trees, some over 800 years old. Easy 2.2km walking loop on a flat path with red volcanic gravel — very accessible. Cooler than the coast (10-15°C below outside temp), making it a refuge in summer. Genuine old-growth forest atmosphere. Excellent for kids and grandparents.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–5pm</strong></span><span>₩ <strong>3,000</strong></span><span>🌳 Cooler in summer</span></div>
           </div>
           <div class="nbh-place-type">Forest</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">5</div>
           <div>
+            <div class="nbh-place-name">Seopjikoji Cape</div>
+            <div class="nbh-place-name-kr">섭지코지 · Drama-filming peninsula</div>
+            <p class="nbh-place-desc">A small peninsula east of Seongsan with dramatic cliffs, a famous lighthouse, and a striking modern church (Glasshouse) designed by Tadao Ando. Several K-dramas have filmed here. Easy walking paths along the coast. Best at golden hour with Seongsan Peak in the background.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7 outdoor</strong></span><span>Free</span><span>🎬 K-drama location</span></div>
+          </div>
+          <div class="nbh-place-type">Coast</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">6</div>
+          <div>
+            <div class="nbh-place-name">Seongeup Folk Village</div>
+            <div class="nbh-place-name-kr">성읍민속마을 · Real living heritage village</div>
+            <p class="nbh-place-desc">A 600-year-old village where Jeju islanders still live in traditional black-stone houses with thatched roofs. Free to enter and walk through. Some houses are open to visitors with traditional crafts demonstrations. Real residents, not actors. The heritage is genuine. Close to both Seongsan and Manjanggul.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–6pm</strong></span><span>Free</span><span>🏘 Real residents</span></div>
+          </div>
+          <div class="nbh-place-type">Historic</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">7</div>
+          <div>
+            <div class="nbh-place-name">Udo Island</div>
+            <div class="nbh-place-name-kr">우도 · "Cow Island" day trip</div>
+            <p class="nbh-place-desc">A small island 15 minutes by ferry from Seongsan. Famous for white coral beaches (rare in Korea), peanut ice cream (made from local Udo peanuts), and dramatic sea cliffs. Rent an electric scooter for ₩30k/3hr to circle the island in 2 hours. A perfect half-day trip from the east coast.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>Ferry every 30 min</strong></span><span>Ferry ₩ <strong>10k</strong> RT</span><span>🛵 Scooter on island</span></div>
+          </div>
+          <div class="nbh-place-type">Island</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">8</div>
+          <div>
+            <div class="nbh-place-name">Gimnyeong Maze Park</div>
+            <div class="nbh-place-name-kr">김녕미로공원 · Korea's first hedge maze</div>
+            <p class="nbh-place-desc">Korea's first proper hedge maze, designed by an American architect using traditional Korean philosophy (the path twists in symbolism). Takes 30-45 minutes to solve. Excellent surprise attraction for families with kids — they love it. A small but well-loved cat colony lives in the maze.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–6pm</strong></span><span>₩ <strong>5,500</strong></span><span>👨‍👩‍👧 Kid-favorite</span></div>
+          </div>
+          <div class="nbh-place-type">Activity</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">9</div>
+          <div>
+            <div class="nbh-place-name">Haenyeo Museum</div>
+            <div class="nbh-place-name-kr">해녀박물관 · Female sea-divers heritage</div>
+            <p class="nbh-place-desc">The haenyeo are Jeju's UNESCO-listed female free-divers — women in their 60s-80s who still harvest seafood from the seabed without scuba gear. This museum tells their story with photos, dive equipment, and videos. Real haenyeo perform diving demonstrations daily at Sumbisori Park nearby. Inspiring and quintessentially Jeju.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–5pm</strong></span><span>₩ <strong>1,100</strong></span><span>🌊 Demos 1pm/3pm</span></div>
+          </div>
+          <div class="nbh-place-type">Museum</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">10</div>
+          <div>
             <div class="nbh-place-name">Hyeopjae Beach</div>
-            <div class="nbh-place-name-kr">협재해수욕장 · Crystal clear water</div>
-            <div class="nbh-place-tip">Considered Jeju's most beautiful beach. Visible Biyangdo Island offshore.</div>
+            <div class="nbh-place-name-kr">협재해수욕장 · Crystal-clear water</div>
+            <p class="nbh-place-desc">Often considered Jeju's most beautiful beach. White sand, turquoise water, with the small Biyangdo Island visible offshore. Calmer and shallower than Woljeongri, making it more swimmable. Multiple beach cafés. Camping allowed in the adjacent pine forest park. About 45 minutes from Jeju City.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🏊 Best for swimming</span></div>
           </div>
           <div class="nbh-place-type">Beach</div>
         </div>
@@ -438,12 +640,33 @@
 
   <!-- SOUTH -->
   <div class="nbh-panel" data-nbh="south">
+    <div class="nbh-hero color-south">
+      <svg class="nbh-hero-pattern" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <pattern id="waterfall-south" x="0" y="0" width="60" height="80" patternUnits="userSpaceOnUse">
+            <line x1="20" y1="10" x2="20" y2="60" stroke="#f4efe6" stroke-width="1.5"/>
+            <line x1="30" y1="10" x2="30" y2="60" stroke="#f4efe6" stroke-width="1.5"/>
+            <line x1="40" y1="10" x2="40" y2="60" stroke="#f4efe6" stroke-width="1.5"/>
+            <ellipse cx="30" cy="68" rx="15" ry="3" fill="none" stroke="#f4efe6" stroke-width="1"/>
+          </pattern>
+        </defs>
+        <rect width="600" height="200" fill="url(#waterfall-south)"/>
+      </svg>
+      <div class="nbh-hero-content">
+        <div class="nbh-hero-num">03</div>
+        <div class="nbh-hero-text">
+          <div class="nbh-hero-name">South</div>
+          <div class="nbh-hero-kr">서귀포 · Resort & Waterfalls</div>
+          <div class="nbh-hero-tag">Mildest Climate · Luxury Hotels</div>
+        </div>
+      </div>
+    </div>
     <div class="nbh-panel-grid">
       <div class="nbh-info">
         <div class="nbh-vibe">★ Waterfalls & resorts</div>
         <h4 class="nbh-headline">The <em>luxe</em> side of Jeju.</h4>
         <div class="nbh-headline-kr">서귀포 · Resort capital</div>
-        <p class="nbh-desc">Jeju's southern coast is warmer, lusher, and home to the island's resort hotels and three famous waterfalls. The temperature here stays mild even in winter. Tangerine groves cover the hills. Most all-inclusive Jeju trips are based here for good reason.</p>
+        <p class="nbh-desc">Jeju's southern coast is warmer, lusher, and home to the island's resort hotels and three famous waterfalls. The temperature here stays mild even in winter (rarely below 10°C). Tangerine groves cover the rolling hills. Most all-inclusive Jeju trips are based here for good reason — the convenience, the climate, and the dramatic coastal scenery all align. Slightly more touristy than the east, but no less beautiful.</p>
         <div class="nbh-meta">
           <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Resort stays, waterfalls<span class="value-kr">리조트·폭포</span></div></div>
           <div class="nbh-meta-item"><div class="label">Get there</div><div class="value">1hr drive from Jeju City</div></div>
@@ -452,51 +675,116 @@
         </div>
       </div>
       <div class="nbh-places">
-        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-places-title">10 must-see places</div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">1</div>
           <div>
             <div class="nbh-place-name">Cheonjiyeon Waterfall</div>
-            <div class="nbh-place-name-kr">천지연폭포 · Sky-meets-earth waterfall</div>
-            <div class="nbh-place-tip">22m drop into a clear pool. Easy 15-min walk from parking. ₩2k.</div>
+            <div class="nbh-place-name-kr">천지연폭포 · "Sky meets earth"</div>
+            <p class="nbh-place-desc">A 22-meter waterfall set in a deep, lush forest gorge. The name means "Sky-Pond." Easy 15-minute walk from the parking lot on a paved path — accessible for all ages. Lit beautifully at night. Surrounded by giant fan palms and ancient trees. Combine with the adjacent Saeyeongyo Bridge for a half-day visit.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–10pm</strong></span><span>₩ <strong>2,000</strong></span><span>🌃 Lit at night</span></div>
           </div>
           <div class="nbh-place-type">Waterfall</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">2</div>
           <div>
             <div class="nbh-place-name">Jeongbang Waterfall</div>
             <div class="nbh-place-name-kr">정방폭포 · Falls into the sea</div>
-            <div class="nbh-place-tip">Asia's only waterfall that drops directly into the ocean. Iconic photo spot.</div>
+            <p class="nbh-place-desc">Asia's only waterfall that drops directly into the ocean — a 23m vertical drop where freshwater meets seawater dramatically. Stand on the rocky beach below for the iconic view. The sound is overwhelming up close. Wear shoes you don't mind getting wet. About 5 minutes from Cheonjiyeon — easy to combine.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–6pm</strong></span><span>₩ <strong>2,000</strong></span><span>👟 Wet shoes</span></div>
           </div>
           <div class="nbh-place-type">Waterfall</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">3</div>
           <div>
             <div class="nbh-place-name">Jusangjeolli Cliff</div>
             <div class="nbh-place-name-kr">주상절리 · Hexagonal lava columns</div>
-            <div class="nbh-place-tip">Perfect basalt columns formed by cooling lava. Walk along the viewing deck.</div>
+            <p class="nbh-place-desc">Perfect basalt columns formed when ancient lava cooled at exactly the right rate, creating natural hexagonal pillars. The walking deck stretches along the cliff edge with crashing waves below. Most dramatic during high tide or stormy weather. Free for the deck; cliff hike beyond costs ₩2k. Spectacular sunset spot.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–6pm</strong></span><span>₩ <strong>2,000</strong></span><span>🌅 Best at sunset</span></div>
           </div>
           <div class="nbh-place-type">Cliff</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">4</div>
           <div>
-            <div class="nbh-place-name">Olle Market</div>
-            <div class="nbh-place-name-kr">서귀포 매일올레시장 · Local market</div>
-            <div class="nbh-place-tip">Try the famous Jeju black pork, hallabong drinks, fresh sashimi.</div>
+            <div class="nbh-place-name">Seogwipo Olle Market</div>
+            <div class="nbh-place-name-kr">서귀포 매일올레시장 · Daily local market</div>
+            <p class="nbh-place-desc">Seogwipo's daily market — smaller than Dongmun but more local in feel. Famous for the freshest sashimi (caught that morning), Jeju black pork sausage, hallabong tangerines (Dec-Mar), and Jeju-style dduk. Eat at the stand-up tables for the most authentic experience. Open every day except occasional Sundays.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>7am–9pm</strong></span><span>Snacks ₩ <strong>3–10k</strong></span><span>💵 Cash preferred</span></div>
           </div>
           <div class="nbh-place-type">Market</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">5</div>
           <div>
             <div class="nbh-place-name">Jungmun Beach</div>
             <div class="nbh-place-name-kr">중문해수욕장 · Resort beach</div>
-            <div class="nbh-place-tip">Surfing in winter, swimming in summer. Surrounded by luxury hotels.</div>
+            <p class="nbh-place-desc">Surrounded by luxury hotels (Hyatt, Lotte, Shilla), this 560m crescent beach is Jeju's most developed. Surfing in winter (yes, winter — water stays around 12°C), swimming in summer. The sand has a unique reddish-yellow tint from the volcanic minerals. Surfboard rentals ₩30k/3hr. Famous sunset spot.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🏄 Surfing year-round</span></div>
           </div>
           <div class="nbh-place-type">Beach</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">6</div>
+          <div>
+            <div class="nbh-place-name">Cheonjeyeon Waterfall (3-Tier)</div>
+            <div class="nbh-place-name-kr">천제연폭포 · "Pond of God"</div>
+            <p class="nbh-place-desc">Different from Cheonji-yeon (sky pond) — this is Cheonje-yeon (god's pond). Three separate waterfalls cascading through a tropical forest valley, connected by walking paths. The middle and lower tiers are most accessible. The Seonimgyo Bridge spanning the valley is iconic. Less crowded than the other two southern waterfalls.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–6pm</strong></span><span>₩ <strong>2,500</strong></span><span>🌿 Tropical forest</span></div>
+          </div>
+          <div class="nbh-place-type">Waterfall</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">7</div>
+          <div>
+            <div class="nbh-place-name">Saeyeongyo Bridge</div>
+            <div class="nbh-place-name-kr">새연교 · Bridge to Saeseom Island</div>
+            <p class="nbh-place-desc">A striking modern pedestrian bridge designed to look like a traditional Korean tea-cup with sails. Connects Seogwipo Harbor to the small Saeseom Island. Walk to the island (15 min), follow the easy 1.2km loop trail with sea views, then back. Lit beautifully at night. Free, always open.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🌃 Best lit at night</span></div>
+          </div>
+          <div class="nbh-place-type">Walk</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">8</div>
+          <div>
+            <div class="nbh-place-name">Jeju Glass Castle</div>
+            <div class="nbh-place-name-kr">제주유리의성 · Glass art park</div>
+            <p class="nbh-place-desc">An unusual outdoor sculpture park made entirely of glass — castles, mazes, animals, and a glass labyrinth all crafted by Korean glass artists. Sounds gimmicky but is genuinely beautiful, especially in afternoon light. Excellent for families with kids. About 25 minutes from Seogwipo.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–7pm</strong></span><span>₩ <strong>12,000</strong></span><span>👨‍👩‍👧 Kid-friendly</span></div>
+          </div>
+          <div class="nbh-place-type">Activity</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">9</div>
+          <div>
+            <div class="nbh-place-name">Lee Jung-Seop Street</div>
+            <div class="nbh-place-name-kr">이중섭거리 · Korea's iconic painter</div>
+            <p class="nbh-place-desc">A small art street commemorating Lee Jung-seop, one of Korea's most beloved 20th-century painters who lived in Seogwipo during the Korean War. His former house is now a free museum. The street is lined with art galleries, vintage cafés, and the small but excellent Lee Jung-seop Art Museum (₩1k). Charming and walkable.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–9pm</strong></span><span>House free, museum ₩1k</span><span>🎨 Art lovers</span></div>
+          </div>
+          <div class="nbh-place-type">Culture</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">10</div>
+          <div>
+            <div class="nbh-place-name">Gangjeong Coastal Trail</div>
+            <div class="nbh-place-name-kr">강정마을 해안산책로 · Hidden coastal walk</div>
+            <p class="nbh-place-desc">A lesser-known 4km coastal walk near the controversial naval base. Surprisingly stunning views of basalt cliffs, sea caves, and the coastal village. Less developed than other Jeju walks. Locals fish along the path. About 15 minutes from Jungmun. Best in afternoon light. Free, always accessible.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🚶 Hidden gem</span></div>
+          </div>
+          <div class="nbh-place-type">Walk</div>
         </div>
       </div>
     </div>
@@ -504,12 +792,32 @@
 
   <!-- WEST -->
   <div class="nbh-panel" data-nbh="west">
+    <div class="nbh-hero color-west">
+      <svg class="nbh-hero-pattern" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <pattern id="sunset-west" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+            <circle cx="50" cy="60" r="15" fill="none" stroke="#f4efe6" stroke-width="2"/>
+            <line x1="20" y1="80" x2="80" y2="80" stroke="#f4efe6" stroke-width="1"/>
+            <line x1="25" y1="90" x2="75" y2="90" stroke="#f4efe6" stroke-width="1"/>
+          </pattern>
+        </defs>
+        <rect width="600" height="200" fill="url(#sunset-west)"/>
+      </svg>
+      <div class="nbh-hero-content">
+        <div class="nbh-hero-num">04</div>
+        <div class="nbh-hero-text">
+          <div class="nbh-hero-name">West</div>
+          <div class="nbh-hero-kr">서부 · The Sunset Coast</div>
+          <div class="nbh-hero-tag">Tea Fields, Art & Quiet Beaches</div>
+        </div>
+      </div>
+    </div>
     <div class="nbh-panel-grid">
       <div class="nbh-info">
         <div class="nbh-vibe">★ Sunset & art</div>
         <h4 class="nbh-headline">The <em>quieter</em> coast.</h4>
         <div class="nbh-headline-kr">서부 · Sunset side</div>
-        <p class="nbh-desc">Jeju's west is the calmer, less-touristed counterpart to the east. Gentle white-sand beaches, museums tucked into pine forests, and Sanbangsan — a striking dome-shaped mountain. This is where locals go for sunsets and where quieter travelers find their favorite spots.</p>
+        <p class="nbh-desc">Jeju's west is the calmer, less-touristed counterpart to the east. Gentle white-sand beaches, tea fields, museums tucked into pine forests, and Sanbangsan — a striking dome-shaped mountain. This is where locals come for sunsets and where slower travelers find their favorite spots. The vibe is different here: more relaxed, more spread out, more rural. Renting a car is essential.</p>
         <div class="nbh-meta">
           <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Sunsets, art, peace<span class="value-kr">석양·예술</span></div></div>
           <div class="nbh-meta-item"><div class="label">Get there</div><div class="value">45min drive from Jeju City</div></div>
@@ -518,51 +826,116 @@
         </div>
       </div>
       <div class="nbh-places">
-        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-places-title">10 must-see places</div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">1</div>
           <div>
             <div class="nbh-place-name">Hyeopjae & Geumneung Beaches</div>
-            <div class="nbh-place-name-kr">협재·금능 해변 · Twin beaches</div>
-            <div class="nbh-place-tip">Connected by a path. Geumneung is quieter. Both have shallow turquoise water.</div>
+            <div class="nbh-place-name-kr">협재·금능 해변 · Twin sister beaches</div>
+            <p class="nbh-place-desc">Two beaches separated by a small forest path. Hyeopjae is more popular and has cafés; Geumneung is quieter and more secluded. Both feature crystal-clear turquoise water with the small Biyangdo Island offshore. The walking path between them is a perfect 30-minute coastal stroll. Best beaches on the west coast.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🚶 Walk between them</span></div>
           </div>
           <div class="nbh-place-type">Beach</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">2</div>
           <div>
             <div class="nbh-place-name">Sanbangsan Mountain</div>
-            <div class="nbh-place-name-kr">산방산 · Dome-shaped peak</div>
-            <div class="nbh-place-tip">A volcanic dome with cave temple. Climb partway for sea views. ₩2.5k.</div>
+            <div class="nbh-place-name-kr">산방산 · Dome-shaped volcanic peak</div>
+            <p class="nbh-place-desc">A 395-meter volcanic dome that looks like an inverted bowl, with a Buddhist temple cave halfway up the cliff face. The temple is reachable by a steep 15-minute climb. From the cave you can see the southwest coast spread below. Sacred to locals — be respectful. The viewpoint at the base also offers great photos.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>8am–6pm</strong></span><span>₩ <strong>2,500</strong></span><span>👟 Steep climb</span></div>
           </div>
           <div class="nbh-place-type">Mountain</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">3</div>
           <div>
             <div class="nbh-place-name">Camellia Hill</div>
-            <div class="nbh-place-name-kr">카멜리아힐 · Flower garden</div>
-            <div class="nbh-place-tip">6,000 camellia trees, peak bloom Dec-Feb. Other seasons also beautiful. ₩9k.</div>
+            <div class="nbh-place-name-kr">카멜리아힐 · 6,000-tree garden</div>
+            <p class="nbh-place-desc">A 17-acre private garden featuring 500+ varieties of camellia (winter blooms Dec-Feb). Other seasons feature different flowers — hydrangeas in summer, autumn foliage. Walking paths wind through the garden with photo zones throughout. Worth a visit any season, but peak in January when 6,000 camellia trees bloom red simultaneously.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>8:30am–6pm</strong></span><span>₩ <strong>9,000</strong></span><span>🌺 Peak Dec–Feb</span></div>
           </div>
           <div class="nbh-place-type">Garden</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">4</div>
           <div>
             <div class="nbh-place-name">O'sulloc Tea Museum</div>
-            <div class="nbh-place-name-kr">오설록 티뮤지엄 · Green tea fields</div>
-            <div class="nbh-place-tip">Free entry. Endless tea fields, museum, and the famous green tea ice cream.</div>
+            <div class="nbh-place-name-kr">오설록 티뮤지엄 · Korean green tea</div>
+            <p class="nbh-place-desc">Korea's largest green tea producer's flagship museum, set on endless tea fields. Free entry to the museum (history of Korean tea, beautiful tea-themed art). The famous green tea ice cream and matcha lattes are made here. Adjacent Innisfree Jeju House (cosmetics flagship) and tea field walking paths. Iconic photo spot.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–7pm</strong></span><span>Free entry</span><span>🍦 Famous green tea ice cream</span></div>
           </div>
           <div class="nbh-place-type">Museum</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">5</div>
           <div>
-            <div class="nbh-place-name">Hangmori Coastal Trail</div>
+            <div class="nbh-place-name">Songaksan Coastal Trail</div>
             <div class="nbh-place-name-kr">송악산 둘레길 · Sunset cliff walk</div>
-            <div class="nbh-place-tip">Easy 1-hour walk along volcanic cliffs. Best at sunset.</div>
+            <p class="nbh-place-desc">An easy 1-hour coastal walk along volcanic cliffs at the southwest tip of Jeju. The west's best sunset spot — clear views of Marado Island offshore. The path is paved and accessible. Several viewpoints with benches. Free, always open. Best between 4pm-sunset for the golden light.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🌅 Best 4pm–sunset</span></div>
           </div>
           <div class="nbh-place-type">Walk</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">6</div>
+          <div>
+            <div class="nbh-place-name">Jeoji Oreum</div>
+            <div class="nbh-place-name-kr">저지오름 · Easy mini-volcano</div>
+            <p class="nbh-place-desc">A "oreum" is a small parasitic volcanic cone — Jeju has 360 of them. Jeoji is one of the most accessible. Easy 30-minute walk to the rim, with views of the surrounding volcanic landscape. A quintessential Jeju experience without committing to a full Hallasan hike. Free, always open. Close to the west coast.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🌋 30-min hike</span></div>
+          </div>
+          <div class="nbh-place-type">Mountain</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">7</div>
+          <div>
+            <div class="nbh-place-name">Hallim Park</div>
+            <div class="nbh-place-name-kr">한림공원 · Multi-themed botanic park</div>
+            <p class="nbh-place-desc">A surprisingly varied park with 9 themed gardens including subtropical plants, lava caves (yes, smaller versions of Manjanggul are inside!), a folk village, and a small zoo. Takes 2-3 hours to fully explore. Excellent for families and rainy days. Adjacent to Hyeopjae Beach. About 45 min from Jeju City.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–6pm</strong></span><span>₩ <strong>15,000</strong></span><span>👨‍👩‍👧 Family-friendly</span></div>
+          </div>
+          <div class="nbh-place-type">Park</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">8</div>
+          <div>
+            <div class="nbh-place-name">Aewol Coastal Village</div>
+            <div class="nbh-place-name-kr">애월 마을 · Café-filled coastal town</div>
+            <p class="nbh-place-desc">A coastal village 20 minutes from Jeju City that became famous for its design-forward cafés with ocean views. Each café has a distinct concept — minimalist, retro, industrial. The "Cafe Universe" and "Bomnal" are iconic. Combine with the nearby Handam Coastal Trail (1km). Best in late afternoon.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10am–9pm (cafés)</strong></span><span>Coffee ₩ <strong>6–9k</strong></span><span>📸 Photo destination</span></div>
+          </div>
+          <div class="nbh-place-type">Cafés</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">9</div>
+          <div>
+            <div class="nbh-place-name">Hwansang Forest Path</div>
+            <div class="nbh-place-name-kr">환상숲곶자왈 · Otherworldly volcanic forest</div>
+            <p class="nbh-place-desc">A "gotjawal" is a unique Jeju ecosystem — volcanic forests on rocky lava terrain where temperate and subtropical plants coexist. This 1.5km guided walking path takes you through one of the best preserved gotjawal forests. Excellent forest bathing experience. The lava rock formations are surreal. Less famous than Bijarim, equally magical.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–5pm</strong></span><span>₩ <strong>5,000</strong></span><span>🌳 Guided tours only</span></div>
+          </div>
+          <div class="nbh-place-type">Forest</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">10</div>
+          <div>
+            <div class="nbh-place-name">Marado Island</div>
+            <div class="nbh-place-name-kr">마라도 · Korea's southernmost island</div>
+            <p class="nbh-place-desc">A tiny island (just 0.3 km²) — Korea's southernmost point. 30-min ferry from Songaksan, then walk the entire perimeter in 1 hour. Famous for jjajangmyeon (black bean noodles) — every restaurant here serves it. Almost no people live here. A genuine "edge of the country" experience. Half-day trip.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>Ferry every hour</strong></span><span>Ferry ₩ <strong>20k</strong> RT</span><span>🍜 Famous jjajang</span></div>
+          </div>
+          <div class="nbh-place-type">Island</div>
         </div>
       </div>
     </div>
@@ -570,12 +943,31 @@
 
   <!-- CENTER -->
   <div class="nbh-panel" data-nbh="center">
+    <div class="nbh-hero color-center">
+      <svg class="nbh-hero-pattern" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <pattern id="mountain-center" x="0" y="0" width="120" height="80" patternUnits="userSpaceOnUse">
+            <path d="M 0 70 L 30 30 L 50 50 L 80 20 L 110 60 L 120 70" fill="none" stroke="#f4efe6" stroke-width="2"/>
+            <path d="M 0 75 L 120 75" stroke="#f4efe6" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+        <rect width="600" height="200" fill="url(#mountain-center)"/>
+      </svg>
+      <div class="nbh-hero-content">
+        <div class="nbh-hero-num">05</div>
+        <div class="nbh-hero-text">
+          <div class="nbh-hero-name">Center</div>
+          <div class="nbh-hero-kr">한라산 · Volcano & Forests</div>
+          <div class="nbh-hero-tag">Korea's Highest Peak · Hiking Trails</div>
+        </div>
+      </div>
+    </div>
     <div class="nbh-panel-grid">
       <div class="nbh-info">
         <div class="nbh-vibe">★ Volcano & forests</div>
         <h4 class="nbh-headline">The <em>volcano</em> at the heart.</h4>
         <div class="nbh-headline-kr">한라산 · The center of the island</div>
-        <p class="nbh-desc">Hallasan rises 1,950 meters from sea level — South Korea's highest peak and the dormant volcano that built the island. Climbing isn't optional for many travelers; it's a pilgrimage. Around the mountain are forest trails, oreum (mini-volcanos), and surprisingly accessible day-hike options.</p>
+        <p class="nbh-desc">Hallasan rises 1,950 meters from sea level — South Korea's highest peak and the dormant volcano that built Jeju Island. For many travelers, climbing it isn't optional; it's a pilgrimage. Around the mountain are forest trails, oreum (mini-volcanos you can hike in 30 minutes), and surprisingly accessible day-hike options. Even non-hikers should drive through the mid-mountain zone for the dramatic landscapes.</p>
         <div class="nbh-meta">
           <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Hikers, nature seekers<span class="value-kr">등산·자연</span></div></div>
           <div class="nbh-meta-item"><div class="label">Reservation</div><div class="value">Required for summit trails</div></div>
@@ -584,260 +976,124 @@
         </div>
       </div>
       <div class="nbh-places">
-        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-places-title">10 must-see places</div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">1</div>
           <div>
             <div class="nbh-place-name">Hallasan Summit Trail</div>
-            <div class="nbh-place-name-kr">한라산 정상 · 8-9 hours round trip</div>
-            <div class="nbh-place-tip">Reservation required. Seongpanak or Gwaneumsa courses only reach summit.</div>
+            <div class="nbh-place-name-kr">한라산 정상 · Korea's highest peak</div>
+            <p class="nbh-place-desc">8-9 hours round trip via Seongpanak (gentler) or Gwaneumsa (steeper) — these are the only two trails that reach the actual 1,950m summit. Reservations required at visitjeju.net (free, daily limits). Starts at 6am. Significantly more difficult than it looks; require proper hiking shoes. The crater lake views at the top are unforgettable.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>Start by 6am</strong></span><span>Free + reservation</span><span>👟 Real hiking shoes</span></div>
           </div>
           <div class="nbh-place-type">Hike</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">2</div>
           <div>
             <div class="nbh-place-name">Yeongsil Trail</div>
-            <div class="nbh-place-name-kr">영실 코스 · 3.7km, 3 hours</div>
-            <div class="nbh-place-tip">Beginner-friendly. Doesn't reach summit but has stunning views. No reservation.</div>
+            <div class="nbh-place-name-kr">영실 코스 · Beginner-friendly Hallasan</div>
+            <p class="nbh-place-desc">A 3.7km trail that doesn't reach the summit but offers stunning views — including the famous "500 General Rocks" (myth: turned-to-stone soldiers). Takes 3 hours round trip. No reservation needed. Best for travelers who want the Hallasan experience without committing 9 hours. The wildflower meadow at the top is gorgeous in spring/summer.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>6am–4pm</strong></span><span>Free</span><span>🌸 Spring wildflowers</span></div>
           </div>
           <div class="nbh-place-type">Hike</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">3</div>
           <div>
             <div class="nbh-place-name">Saryeoni Forest Path</div>
-            <div class="nbh-place-name-kr">사려니숲길 · Cedar forest walk</div>
-            <div class="nbh-place-tip">A 15km flat trail through ancient cedars. Walk just a section, like 1-2 hours.</div>
+            <div class="nbh-place-name-kr">사려니숲길 · 15km cedar forest</div>
+            <p class="nbh-place-desc">A flat 15km trail through ancient cedar and Japanese cypress forests on Hallasan's slopes. You don't have to walk all 15km — most visitors do a 1-2 hour section. The air here is significantly cooler (5-10°C lower than coast) and richly oxygenated. One of Korea's most beautiful walking trails. Free, always open.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🌲 5–10°C cooler</span></div>
           </div>
           <div class="nbh-place-type">Walk</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">4</div>
           <div>
-            <div class="nbh-place-name">Jeoji Oreum</div>
-            <div class="nbh-place-name-kr">저지오름 · Mini-volcano</div>
-            <div class="nbh-place-tip">Easy 30-min walk to the rim of a small volcanic crater. Good Hallasan alternative.</div>
+            <div class="nbh-place-name">Jeoji Oreum (Hallasan)</div>
+            <div class="nbh-place-name-kr">저지오름 · Easy mini-volcano</div>
+            <p class="nbh-place-desc">One of Jeju's 360 oreums (parasitic volcanic cones). 30-minute walk to the rim with sweeping views of the central plateau. Excellent Hallasan alternative for travelers short on time or fitness. Forest path, well-marked, zero crowds. Free, accessible, perfect first oreum experience.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🌋 30-min easy</span></div>
           </div>
           <div class="nbh-place-type">Oreum</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">5</div>
           <div>
             <div class="nbh-place-name">Eorimok Trail</div>
-            <div class="nbh-place-name-kr">어리목 코스 · Fall foliage best</div>
-            <div class="nbh-place-tip">6.8km round trip, takes 4 hours. October has Korea's most beautiful foliage.</div>
+            <div class="nbh-place-name-kr">어리목 코스 · Autumn foliage trail</div>
+            <p class="nbh-place-desc">A 6.8km Hallasan trail that takes 4 hours round trip. Starts in dense cedar forest, opens to alpine grasslands. October has Korea's most beautiful autumn foliage here — every shade of red and gold imaginable. Doesn't reach the summit. No reservation required. Cooler than coast year-round.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>6am–4pm</strong></span><span>Free</span><span>🍁 Best in October</span></div>
           </div>
           <div class="nbh-place-type">Hike</div>
         </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">6</div>
+          <div>
+            <div class="nbh-place-name">Hallasan Visitor Center</div>
+            <div class="nbh-place-name-kr">한라산국립공원 방문자센터 · Free intro</div>
+            <p class="nbh-place-desc">A free, comprehensive introduction to Hallasan's geology, ecology, and culture. Excellent if you're not hiking but want context. Interactive exhibits, English videos, and detailed trail maps. Recommended visit before any Hallasan trail. About 30-45 minutes to fully explore. Open daily.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–6pm</strong></span><span>Free</span><span>📖 Trail planning</span></div>
+          </div>
+          <div class="nbh-place-type">Info</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">7</div>
+          <div>
+            <div class="nbh-place-name">Saebyeol Oreum</div>
+            <div class="nbh-place-name-kr">새별오름 · Most photographed oreum</div>
+            <p class="nbh-place-desc">A perfectly cone-shaped oreum that's photogenic from every angle. Site of the famous Jeju Fire Festival (early March). Easy 30-minute hike to the rim. Surrounded by silver grass that turns golden in autumn. The view from the top is an unforgettable panorama of the central plateau. Free, accessible.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>📸 Most photographed</span></div>
+          </div>
+          <div class="nbh-place-type">Oreum</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">8</div>
+          <div>
+            <div class="nbh-place-name">5.16 Road</div>
+            <div class="nbh-place-name-kr">5.16도로 · Cross-island scenic drive</div>
+            <p class="nbh-place-desc">A 41km road that climbs over Hallasan's eastern flank from Jeju City to Seogwipo. The drive itself is the destination — dense cedar forests, dramatic elevation changes, scenic pull-offs every few kilometers. Takes 1 hour without stops, 2-3 hours with photo stops. Best driven slowly. Closes during heavy snow.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7 (most days)</strong></span><span>Free</span><span>🚗 41km scenic drive</span></div>
+          </div>
+          <div class="nbh-place-type">Drive</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">9</div>
+          <div>
+            <div class="nbh-place-name">Halla Arboretum</div>
+            <div class="nbh-place-name-kr">한라수목원 · Free botanical garden</div>
+            <p class="nbh-place-desc">A free arboretum on Hallasan's lower slopes featuring 500+ native Jeju plant species. Several walking trails (1-3 hours) ranging from easy to moderate. Best in spring (cherry blossoms) and autumn (foliage). Small but well-maintained, with detailed signage in English. Free, always open. About 15 minutes from Jeju City.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🌸 Spring blossoms</span></div>
+          </div>
+          <div class="nbh-place-type">Garden</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">10</div>
+          <div>
+            <div class="nbh-place-name">Doncheukgwan Observatory</div>
+            <div class="nbh-place-name-kr">돈내코 전망대 · Hidden mountain viewpoint</div>
+            <p class="nbh-place-desc">A lesser-known observatory on Hallasan's southern slope with panoramic views of the southern coast. Best at sunset — the entire south coast lights up. Quiet, locals only, no tour buses. Reachable only by car via the 1131 road. Free, always open. Bring a thermos; there are no facilities.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🌅 Sunset spot</span></div>
+          </div>
+          <div class="nbh-place-type">View</div>
+        </div>
       </div>
     </div>
   </div>
+
 </section>
 
-<div class="section-header" id="map">
-  <div>
-    <div class="section-num">— 03 / Jeju on the Map</div>
-    <h3>The <em>whole island</em>, mapped.</h3>
-  </div>
-  <div class="desc">Color-coded by zone. Jeju is roughly 73km wide — pin distances matter when planning. Best explored by rental car.</div>
-</div>
-
-<section class="city-map-section">
-  <div class="city-map-wrap">
-    <div class="city-map" id="jejuMap"></div>
-    <div class="map-legend-bar">
-      <span class="map-legend-bar-title">— Zones</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#c8362d"></span>North</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#b8924a"></span>East</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#2d5d4f"></span>South</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#8b1e18"></span>West</span>
-      <span class="legend-item"><span class="legend-dot" style="background:#6b5544"></span>Center</span>
-    </div>
-  </div>
-</section>
-
-<section class="itinerary" id="itinerary">
-  <div class="section-header">
-    <div>
-      <div class="section-num">— 04 / Suggested Itinerary</div>
-      <h3>3 perfect days in <em>Jeju</em>.</h3>
-    </div>
-    <div class="desc">A balanced loop hitting east, south, and west. Renting a car is essential — public transport on Jeju is limited.</div>
-  </div>
-
-  <div class="day-tabs">
-    <button class="day-tab active" data-day="1"><span class="day-num">01</span>East Coast</button>
-    <button class="day-tab" data-day="2"><span class="day-num">02</span>South & Center</button>
-    <button class="day-tab" data-day="3"><span class="day-num">03</span>West Coast</button>
-  </div>
-
-  <div class="day-panel active" data-day="1">
-    <h4 class="day-title">Day One — <em>The East Side</em></h4>
-    <div class="day-subtitle">동부 일정 · Sunrise Peak, lava tubes, beach cafés</div>
-    <div class="day-timeline">
-      <div class="timeline-item">
-        <div class="timeline-time">5:30 AM</div>
-        <div class="timeline-content">
-          <h5>Sunrise at Seongsan Peak</h5>
-          <div class="where">성산일출봉 · A 30-min hike</div>
-          <p>Early start, but unforgettable. Hike up before sunrise — the view from the rim looking east is iconic. ₩5k entry.</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">9:00 AM</div>
-        <div class="timeline-content">
-          <h5>Breakfast at Seongsan port</h5>
-          <div class="where">성산항 · Seafood breakfast</div>
-          <p>Fresh haemul jeon (seafood pancake) or transparent fish soup. Restaurants open 7am for fishermen.</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">11:00 AM</div>
-        <div class="timeline-content">
-          <h5>Manjanggul Lava Tube</h5>
-          <div class="where">만장굴 · World's longest lava tube</div>
-          <p>Walk a kilometer through ancient lava cave. Cool inside (15°C year-round), bring a light jacket. ₩4k.</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">1:00 PM</div>
-        <div class="timeline-content">
-          <h5>Lunch & beach time at Woljeongri</h5>
-          <div class="where">월정리 해변 · Beach café row</div>
-          <p>One of Jeju's prettiest beaches, lined with stylish cafés. Pick a beach café for lunch with ocean view.</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">3:30 PM</div>
-        <div class="timeline-content">
-          <h5>Bijarim Forest walk</h5>
-          <div class="where">비자림 · 800-year old trees</div>
-          <p>Easy 1-hour walk under ancient nutmeg trees. Cooler than the coast, fragrant, calming.</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">6:00 PM</div>
-        <div class="timeline-content">
-          <h5>Dinner at Gimnyeong Village</h5>
-          <div class="where">김녕마을 · Local seafood</div>
-          <p>Try jeonbok-juk (abalone porridge) or okdom-gui (grilled tilefish) — Jeju specialties. Cash sometimes preferred.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="day-panel" data-day="2">
-    <h4 class="day-title">Day Two — <em>South & Center</em></h4>
-    <div class="day-subtitle">서귀포·한라산 · Waterfalls and a forest hike</div>
-    <div class="day-timeline">
-      <div class="timeline-item">
-        <div class="timeline-time">9:00 AM</div>
-        <div class="timeline-content">
-          <h5>Drive south, stop at Saryeoni Forest</h5>
-          <div class="where">사려니숲길 · Cedar forest walk</div>
-          <p>Cross-island drive takes 1hr, with stops. Walk a section of the 15km cedar forest path — fresh air after city.</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">11:30 AM</div>
-        <div class="timeline-content">
-          <h5>Cheonjiyeon Waterfall</h5>
-          <div class="where">천지연폭포 · 22m waterfall</div>
-          <p>Easy 10-min walk from parking. Photogenic from any angle. ₩2k entry.</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">12:30 PM</div>
-        <div class="timeline-content">
-          <h5>Lunch at Olle Market</h5>
-          <div class="where">서귀포 매일올레시장 · Local lunch</div>
-          <p>Try heuk-dwaeji (black pork) at any sit-down restaurant near the market. ₩30–40k for two with sides.</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">2:30 PM</div>
-        <div class="timeline-content">
-          <h5>Jeongbang Waterfall</h5>
-          <div class="where">정방폭포 · Falls into the sea</div>
-          <p>Asia's only waterfall that drops directly into the ocean. Wear shoes you don't mind getting wet.</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">4:00 PM</div>
-        <div class="timeline-content">
-          <h5>Jusangjeolli Cliff</h5>
-          <div class="where">주상절리 · Hexagonal lava columns</div>
-          <p>Walking deck along basalt cliffs. Surreal geological formation. Sunset here is incredible.</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">6:30 PM</div>
-        <div class="timeline-content">
-          <h5>Dinner in Jungmun</h5>
-          <div class="where">중문 · Resort area dining</div>
-          <p>Many waterfront restaurants here. Try haemultang (seafood stew) for a special meal. ₩50k for two.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="day-panel" data-day="3">
-    <h4 class="day-title">Day Three — <em>The Peaceful West</em></h4>
-    <div class="day-subtitle">서부 일정 · Tea fields and sunset</div>
-    <div class="day-timeline">
-      <div class="timeline-item">
-        <div class="timeline-time">10:00 AM</div>
-        <div class="timeline-content">
-          <h5>Hyeopjae Beach morning</h5>
-          <div class="where">협재해수욕장 · White sand & turquoise</div>
-          <p>Walk to neighboring Geumneung Beach (15 min). Crystal-clear water, very few crowds in morning.</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">12:00 PM</div>
-        <div class="timeline-content">
-          <h5>Lunch at a beach café</h5>
-          <div class="where">협재 카페거리 · Beachside dining</div>
-          <p>Many design-forward cafés along the coast. Try Bomnal Café or Cafe AGOK for ocean views.</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">1:30 PM</div>
-        <div class="timeline-content">
-          <h5>O'sulloc Tea Fields</h5>
-          <div class="where">오설록 티뮤지엄 · Green tea farm</div>
-          <p>Free museum, endless tea fields for photos, and the famous green tea ice cream. Spend 1.5 hours.</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">3:30 PM</div>
-        <div class="timeline-content">
-          <h5>Sanbangsan & Yongmeori Coast</h5>
-          <div class="where">산방산·용머리해안</div>
-          <p>Climb halfway up Sanbangsan for sea views. The coastal trail below is worth the walk.</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">5:30 PM</div>
-        <div class="timeline-content">
-          <h5>Sunset at Hangmori cliff trail</h5>
-          <div class="where">송악산 둘레길 · Volcanic cliff walk</div>
-          <p>The west's best sunset spot. Easy 1-hour cliff walk, looking out over Marado Island.</p>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">7:30 PM</div>
-        <div class="timeline-content">
-          <h5>Final dinner — black pork BBQ</h5>
-          <div class="where">제주 흑돼지 · Heuk-dwaeji</div>
-          <p>Don't leave Jeju without this. Black-pig pork belly grilled at your table — fattier and more flavorful than mainland pork.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
+<!-- FOOD -->
 <div class="section-header" id="food">
   <div>
     <div class="section-num">— 05 / Jeju Food</div>
@@ -848,48 +1104,127 @@
 
 <section class="city-food">
   <div class="food-grid">
+
     <div class="food-card">
       <div class="food-tag">◉ BBQ</div>
       <div class="food-name">Heuk-dwaeji</div>
       <div class="food-name-kr">흑돼지 · Jeju black pork</div>
-      <p class="food-desc">A native Jeju pig breed with darker meat and richer fat. Grilled at your table, wrapped in lettuce with garlic and ssamjang. The island's most iconic dish.</p>
-      <div class="food-where">Best at <strong>흑돼지거리 (Black Pig Street), Jeju City</strong></div>
+      <p class="food-desc">A native Jeju pig breed with darker meat and richer fat than mainland pork. Grilled at your table over charcoal, then wrapped in lettuce with garlic and the local "myeolchi-jeot" (anchovy fish sauce) instead of regular ssamjang. The most iconic Jeju dish — every traveler tries it at least once.</p>
+      <div class="food-restaurant-list">
+        <h6>★ Best places</h6>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Donsadon (돈사돈)</div>
+          <div class="food-restaurant-name-kr">130 Sin-Daero 16-gil, Jeju City · 신대로16길 130</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>30k</strong> /200g</span><span>⏰ 12pm–10pm</span><span>📍 Black Pig Street</span><span>👥 Often 30+ min wait</span></div>
+        </div>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Black Pig Family (흑돈가)</div>
+          <div class="food-restaurant-name-kr">261 Yeon-dong, Jeju City</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>28k</strong> /200g</span><span>⏰ 11am–11pm</span><span>📍 Yeon-dong</span><span>📋 English menu</span></div>
+        </div>
+      </div>
     </div>
+
     <div class="food-card">
       <div class="food-tag">◉ Seafood</div>
       <div class="food-name">Jeonbok-juk</div>
       <div class="food-name-kr">전복죽 · Abalone porridge</div>
-      <p class="food-desc">Made from abalones harvested by haenyeo (female free divers), simmered slowly with rice into a creamy green-tinted porridge. Comforting and luxurious at once.</p>
-      <div class="food-where">Best at <strong>Olle Market or any haenyeo restaurant</strong></div>
+      <p class="food-desc">Made from abalones harvested by Jeju's haenyeo (female free-divers, UNESCO heritage), simmered slowly with rice into a creamy green-tinted porridge. Comforting and luxurious at once. The slight green color comes from the abalone's natural mineral content. Often eaten for breakfast.</p>
+      <div class="food-restaurant-list">
+        <h6>★ Best places</h6>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Olle Market Stalls (올레시장)</div>
+          <div class="food-restaurant-name-kr">Seogwipo Olle Market · 서귀포 매일올레시장</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>15,000</strong></span><span>⏰ 7am–9pm</span><span>📍 Seogwipo</span><span>💵 Cash preferred</span></div>
+        </div>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Haenyeo Restaurant (해녀의집)</div>
+          <div class="food-restaurant-name-kr">29 Seongsan-ri, Seongsan-eup · By Sunrise Peak</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>20,000</strong></span><span>⏰ 8am–7pm</span><span>📍 Seongsan</span><span>👵 Run by haenyeo</span></div>
+        </div>
+      </div>
     </div>
+
     <div class="food-card">
       <div class="food-tag">◉ Fish</div>
       <div class="food-name">Okdom-gui</div>
       <div class="food-name-kr">옥돔구이 · Grilled tilefish</div>
-      <p class="food-desc">A small, premium fish only caught off Jeju. Salt-grilled until crispy outside, tender inside. A staple at Jeju traditional restaurants and breakfast tables.</p>
-      <div class="food-where">Best in <strong>Seogwipo coastal restaurants</strong></div>
+      <p class="food-desc">A small, premium fish only caught in the deep waters off Jeju. Salt-grilled until crispy outside, tender inside. A staple at Jeju traditional restaurants and special-occasion meals. The fish has a distinctive sweet, almost buttery flavor. Served whole — eat with chopsticks, picking carefully around small bones.</p>
+      <div class="food-restaurant-list">
+        <h6>★ Best places</h6>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Jeju Garden (제주가든)</div>
+          <div class="food-restaurant-name-kr">263 Sinjeju-ro, Jeju City</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>35,000</strong></span><span>⏰ 11am–9:30pm</span><span>📍 Jeju City</span><span>🐟 Whole fish</span></div>
+        </div>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Coastal Restaurants in Seogwipo</div>
+          <div class="food-restaurant-name-kr">서귀포 해변식당 · Multiple options</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>30–40k</strong></span><span>⏰ 11am–10pm</span><span>📍 Seogwipo</span><span>🌊 Sea views</span></div>
+        </div>
+      </div>
     </div>
+
     <div class="food-card">
       <div class="food-tag">◉ Citrus</div>
       <div class="food-name">Hallabong</div>
-      <div class="food-name-kr">한라봉 · Jeju's premium orange</div>
-      <p class="food-desc">A hybrid orange named after Hallasan mountain — sweet, juicy, with a distinctive bump on top. Fresh from December–March, but products (juice, jam, chocolate) all year.</p>
-      <div class="food-where">Buy at <strong>any market or fruit stand</strong></div>
+      <div class="food-name-kr">한라봉 · Jeju's premium tangerine</div>
+      <p class="food-desc">A hybrid orange named after Hallasan mountain, with a distinctive bump on top resembling the volcano's peak. Sweet, juicy, with thin skin that peels easily. Fresh from December to March; products (juice, jam, chocolate, tea) all year. Often more expensive than regular oranges but in a different league flavor-wise.</p>
+      <div class="food-restaurant-list">
+        <h6>★ Where to buy</h6>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Tangerine Farms (Pick-Your-Own)</div>
+          <div class="food-restaurant-name-kr">감귤농장 체험 · Mostly in Seogwipo region</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>10k</strong> /all-you-can-eat</span><span>⏰ 9am–5pm</span><span>📅 Dec–Feb only</span><span>🍊 Pick from tree</span></div>
+        </div>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Dongmun Market & Olle Market</div>
+          <div class="food-restaurant-name-kr">동문시장·올레시장 · Both markets</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>5–10k</strong> /kg</span><span>⏰ 8am–9pm</span><span>📍 Both cities</span><span>🎁 Souvenir-friendly</span></div>
+        </div>
+      </div>
     </div>
+
     <div class="food-card">
       <div class="food-tag">◉ Noodles</div>
       <div class="food-name">Gogi Guksu</div>
       <div class="food-name-kr">고기국수 · Pork noodle soup</div>
-      <p class="food-desc">Wheat noodles in pork bone broth, topped with sliced pork, scallions, and pepper. Cheap (~₩7k), filling, and uniquely Jeju.</p>
-      <div class="food-where">Best at <strong>고기국수거리 (Noodle Street), Jeju City</strong></div>
+      <p class="food-desc">Wheat noodles in pork bone broth, topped with sliced pork, scallions, and pepper. Cheap (~₩7-9k), filling, and uniquely Jeju. Said to have originated from local fishermen who needed a hearty meal. Different from mainland Korea's pork bone soups — the broth is lighter and the noodles thicker.</p>
+      <div class="food-restaurant-list">
+        <h6>★ Best places</h6>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Noodle Street (고기국수거리)</div>
+          <div class="food-restaurant-name-kr">Multiple shops · Jeju City</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>7–9k</strong></span><span>⏰ 10am–9pm</span><span>📍 Jeju City</span><span>🍜 Whole street</span></div>
+        </div>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Saegdong Gogi Guksu (자매국수)</div>
+          <div class="food-restaurant-name-kr">21 Samseong-ro, Jeju City · 24-hour</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>8,000</strong></span><span>⏰ <strong>24/7</strong></span><span>📍 Jeju City</span><span>🌙 Late-night option</span></div>
+        </div>
+      </div>
     </div>
+
     <div class="food-card">
       <div class="food-tag">◉ Sashimi</div>
-      <div class="food-name">Hwe</div>
-      <div class="food-name-kr">회 · Jeju-style sashimi</div>
-      <p class="food-desc">Cut from fish caught hours before serving. Locals eat it with chogochujang or rolled in seaweed with rice. The freshness is the point.</p>
-      <div class="food-where">Best at <strong>Seongsan or Aewol harbors</strong></div>
+      <div class="food-name">Hwe (Jeju Sashimi)</div>
+      <div class="food-name-kr">회 · Jeju-style raw fish</div>
+      <p class="food-desc">Cut from fish caught hours before serving — the freshness is the point. Locals eat it with chogochujang (vinegar red pepper paste) wrapped in lettuce or sesame leaves with rice. Different from Japanese sashimi: cut thicker, dipped in spicy sauce, eaten as a wrap. Order sashimi sets that include side dishes and ending soup.</p>
+      <div class="food-restaurant-list">
+        <h6>★ Best places</h6>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Seongsan Harbor Restaurants</div>
+          <div class="food-restaurant-name-kr">성산항 활어회 · Sashimi by the harbor</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>50–80k</strong> /set</span><span>⏰ 11am–9pm</span><span>📍 Seongsan</span><span>🐟 Pick live fish</span></div>
+        </div>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Aewol Harbor Restaurants</div>
+          <div class="food-restaurant-name-kr">애월항 회식당 · Sunset dining</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>40–60k</strong> /person</span><span>⏰ 11am–10pm</span><span>📍 Aewol</span><span>🌅 Sunset views</span></div>
+        </div>
+      </div>
     </div>
+
   </div>
 </section>
 

@@ -7,6 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <style>
   :root {
     --ink: #1a1814;
@@ -1709,6 +1711,200 @@
     color: var(--paper);
   }
 
+  /* === MAP SECTION === */
+  .results-map-section {
+    padding: 40px 48px;
+    border-bottom: 1px solid var(--ink);
+    background: var(--paper);
+  }
+
+  .results-map-wrapper {
+    margin-top: 24px;
+    border: 1px solid var(--ink);
+    background: var(--paper-warm);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .results-map {
+    width: 100%;
+    height: 480px;
+    background: var(--paper-warm);
+  }
+
+  /* Leaflet style overrides to match site theme */
+  .leaflet-container {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: var(--paper-warm) !important;
+  }
+
+  .leaflet-popup-content-wrapper {
+    background: var(--ink) !important;
+    color: var(--paper) !important;
+    border-radius: 0 !important;
+    border: 1px solid var(--gold);
+    box-shadow: 4px 4px 0 var(--crimson) !important;
+    padding: 0 !important;
+  }
+
+  .leaflet-popup-content {
+    margin: 16px 18px !important;
+    line-height: 1.5;
+    font-family: 'Fraunces', serif;
+  }
+
+  .leaflet-popup-tip {
+    background: var(--ink) !important;
+    border: 1px solid var(--gold);
+  }
+
+  .leaflet-popup-close-button {
+    color: var(--gold) !important;
+    font-size: 20px !important;
+    padding: 6px 8px !important;
+  }
+
+  .leaflet-popup-close-button:hover {
+    color: var(--paper) !important;
+  }
+
+  .map-popup-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+    padding: 2px 8px;
+    border: 1px solid var(--gold);
+  }
+
+  .map-popup-name {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+
+  .map-popup-kr {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12px;
+    color: rgba(244,239,230,0.7);
+    margin-bottom: 8px;
+  }
+
+  .map-popup-tip {
+    font-size: 12px;
+    line-height: 1.5;
+    color: rgba(244,239,230,0.85);
+    font-style: italic;
+    margin-bottom: 12px;
+    max-width: 220px;
+  }
+
+  .map-popup-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--crimson);
+    color: var(--paper);
+    text-decoration: none;
+    padding: 8px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: background 0.2s;
+  }
+
+  .map-popup-link:hover {
+    background: var(--crimson-deep);
+    color: var(--paper);
+  }
+
+  /* Custom map markers */
+  .custom-marker {
+    width: 36px;
+    height: 36px;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    border: 2px solid var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+    position: relative;
+  }
+
+  .custom-marker-inner {
+    transform: rotate(45deg);
+    color: var(--paper);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  .marker-color-1 { background: var(--crimson); }
+  .marker-color-2 { background: var(--jade); }
+  .marker-color-3 { background: var(--gold); }
+  .marker-color-4 { background: var(--crimson-deep); }
+  .marker-color-5 { background: var(--ink); }
+  .marker-color-6 { background: #6b5544; }
+
+  /* Map legend */
+  .map-legend {
+    padding: 18px 20px;
+    background: var(--ink);
+    color: var(--paper);
+    border-top: 1px solid var(--ink);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 24px;
+    align-items: center;
+  }
+
+  .map-legend-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-right: 8px;
+  }
+
+  .map-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .map-help {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    margin-top: 16px;
+    padding: 10px 14px;
+    background: var(--paper-warm);
+    border-left: 2px solid var(--crimson);
+  }
+
   /* ============ FESTIVALS ============ */
   .festivals {
     padding: 0 32px 80px;
@@ -2276,7 +2472,9 @@
     .quiz-options { grid-template-columns: 1fr; }
     .quiz-start { padding: 40px 24px; }
     .style-bar { grid-template-columns: 100px 1fr 40px; gap: 10px; }
-    .results-header, .style-match, .recommended-section, .budget-section, .tips-section, .quiz-restart { padding: 28px 24px; }
+    .results-header, .style-match, .recommended-section, .budget-section, .tips-section, .quiz-restart, .results-map-section { padding: 28px 24px; }
+    .results-map { height: 360px; }
+    .map-legend { padding: 14px 16px; gap: 10px 16px; }
     .budget-grid { grid-template-columns: 1fr 1fr; }
     .tips-list { grid-template-columns: 1fr; }
   }
@@ -2825,6 +3023,19 @@
       <div class="style-match">
         <div class="style-match-title">— How your style breaks down</div>
         <div id="styleBars"></div>
+      </div>
+
+      <!-- Map of recommended places -->
+      <div class="results-map-section">
+        <div class="recommended-title">— Where on the map</div>
+        <h5 class="recommended-heading">Your spots, <em>visualized</em>.</h5>
+        <div class="map-help">Tap any pin to see details. Locations are color-coded by neighborhood — places sharing a color are walkable from each other.</div>
+        <div class="results-map-wrapper">
+          <div class="results-map" id="resultsMap"></div>
+          <div class="map-legend" id="mapLegend">
+            <span class="map-legend-title">— Districts</span>
+          </div>
+        </div>
       </div>
 
       <!-- Recommended places clustered by area -->
@@ -4670,89 +4881,89 @@
     trendy:  { title: 'The Trend Tracker', sub: 'Photo booths, hot cafés, what is everyone Instagramming this week.' }
   };
 
-  // Place clusters by style and area
+  // Place clusters by style and area (with GPS coordinates)
   const placesByStyle = {
     kpop: [
-      { area: 'Yongsan & Hannam', places: [
-        { name: 'HYBE Insight', kr: 'BTS official building', tip: 'Photo spot outside is free' },
-        { name: 'Line Friends Flagship', kr: 'IPark Mall', tip: 'BT21 character store' }
+      { area: 'Yongsan & Hannam', center: [37.5294, 126.9646], places: [
+        { name: 'HYBE Insight', kr: 'BTS official building', tip: 'Photo spot outside is free', lat: 37.5260, lng: 126.9272 },
+        { name: 'Line Friends Flagship', kr: 'IPark Mall', tip: 'BT21 character store', lat: 37.5298, lng: 126.9648 }
       ]},
-      { area: 'Seongsu', places: [
-        { name: 'Idol-themed Cafés', kr: '아이돌 카페', tip: 'Pop-ups change weekly — check Instagram' },
-        { name: 'Daeha Building', kr: 'JYP HQ area', tip: 'Stray Kids, Twice fans gather here' }
+      { area: 'Seongsu', center: [37.5444, 127.0557], places: [
+        { name: 'Idol-themed Cafés', kr: '아이돌 카페', tip: 'Pop-ups change weekly — check Instagram', lat: 37.5447, lng: 127.0557 },
+        { name: 'JYP HQ Area', kr: '청담동 JYP', tip: 'Stray Kids, Twice fans gather here', lat: 37.5223, lng: 127.0440 }
       ]},
-      { area: 'Gangnam', places: [
-        { name: 'SM Town Coex', kr: 'SM 아티움', tip: 'Merch + holograms + photo zones' },
-        { name: 'K-Star Road', kr: '케이스타로드', tip: 'Bear statues of major groups' }
+      { area: 'Gangnam', center: [37.5126, 127.0588], places: [
+        { name: 'SM Town Coex', kr: 'SM 아티움', tip: 'Merch + holograms + photo zones', lat: 37.5126, lng: 127.0588 },
+        { name: 'K-Star Road', kr: '케이스타로드', tip: 'Bear statues of major groups', lat: 37.5269, lng: 127.0428 }
       ]}
     ],
     food: [
-      { area: 'Jongno', places: [
-        { name: 'Gwangjang Market', kr: '광장시장', tip: 'Bindaetteok and mayak gimbap are must-tries' },
-        { name: 'Ikseon-dong Hanok Alley', kr: '익선동', tip: 'Modern fusion in old hanok houses' }
+      { area: 'Jongno', center: [37.5704, 126.9999], places: [
+        { name: 'Gwangjang Market', kr: '광장시장', tip: 'Bindaetteok and mayak gimbap are must-tries', lat: 37.5704, lng: 126.9999 },
+        { name: 'Ikseon-dong Hanok Alley', kr: '익선동', tip: 'Modern fusion in old hanok houses', lat: 37.5722, lng: 126.9886 }
       ]},
-      { area: 'Mapo & Hongdae', places: [
-        { name: 'Mapo Galmaegi-sal', kr: '마포 갈매기살', tip: 'Pork skirt meat — Mapo specialty' },
-        { name: 'Yeonnam-dong', kr: '연남동', tip: 'Hidden cafés and indie restaurants' }
+      { area: 'Mapo & Hongdae', center: [37.5563, 126.9236], places: [
+        { name: 'Mapo Galmaegi-sal', kr: '마포 갈매기살', tip: 'Pork skirt meat — Mapo specialty', lat: 37.5494, lng: 126.9509 },
+        { name: 'Yeonnam-dong', kr: '연남동', tip: 'Hidden cafés and indie restaurants', lat: 37.5631, lng: 126.9233 }
       ]},
-      { area: 'Busan (if visiting)', places: [
-        { name: 'Jagalchi Fish Market', kr: '자갈치시장', tip: 'Pick downstairs, eat upstairs' },
-        { name: 'Gukje Market', kr: '국제시장', tip: 'Bibim dangmyeon and ssiat hotteok' }
+      { area: 'Busan (if visiting)', center: [35.0966, 129.0306], places: [
+        { name: 'Jagalchi Fish Market', kr: '자갈치시장', tip: 'Pick downstairs, eat upstairs', lat: 35.0966, lng: 129.0306 },
+        { name: 'Gukje Market', kr: '국제시장', tip: 'Bibim dangmyeon and ssiat hotteok', lat: 35.1013, lng: 129.0270 }
       ]}
     ],
     culture: [
-      { area: 'Jongno', places: [
-        { name: 'Gyeongbokgung Palace', kr: '경복궁', tip: 'Free entry in hanbok' },
-        { name: 'Bukchon Hanok Village', kr: '북촌한옥마을', tip: 'Quiet hours: before 10am' },
-        { name: 'Insadong', kr: '인사동', tip: 'Traditional crafts + tea houses' }
+      { area: 'Jongno', center: [37.5779, 126.9768], places: [
+        { name: 'Gyeongbokgung Palace', kr: '경복궁', tip: 'Free entry in hanbok', lat: 37.5796, lng: 126.9770 },
+        { name: 'Bukchon Hanok Village', kr: '북촌한옥마을', tip: 'Quiet hours: before 10am', lat: 37.5826, lng: 126.9836 },
+        { name: 'Insadong', kr: '인사동', tip: 'Traditional crafts + tea houses', lat: 37.5728, lng: 126.9849 }
       ]},
-      { area: 'Jung-gu', places: [
-        { name: 'Deoksugung Palace', kr: '덕수궁', tip: 'Stone wall walk in autumn is iconic' },
-        { name: 'National Museum of Korea', kr: '국립중앙박물관', tip: 'Free, English audio guide' }
+      { area: 'Jung-gu', center: [37.5658, 126.9751], places: [
+        { name: 'Deoksugung Palace', kr: '덕수궁', tip: 'Stone wall walk in autumn is iconic', lat: 37.5658, lng: 126.9751 },
+        { name: 'National Museum of Korea', kr: '국립중앙박물관', tip: 'Free, English audio guide', lat: 37.5240, lng: 126.9803 }
       ]},
-      { area: 'Andong (day trip)', places: [
-        { name: 'Hahoe Folk Village', kr: '하회마을', tip: 'UNESCO site, mask dance performances' }
+      { area: 'Andong (day trip)', center: [36.5395, 128.5198], places: [
+        { name: 'Hahoe Folk Village', kr: '하회마을', tip: 'UNESCO site, mask dance performances', lat: 36.5395, lng: 128.5198 }
       ]}
     ],
     nature: [
-      { area: 'Seoul', places: [
-        { name: 'Bukhansan National Park', kr: '북한산', tip: 'Beginner trail: Baegundae 4 hours round trip' },
-        { name: 'Han River Parks', kr: '한강공원', tip: 'Bike rentals, picnic mats, sunset views' }
+      { area: 'Seoul Outdoors', center: [37.5500, 127.0030], places: [
+        { name: 'Bukhansan National Park', kr: '북한산', tip: 'Beginner trail: Baegundae 4 hours round trip', lat: 37.6586, lng: 126.9823 },
+        { name: 'Han River Parks', kr: '한강공원', tip: 'Bike rentals, picnic mats, sunset views', lat: 37.5283, lng: 126.9335 }
       ]},
-      { area: 'Jeju Island', places: [
-        { name: 'Hallasan National Park', kr: '한라산', tip: 'Reserve summit trails in advance' },
-        { name: 'Olle Trails', kr: '올레길', tip: 'Coastal walking routes, color-marked' }
+      { area: 'Jeju Island', center: [33.4996, 126.5312], places: [
+        { name: 'Hallasan National Park', kr: '한라산', tip: 'Reserve summit trails in advance', lat: 33.3617, lng: 126.5292 },
+        { name: 'Olle Trails', kr: '올레길', tip: 'Coastal walking routes, color-marked', lat: 33.2496, lng: 126.4123 }
       ]},
-      { area: 'Gangwon', places: [
-        { name: 'Seoraksan Mountain', kr: '설악산', tip: 'Best in October for fall colors' },
-        { name: 'Gangneung Beach', kr: '강릉 해변', tip: '2hr from Seoul by KTX' }
+      { area: 'Gangwon', center: [38.1195, 128.4655], places: [
+        { name: 'Seoraksan Mountain', kr: '설악산', tip: 'Best in October for fall colors', lat: 38.1195, lng: 128.4655 },
+        { name: 'Gangneung Beach', kr: '강릉 해변', tip: '2hr from Seoul by KTX', lat: 37.7944, lng: 128.9019 }
       ]}
     ],
     beauty: [
-      { area: 'Myeongdong', places: [
-        { name: 'Olive Young Flagship', kr: '올리브영 명동', tip: 'Tax-free counter on-site' },
-        { name: 'Cosmetic Road', kr: '명동 화장품 거리', tip: 'Free samples are everywhere' }
+      { area: 'Myeongdong', center: [37.5636, 126.9826], places: [
+        { name: 'Olive Young Flagship', kr: '올리브영 명동', tip: 'Tax-free counter on-site', lat: 37.5636, lng: 126.9836 },
+        { name: 'Cosmetic Road', kr: '명동 화장품 거리', tip: 'Free samples are everywhere', lat: 37.5636, lng: 126.9826 }
       ]},
-      { area: 'Garosu-gil & Apgujeong', places: [
-        { name: 'Sinsa Garosu-gil', kr: '신사동 가로수길', tip: 'Designer boutiques and concept stores' },
-        { name: 'Apgujeong Rodeo', kr: '압구정 로데오', tip: 'Luxury brands and K-beauty clinics' }
+      { area: 'Garosu-gil & Apgujeong', center: [37.5217, 127.0228], places: [
+        { name: 'Sinsa Garosu-gil', kr: '신사동 가로수길', tip: 'Designer boutiques and concept stores', lat: 37.5217, lng: 127.0228 },
+        { name: 'Apgujeong Rodeo', kr: '압구정 로데오', tip: 'Luxury brands and K-beauty clinics', lat: 37.5276, lng: 127.0388 }
       ]},
-      { area: 'Seongsu', places: [
-        { name: 'Common Ground', kr: '커먼그라운드', tip: 'Container mall with indie brands' }
+      { area: 'Seongsu', center: [37.5444, 127.0557], places: [
+        { name: 'Common Ground', kr: '커먼그라운드', tip: 'Container mall with indie brands', lat: 37.5402, lng: 127.0697 }
       ]}
     ],
     trendy: [
-      { area: 'Seongsu', places: [
-        { name: 'Seongsu Cafés', kr: '성수동 카페거리', tip: 'New ones open weekly — Onion, Daelim are classics' },
-        { name: 'Pop-up Stores', kr: '팝업스토어', tip: 'Always something themed running' }
+      { area: 'Seongsu', center: [37.5444, 127.0557], places: [
+        { name: 'Seongsu Cafés', kr: '성수동 카페거리', tip: 'New ones open weekly — Onion, Daelim are classics', lat: 37.5447, lng: 127.0557 },
+        { name: 'Pop-up Stores', kr: '팝업스토어', tip: 'Always something themed running', lat: 37.5430, lng: 127.0560 }
       ]},
-      { area: 'Hongdae', places: [
-        { name: 'Photo Booth Cafés', kr: '인생네컷', tip: 'Find them on every block' },
-        { name: 'Hongdae Walking Street', kr: '홍대 걷고싶은거리', tip: 'Buskers nightly from 7pm' }
+      { area: 'Hongdae', center: [37.5563, 126.9236], places: [
+        { name: 'Photo Booth Cafés', kr: '인생네컷', tip: 'Find them on every block', lat: 37.5563, lng: 126.9236 },
+        { name: 'Hongdae Walking Street', kr: '홍대 걷고싶은거리', tip: 'Buskers nightly from 7pm', lat: 37.5547, lng: 126.9234 }
       ]},
-      { area: 'Ikseon & Euljiro', places: [
-        { name: 'Ikseon-dong Cafés', kr: '익선동 카페', tip: 'Hanok aesthetic + modern menus' },
-        { name: 'Euljiro Hipster Bars', kr: '을지로 노포', tip: 'Old industrial vibe, young crowd' }
+      { area: 'Ikseon & Euljiro', center: [37.5710, 126.9913], places: [
+        { name: 'Ikseon-dong Cafés', kr: '익선동 카페', tip: 'Hanok aesthetic + modern menus', lat: 37.5722, lng: 126.9886 },
+        { name: 'Euljiro Hipster Bars', kr: '을지로 노포', tip: 'Old industrial vibe, young crowd', lat: 37.5663, lng: 126.9913 }
       ]}
     ]
   };
@@ -4940,12 +5151,14 @@
     clustersContainer.innerHTML = '';
     const usedAreas = new Set();
     const stylesToShow = sortedStyles.slice(0, 2).map(s => s[0]);
+    const clustersForMap = []; // Collect for map rendering
 
     stylesToShow.forEach(style => {
       const clusters = placesByStyle[style] || [];
       clusters.forEach(cluster => {
         if (usedAreas.has(cluster.area)) return;
         usedAreas.add(cluster.area);
+        clustersForMap.push(cluster); // Save for map
 
         const div = document.createElement('div');
         div.className = 'place-cluster';
@@ -4971,6 +5184,9 @@
         clustersContainer.appendChild(div);
       });
     });
+
+    // === RENDER MAP ===
+    renderResultsMap(clustersForMap);
 
     // Budget
     const tier = quizAnswers[3] || 'moderate';
@@ -5018,6 +5234,107 @@
     setTimeout(() => {
       document.querySelector('.results-header').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 100);
+  }
+
+  // === MAP RENDERING ===
+  let resultsMapInstance = null;
+
+  function renderResultsMap(clusters) {
+    const mapContainer = document.getElementById('resultsMap');
+    if (!mapContainer || typeof L === 'undefined') return;
+
+    // Filter clusters with valid coordinates only
+    const validClusters = clusters.filter(c =>
+      c.places && c.places.some(p => typeof p.lat === 'number' && typeof p.lng === 'number')
+    );
+    if (validClusters.length === 0) return;
+
+    // Destroy old map if exists (when retaking quiz)
+    if (resultsMapInstance) {
+      resultsMapInstance.remove();
+      resultsMapInstance = null;
+    }
+
+    // Create map
+    resultsMapInstance = L.map('resultsMap', {
+      scrollWheelZoom: false,
+      zoomControl: true
+    });
+
+    // Use a clean, light tile layer that fits the editorial aesthetic
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      attribution: '© OpenStreetMap, © CARTO',
+      maxZoom: 19
+    }).addTo(resultsMapInstance);
+
+    const bounds = [];
+    const colorClasses = ['marker-color-1', 'marker-color-2', 'marker-color-3', 'marker-color-4', 'marker-color-5', 'marker-color-6'];
+
+    // Build legend
+    const legendEl = document.getElementById('mapLegend');
+    legendEl.innerHTML = '<span class="map-legend-title">— Districts</span>';
+
+    const colorMap = {
+      'marker-color-1': '#c8362d',
+      'marker-color-2': '#2d5d4f',
+      'marker-color-3': '#b8924a',
+      'marker-color-4': '#8b1e18',
+      'marker-color-5': '#1a1814',
+      'marker-color-6': '#6b5544'
+    };
+
+    validClusters.forEach((cluster, clusterIdx) => {
+      const colorClass = colorClasses[clusterIdx % colorClasses.length];
+      const colorHex = colorMap[colorClass];
+
+      // Add to legend
+      const legendItem = document.createElement('div');
+      legendItem.className = 'map-legend-item';
+      legendItem.innerHTML = `<span class="legend-dot" style="background:${colorHex}"></span>${cluster.area}`;
+      legendEl.appendChild(legendItem);
+
+      // Add markers for each place
+      cluster.places.forEach((place, placeIdx) => {
+        if (typeof place.lat !== 'number' || typeof place.lng !== 'number') return;
+
+        const customIcon = L.divIcon({
+          className: 'custom-marker-wrapper',
+          html: `<div class="custom-marker ${colorClass}"><div class="custom-marker-inner">${placeIdx + 1}</div></div>`,
+          iconSize: [36, 36],
+          iconAnchor: [18, 36],
+          popupAnchor: [0, -36]
+        });
+
+        const marker = L.marker([place.lat, place.lng], { icon: customIcon }).addTo(resultsMapInstance);
+
+        const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}&destination_place_id=${encodeURIComponent(place.name + ' Korea')}`;
+
+        const popupHtml = `
+          <span class="map-popup-tag">${cluster.area}</span>
+          <div class="map-popup-name">${place.name}</div>
+          <div class="map-popup-kr">${place.kr}</div>
+          <div class="map-popup-tip">${place.tip}</div>
+          <a href="${mapsUrl}" target="_blank" rel="noopener" class="map-popup-link">Open in Maps →</a>
+        `;
+        marker.bindPopup(popupHtml, { maxWidth: 280, minWidth: 240 });
+
+        bounds.push([place.lat, place.lng]);
+      });
+    });
+
+    // Fit map to all markers
+    if (bounds.length > 0) {
+      if (bounds.length === 1) {
+        resultsMapInstance.setView(bounds[0], 14);
+      } else {
+        resultsMapInstance.fitBounds(bounds, { padding: [50, 50], maxZoom: 13 });
+      }
+    }
+
+    // Force size recalculation since the container was hidden when map was created
+    setTimeout(() => {
+      if (resultsMapInstance) resultsMapInstance.invalidateSize();
+    }, 200);
   }
 
   function restartQuiz() {

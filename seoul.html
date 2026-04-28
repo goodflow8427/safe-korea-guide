@@ -505,6 +505,120 @@
     font-style: italic;
   }
 
+  /* New: rich place description (replaces tip) */
+  .nbh-place-desc {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .nbh-place-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    margin-top: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+  }
+
+  .nbh-place-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .nbh-place-meta strong {
+    color: var(--crimson);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+  }
+
+  /* Neighborhood image header */
+  .nbh-image-header {
+    width: 100%;
+    height: 220px;
+    background-size: cover;
+    background-position: center;
+    border-bottom: 1px solid var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .nbh-image-header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(26,24,20,0.5), transparent 60%);
+    pointer-events: none;
+  }
+
+  .nbh-image-overlay {
+    position: absolute;
+    bottom: 16px;
+    left: 24px;
+    color: var(--paper);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    z-index: 1;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  }
+
+  /* Restaurant detail block in food card */
+  .food-restaurant-list {
+    border-top: 1px dashed var(--ink);
+    padding-top: 16px;
+    margin-top: 16px;
+  }
+
+  .food-restaurant-list h6 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--crimson);
+    margin-bottom: 12px;
+  }
+
+  .food-restaurant-item {
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--paper-warm);
+  }
+
+  .food-restaurant-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .food-restaurant-name {
+    font-family: 'Fraunces', serif;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .food-restaurant-name-kr {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .food-restaurant-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .food-restaurant-meta strong {
+    color: var(--jade);
+  }
+
   .nbh-place-type {
     font-family: 'JetBrains Mono', monospace;
     font-size: 9px;
@@ -1152,78 +1266,135 @@
   </div>
 
   <!-- JONGNO -->
+  <!-- JONGNO -->
   <div class="nbh-panel active" data-nbh="jongno">
+    <div class="nbh-image-header" style="background-image: url('https://images.unsplash.com/photo-1538669715315-155098f0fb1d?w=1200&q=70');">
+      <div class="nbh-image-overlay">Jongno · 종로 · Heritage District</div>
+    </div>
     <div class="nbh-panel-grid">
       <div class="nbh-info">
         <div class="nbh-vibe">★ Heritage District</div>
         <h4 class="nbh-headline">Where Seoul <em>began</em>.</h4>
         <div class="nbh-headline-kr">종로 · The historic heart of the capital</div>
-        <p class="nbh-desc">The royal palaces of the Joseon Dynasty all stand within walking distance here. Bukchon Hanok Village preserves traditional houses where people still live. Insadong's narrow streets are full of tea houses, calligraphy shops, and traditional crafts. Slow your pace — Jongno rewards it.</p>
+        <p class="nbh-desc">For 600 years, this was the center of the Joseon Dynasty's universe. Five royal palaces stand within walking distance. Bukchon Hanok Village preserves traditional houses where people still live today. Insadong's narrow alleys overflow with tea houses, calligraphy shops, and traditional crafts. The pace here is intentionally slower — Jongno rewards the walker over the rusher.</p>
         <div class="nbh-meta">
-          <div class="nbh-meta-item">
-            <div class="label">Best For</div>
-            <div class="value">Culture lovers, photographers<span class="value-kr">문화·사진</span></div>
-          </div>
-          <div class="nbh-meta-item">
-            <div class="label">Subway</div>
-            <div class="value">Line 3 · Anguk, Gyeongbokgung</div>
-          </div>
-          <div class="nbh-meta-item">
-            <div class="label">Best Time</div>
-            <div class="value">Morning, before 11am</div>
-          </div>
-          <div class="nbh-meta-item">
-            <div class="label">Time Needed</div>
-            <div class="value">Half to full day</div>
-          </div>
+          <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Culture lovers, photographers<span class="value-kr">문화·사진</span></div></div>
+          <div class="nbh-meta-item"><div class="label">Subway</div><div class="value">Line 3 · Anguk, Gyeongbokgung</div></div>
+          <div class="nbh-meta-item"><div class="label">Best Time</div><div class="value">Morning, before 11am</div></div>
+          <div class="nbh-meta-item"><div class="label">Time Needed</div><div class="value">Half to full day</div></div>
         </div>
       </div>
       <div class="nbh-places">
-        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-places-title">10 must-see places</div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">1</div>
           <div>
             <div class="nbh-place-name">Gyeongbokgung Palace</div>
-            <div class="nbh-place-name-kr">경복궁 · The grandest of the five royal palaces</div>
-            <div class="nbh-place-tip">Free entry if you wear hanbok. Watch the changing of the guard at 10am or 2pm.</div>
+            <div class="nbh-place-name-kr">경복궁 · Grandest of the five royal palaces</div>
+            <p class="nbh-place-desc">Built in 1395, this is the largest and most iconic Joseon palace. The Geunjeongjeon throne hall and Gyeonghoeru pavilion (set on a lotus pond) are unmissable. Wear hanbok for free entry — rental shops cluster outside.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–6pm</strong></span><span>₩ <strong>3,000</strong></span><span>📅 Closed Tuesdays</span></div>
           </div>
           <div class="nbh-place-type">Palace</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">2</div>
           <div>
             <div class="nbh-place-name">Bukchon Hanok Village</div>
             <div class="nbh-place-name-kr">북촌한옥마을 · Living traditional village</div>
-            <div class="nbh-place-tip">Real residents live here. Keep voice low, no flash photos near windows.</div>
+            <p class="nbh-place-desc">A neighborhood of 900+ traditional Korean houses (hanok) on a hill between two palaces. Real residents live here — keep voices low and avoid flash photos near windows. The "8 Best Views" path is signposted; follow numbered markers for the iconic photo spots.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7 outdoor</strong></span><span>Free</span><span>📍 Quiet hours after 5pm</span></div>
           </div>
           <div class="nbh-place-type">Historic</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">3</div>
           <div>
             <div class="nbh-place-name">Insadong Street</div>
             <div class="nbh-place-name-kr">인사동 · Traditional crafts & tea</div>
-            <div class="nbh-place-tip">Try a tea ceremony at any "전통찻집" sign. Most cost ₩8–12k for a full experience.</div>
+            <p class="nbh-place-desc">A 700m pedestrian street lined with traditional craft shops, tea houses, and antique galleries. Even McDonald's and Starbucks here have signs in hangul only. Try a tea ceremony at any "전통찻집" sign — most include English explanation and traditional snacks.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10am–10pm</strong></span><span>Tea ₩ <strong>8–12k</strong></span><span>🚶 Pedestrian-only Sun</span></div>
           </div>
           <div class="nbh-place-type">Shopping</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">4</div>
           <div>
-            <div class="nbh-place-name">Changdeokgung Palace</div>
+            <div class="nbh-place-name">Changdeokgung Palace & Secret Garden</div>
             <div class="nbh-place-name-kr">창덕궁 · UNESCO World Heritage</div>
-            <div class="nbh-place-tip">The Secret Garden tour requires advance booking online — limited daily slots.</div>
+            <p class="nbh-place-desc">Smaller and more intimate than Gyeongbokgung, but UNESCO-listed for its perfect harmony with nature. The Secret Garden (Huwon) tour is guided-only and limited to 100 people per slot — book online at least a few days ahead, especially on weekends.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–6pm</strong></span><span>₩ <strong>3,000</strong> + ₩5k garden</span><span>📅 Closed Mondays</span></div>
           </div>
           <div class="nbh-place-type">Palace</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">5</div>
           <div>
             <div class="nbh-place-name">Gwangjang Market</div>
-            <div class="nbh-place-name-kr">광장시장 · Korea's oldest market</div>
-            <div class="nbh-place-tip">Try bindaetteok (mung bean pancake) and mayak gimbap. Cash recommended.</div>
+            <div class="nbh-place-name-kr">광장시장 · Korea's oldest market (1905)</div>
+            <p class="nbh-place-desc">Featured in Netflix's "Street Food" series. The famous food alley serves bindaetteok (mung bean pancake), mayak gimbap (mini seaweed rolls), and yukhoe (beef tartare) at communal tables. Bring cash — most stalls are cash-only. Best between 11am and 7pm.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–11pm</strong></span><span>Meal ₩ <strong>10–20k</strong></span><span>💵 Cash preferred</span></div>
           </div>
           <div class="nbh-place-type">Food</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">6</div>
+          <div>
+            <div class="nbh-place-name">Jogyesa Temple</div>
+            <div class="nbh-place-name-kr">조계사 · Heart of Korean Buddhism</div>
+            <p class="nbh-place-desc">A working Buddhist temple in the middle of downtown Seoul — visitors are welcome to enter the main hall (remove shoes). Free tea offered to all guests. Most beautiful in May during the Lotus Lantern Festival when thousands of paper lanterns hang overhead.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>4am–9pm</strong></span><span>Free</span><span>🪷 Best in early May</span></div>
+          </div>
+          <div class="nbh-place-type">Temple</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">7</div>
+          <div>
+            <div class="nbh-place-name">Cheonggyecheon Stream</div>
+            <div class="nbh-place-name-kr">청계천 · Restored urban stream</div>
+            <p class="nbh-place-desc">An 11km restored stream running through downtown, once a paved highway. Stairs descend from street level into a different world — calmer, cooler, and lined with public art. Lit beautifully at night with seasonal installations. Walk a section, no need to do all 11km.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🌙 Best after sunset</span></div>
+          </div>
+          <div class="nbh-place-type">Park</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">8</div>
+          <div>
+            <div class="nbh-place-name">Tongin Market</div>
+            <div class="nbh-place-name-kr">통인시장 · Brass coin lunchbox</div>
+            <p class="nbh-place-desc">A small traditional market with a unique system: buy ₩5k worth of brass coins (yeopjeon) at the center, then use them to "buy" small portions of food from various vendors to build your own dosirak (lunchbox). Locals love it; tourists rarely find it.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–6pm</strong></span><span>Lunchbox ₩ <strong>5–10k</strong></span><span>📅 Closed 3rd Sun</span></div>
+          </div>
+          <div class="nbh-place-type">Market</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">9</div>
+          <div>
+            <div class="nbh-place-name">National Folk Museum</div>
+            <div class="nbh-place-name-kr">국립민속박물관 · Inside Gyeongbokgung</div>
+            <p class="nbh-place-desc">Often skipped because it's inside the palace grounds, but worth an hour. Walk through reconstructed traditional Korean houses, see how Joseon-era farmers and aristocrats lived. Free with palace ticket. English audio guide available.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–6pm</strong></span><span>Free</span><span>📅 Closed Tuesdays</span></div>
+          </div>
+          <div class="nbh-place-type">Museum</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">10</div>
+          <div>
+            <div class="nbh-place-name">Ikseondong Hanok Alley</div>
+            <div class="nbh-place-name-kr">익선동 한옥거리 · Hipster hanok district</div>
+            <p class="nbh-place-desc">Bukchon's cooler younger sibling. Traditional Korean houses converted into trendy cafés, cocktail bars, and design boutiques. Far less crowded than Bukchon, with the same hanok aesthetic but a more current energy. Best on a weekday afternoon for slow exploration.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>11am–10pm</strong></span><span>Coffee ₩ <strong>6–8k</strong></span><span>📍 Skip weekends</span></div>
+          </div>
+          <div class="nbh-place-type">Cafés</div>
         </div>
       </div>
     </div>
@@ -1231,77 +1402,133 @@
 
   <!-- MYEONGDONG -->
   <div class="nbh-panel" data-nbh="myeongdong">
+    <div class="nbh-image-header" style="background-image: url('https://images.unsplash.com/photo-1546552768-9e3a94b38a59?w=1200&q=70');">
+      <div class="nbh-image-overlay">Myeongdong · 명동 · Shopping District</div>
+    </div>
     <div class="nbh-panel-grid">
       <div class="nbh-info">
         <div class="nbh-vibe">★ Shopping & Beauty</div>
         <h4 class="nbh-headline">The shopping <em>capital</em> of Asia.</h4>
         <div class="nbh-headline-kr">명동 · Cosmetic and fashion district</div>
-        <p class="nbh-desc">Every major K-beauty brand has a flagship store within four blocks. Department stores tower over street vendors selling tornado potatoes. The streets pulse with shoppers from 11am until late evening. Tax-free counters are everywhere, and most clerks speak basic English.</p>
+        <p class="nbh-desc">Every major K-beauty brand has a flagship store within four blocks. Department stores tower over street vendors selling tornado potatoes and cheese-pulls. The streets pulse with shoppers from 11am until late evening. Tax-free counters are everywhere, and most clerks speak basic English, Mandarin, and Japanese. The street food scene is the cheapest gourmet experience in Seoul.</p>
         <div class="nbh-meta">
-          <div class="nbh-meta-item">
-            <div class="label">Best For</div>
-            <div class="value">Beauty, shopping, street food<span class="value-kr">화장품·쇼핑</span></div>
-          </div>
-          <div class="nbh-meta-item">
-            <div class="label">Subway</div>
-            <div class="value">Line 4 · Myeongdong Stn</div>
-          </div>
-          <div class="nbh-meta-item">
-            <div class="label">Best Time</div>
-            <div class="value">Late afternoon onwards</div>
-          </div>
-          <div class="nbh-meta-item">
-            <div class="label">Avoid</div>
-            <div class="value">3–7pm Sat (peak crowds)</div>
-          </div>
+          <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Beauty, shopping, street food<span class="value-kr">화장품·쇼핑</span></div></div>
+          <div class="nbh-meta-item"><div class="label">Subway</div><div class="value">Line 4 · Myeongdong Stn</div></div>
+          <div class="nbh-meta-item"><div class="label">Best Time</div><div class="value">Late afternoon onwards</div></div>
+          <div class="nbh-meta-item"><div class="label">Avoid</div><div class="value">3–7pm Sat (peak crowds)</div></div>
         </div>
       </div>
       <div class="nbh-places">
-        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-places-title">10 must-see places</div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">1</div>
           <div>
             <div class="nbh-place-name">Olive Young Flagship</div>
             <div class="nbh-place-name-kr">올리브영 명동본점 · The K-beauty mecca</div>
-            <div class="nbh-place-tip">Tax-free counter on-site. Three full floors of skincare and cosmetics.</div>
+            <p class="nbh-place-desc">Three full floors of Korean skincare and cosmetics — every major brand and many indie ones. The on-site tax-free counter handles passport refunds. Most products clearly labeled in English. Skincare consultants speak basic English on weekdays.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10am–11pm</strong></span><span>📍 Tax-free counter</span><span>🛒 ₩ <strong>15k+</strong> avg</span></div>
           </div>
           <div class="nbh-place-type">Beauty</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">2</div>
           <div>
             <div class="nbh-place-name">Myeongdong Cathedral</div>
-            <div class="nbh-place-name-kr">명동성당 · Gothic in the city</div>
-            <div class="nbh-place-tip">A peaceful break from shopping crowds. Free entry, beautiful at sunset.</div>
+            <div class="nbh-place-name-kr">명동성당 · Korea's Catholic heart</div>
+            <p class="nbh-place-desc">Korea's first Gothic cathedral, completed in 1898. A peaceful refuge from shopping crowds, with stunning stained glass and beautiful exterior architecture. Most beautiful at sunset when the sky turns pink behind the spires. English Mass on Sundays at 9am.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>6am–10pm</strong></span><span>Free</span><span>🌅 Best at sunset</span></div>
           </div>
           <div class="nbh-place-type">Historic</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">3</div>
           <div>
-            <div class="nbh-place-name">Myeongdong Street Food</div>
-            <div class="nbh-place-name-kr">명동 길거리 음식</div>
-            <div class="nbh-place-tip">Tornado potatoes, hotteok, egg bread. Most stalls accept cards now.</div>
+            <div class="nbh-place-name">Myeongdong Street Food Alley</div>
+            <div class="nbh-place-name-kr">명동 길거리 음식거리</div>
+            <p class="nbh-place-desc">Korea's best street food zone. Famous items: tornado potato (chips on a stick), 32cm soft-serve cones, hotteok (filled pancake), egg bread, lobster tails. Most stalls now accept cards. Stalls open mid-afternoon and run until midnight.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>3pm–12am</strong></span><span>Bites ₩ <strong>3–8k</strong></span><span>💳 Cards mostly OK</span></div>
           </div>
           <div class="nbh-place-type">Food</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">4</div>
           <div>
             <div class="nbh-place-name">Lotte Department Store</div>
-            <div class="nbh-place-name-kr">롯데백화점 · Premium shopping</div>
-            <div class="nbh-place-tip">Top floor food court has Michelin-rated stalls at half normal price.</div>
+            <div class="nbh-place-name-kr">롯데백화점 본점 · Premium shopping</div>
+            <p class="nbh-place-desc">Korea's flagship department store with 12 floors of fashion, beauty, and food. The basement food court is famous — many vendors are Michelin-noted and prices are 30–50% cheaper than restaurant equivalents. Tax-free service desk on the 9th floor.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10:30am–8pm</strong></span><span>📍 Tax-free 9F</span><span>🍱 Food court B1</span></div>
           </div>
           <div class="nbh-place-type">Shopping</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">5</div>
           <div>
-            <div class="nbh-place-name">Namsan Cable Car</div>
-            <div class="nbh-place-name-kr">남산케이블카 · To N Seoul Tower</div>
-            <div class="nbh-place-tip">Walk uphill to base or ride from Myeongdong. Sunset views are best.</div>
+            <div class="nbh-place-name">N Seoul Tower (Namsan Tower)</div>
+            <div class="nbh-place-name-kr">남산타워 · Iconic city panorama</div>
+            <p class="nbh-place-desc">Seoul's most iconic landmark, sitting atop Namsan mountain with 360° views. Walk up from Myeongdong (40 min) or take the cable car (₩14k round trip). Famous love padlock zone, observatory deck, and rotating restaurant. Best at sunset for both day and night views.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10am–11pm</strong></span><span>Tower ₩ <strong>21k</strong></span><span>🚡 Cable car ₩14k</span></div>
           </div>
           <div class="nbh-place-type">View</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">6</div>
+          <div>
+            <div class="nbh-place-name">Myeongdong Underground Mall</div>
+            <div class="nbh-place-name-kr">명동지하상가 · 600 stores below ground</div>
+            <p class="nbh-place-desc">A vast underground shopping arcade connecting subway stations. Cheaper than street-level shops, mostly clothing and accessories. Easy to negotiate prices on multiple-item purchases. Convenient on rainy days. Connects directly from Myeongdong Station.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10am–10pm</strong></span><span>💵 Cash bargains</span><span>📍 Direct subway access</span></div>
+          </div>
+          <div class="nbh-place-type">Shopping</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">7</div>
+          <div>
+            <div class="nbh-place-name">Nanta Theatre</div>
+            <div class="nbh-place-name-kr">난타 명동 · Non-verbal comedy show</div>
+            <p class="nbh-place-desc">Korea's longest-running show — kitchen utensils as drums, cooking as performance. No language barrier (mostly silent comedy with rhythm). 90 minutes of wild energy. Excellent for non-Korean speakers and families. Tickets cheaper online.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>2pm, 5pm, 8pm</strong></span><span>₩ <strong>40–60k</strong></span><span>🎭 No language needed</span></div>
+          </div>
+          <div class="nbh-place-type">Show</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">8</div>
+          <div>
+            <div class="nbh-place-name">Shinsegae Department Store</div>
+            <div class="nbh-place-name-kr">신세계백화점 · Luxury & rooftop</div>
+            <p class="nbh-place-desc">The most luxurious of Korea's department stores, with a stunning rooftop garden featuring giant art installations. The garden is free to enter and has a teddy bear sculpture park, gallery space, and small café. Worth visiting for the rooftop alone.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10:30am–8pm</strong></span><span>🌳 Free rooftop</span><span>🎨 Art installations</span></div>
+          </div>
+          <div class="nbh-place-type">Shopping</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">9</div>
+          <div>
+            <div class="nbh-place-name">Bank of Korea Money Museum</div>
+            <div class="nbh-place-name-kr">한국은행 화폐박물관 · Hidden free gem</div>
+            <p class="nbh-place-desc">A surprisingly fun free museum in a 1912 colonial-era building. See currencies from around the world, learn how money is made, and the kids' interactive exhibits are excellent. 30 minutes is enough. Right next to Myeongdong Cathedral.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10am–5pm</strong></span><span>Free</span><span>📅 Closed Mon</span></div>
+          </div>
+          <div class="nbh-place-type">Museum</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">10</div>
+          <div>
+            <div class="nbh-place-name">Cheong Wa Dae (Blue House)</div>
+            <div class="nbh-place-name-kr">청와대 · Former presidential residence</div>
+            <p class="nbh-place-desc">Recently opened to the public after 70+ years. A 25-min walk from Myeongdong, this is the former South Korean presidential complex. Free guided tours show the main hall, residential wings, and traditional Korean garden. Reserve online — limited daily slots.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–6pm</strong></span><span>Free</span><span>📅 Closed Tue + reserve</span></div>
+          </div>
+          <div class="nbh-place-type">Historic</div>
         </div>
       </div>
     </div>
@@ -1309,77 +1536,133 @@
 
   <!-- HONGDAE -->
   <div class="nbh-panel" data-nbh="hongdae">
+    <div class="nbh-image-header" style="background-image: url('https://images.unsplash.com/photo-1617653202545-931e85eed52a?w=1200&q=70');">
+      <div class="nbh-image-overlay">Hongdae · 홍대 · Youth & Live Music</div>
+    </div>
     <div class="nbh-panel-grid">
       <div class="nbh-info">
         <div class="nbh-vibe">★ Youth & Live Music</div>
         <h4 class="nbh-headline">Where Seoul <em>plays</em>.</h4>
         <div class="nbh-headline-kr">홍대 · Hongik University area</div>
-        <p class="nbh-desc">Named after Hongik University's art program, this neighborhood never stops moving. Buskers play original songs on every corner from 7pm onwards. Photo booths line every street. Indie boutiques mix with chain cafés, club entrances with vintage shops. The energy is the attraction.</p>
+        <p class="nbh-desc">Named after Hongik University's prestigious art program, this neighborhood has been Seoul's youth culture epicenter for 30 years. Buskers play original songs on every corner from 7pm onwards. Photo booths line every street. Indie boutiques mix with chain cafés, club entrances with vintage shops. The energy itself is the attraction — there's no single landmark, just thousands of small experiences.</p>
         <div class="nbh-meta">
-          <div class="nbh-meta-item">
-            <div class="label">Best For</div>
-            <div class="value">Nightlife, music, photo spots<span class="value-kr">밤문화·음악</span></div>
-          </div>
-          <div class="nbh-meta-item">
-            <div class="label">Subway</div>
-            <div class="value">Line 2 · Hongik Univ. Stn</div>
-          </div>
-          <div class="nbh-meta-item">
-            <div class="label">Best Time</div>
-            <div class="value">7pm to midnight</div>
-          </div>
-          <div class="nbh-meta-item">
-            <div class="label">Walking St.</div>
-            <div class="value">홍대 걷고싶은거리</div>
-          </div>
+          <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Nightlife, music, photo spots<span class="value-kr">밤문화·음악</span></div></div>
+          <div class="nbh-meta-item"><div class="label">Subway</div><div class="value">Line 2 · Hongik Univ. Stn</div></div>
+          <div class="nbh-meta-item"><div class="label">Best Time</div><div class="value">7pm to midnight</div></div>
+          <div class="nbh-meta-item"><div class="label">Walking St.</div><div class="value">홍대 걷고싶은거리</div></div>
         </div>
       </div>
       <div class="nbh-places">
-        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-places-title">10 must-see places</div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">1</div>
           <div>
             <div class="nbh-place-name">Hongdae Walking Street</div>
             <div class="nbh-place-name-kr">홍대 걷고싶은거리 · The buskers' stage</div>
-            <div class="nbh-place-tip">Free outdoor performances every night from 7pm onwards. Best Friday/Saturday.</div>
+            <p class="nbh-place-desc">A pedestrian street that becomes a 24/7 outdoor concert. Aspiring K-pop dancers practice in groups. Singer-songwriters perform original material. K-pop dance covers happen at 9pm onwards. Friday and Saturday nights are unmissable. Free, all ages, very safe.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>7pm–2am</strong></span><span>Free</span><span>🎵 Best Fri/Sat</span></div>
           </div>
           <div class="nbh-place-type">Street</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">2</div>
           <div>
             <div class="nbh-place-name">Photo Booth Cafés</div>
-            <div class="nbh-place-name-kr">인생네컷 · Life Four Cuts</div>
-            <div class="nbh-place-tip">Cost ₩4,000 per session. Pose with friends — booths are everywhere.</div>
+            <div class="nbh-place-name-kr">인생네컷 · Life Four Cuts photo booths</div>
+            <p class="nbh-place-desc">Korea's photo booth craze started here. Costs ₩4,000 per session, you and friends pose 4 times in 30 seconds, machine prints two strips immediately. "Life Four Cuts" and "Mungeuri" are the most popular brands. The strip you get is universally treasured.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10am–11pm</strong></span><span>₩ <strong>4,000</strong> per session</span><span>📸 Group of 1–8</span></div>
           </div>
           <div class="nbh-place-type">Activity</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">3</div>
           <div>
             <div class="nbh-place-name">Yeonnam-dong</div>
-            <div class="nbh-place-name-kr">연남동 · Quiet sister neighborhood</div>
-            <div class="nbh-place-tip">5 min walk from Hongdae. Indie cafés, hidden bars, much calmer vibe.</div>
+            <div class="nbh-place-name-kr">연남동 · Hongdae's quieter sister</div>
+            <p class="nbh-place-desc">5 minutes walk from Hongdae station, this neighborhood feels like a different world. Indie cafés, hidden bars, slow energy. The "Yeontral Park" walking path runs through it — a converted railway turned linear park. Best for daytime exploring; the cafés are some of Seoul's prettiest.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>11am–10pm</strong></span><span>Coffee ₩ <strong>6–9k</strong></span><span>🌳 Walking park</span></div>
           </div>
           <div class="nbh-place-type">Cafés</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">4</div>
           <div>
             <div class="nbh-place-name">Trick Eye Museum</div>
             <div class="nbh-place-name-kr">트릭아이미술관 · Optical illusion art</div>
-            <div class="nbh-place-tip">Cheesy but fun. Great rainy day backup. Tickets ~₩17k online discount.</div>
+            <p class="nbh-place-desc">Cheesy but undeniably fun. Walls and floors painted to create 3D photo effects — push a giant burger, fall into a shark mouth, etc. Excellent rainy-day backup. Combined ticket includes Ice Museum next door. Discount tickets on Klook or Trazy.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–9pm</strong></span><span>₩ <strong>17k</strong> online</span><span>👥 Best in groups</span></div>
           </div>
           <div class="nbh-place-type">Museum</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">5</div>
           <div>
             <div class="nbh-place-name">KT&G Sangsangmadang</div>
             <div class="nbh-place-name-kr">KT&G 상상마당 · Indie culture hub</div>
-            <div class="nbh-place-tip">Free art galleries on multiple floors. Live indie shows in the basement.</div>
+            <p class="nbh-place-desc">A 7-floor cultural center in a striking red-brick building. Free art galleries on multiple floors (rotating exhibitions). Live indie shows in the basement (₩15–25k). Independent cinema on top floor. Great place to discover Korean indie scene without language barrier.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>12pm–11pm</strong></span><span>Galleries free</span><span>🎤 Concerts ₩15–25k</span></div>
           </div>
           <div class="nbh-place-type">Culture</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">6</div>
+          <div>
+            <div class="nbh-place-name">Hongdae Free Market</div>
+            <div class="nbh-place-name-kr">홍대 프리마켓 · Saturday art market</div>
+            <p class="nbh-place-desc">Every Saturday from March to November, art students and local creators sell handmade goods at Hongdae Playground. Original paintings, ceramics, jewelry, prints. ₩5–30k for unique items you won't find anywhere else. Most artists speak some English.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>Sat 1–6pm</strong></span><span>Mar–Nov only</span><span>💰 Cash preferred</span></div>
+          </div>
+          <div class="nbh-place-type">Market</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">7</div>
+          <div>
+            <div class="nbh-place-name">Vinyl Bars (Mapo-gu)</div>
+            <div class="nbh-place-name-kr">홍대 LP바 · Korean retro listening bars</div>
+            <p class="nbh-place-desc">Hidden bars where DJs spin vinyl records — jazz, soul, K-pop classics. Small entry fee (₩5–10k) often includes a drink. "Vinyl & Plastic" and "Salon Mariv" are highly recommended. A unique experience you won't find in tourist guides. 21+ only.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>8pm–3am</strong></span><span>Cover ₩ <strong>5–10k</strong></span><span>🍷 21+ only</span></div>
+          </div>
+          <div class="nbh-place-type">Nightlife</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">8</div>
+          <div>
+            <div class="nbh-place-name">Hongdae Playground (Hongik Park)</div>
+            <div class="nbh-place-name-kr">홍대놀이터 · Skater & musician hub</div>
+            <p class="nbh-place-desc">A tiny park that punches above its weight. Skateboarders practice tricks all day. Indie musicians play impromptu sets at night. Saturday market happens here. The vibe captures everything Hongdae is about — youth, creativity, free expression. Watch and absorb.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🛹 Active 6pm onwards</span></div>
+          </div>
+          <div class="nbh-place-type">Park</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">9</div>
+          <div>
+            <div class="nbh-place-name">Stylenanda Pink Hotel</div>
+            <div class="nbh-place-name-kr">스타일난다 핑크호텔 · Instagram-themed store</div>
+            <p class="nbh-place-desc">Korean fashion brand Stylenanda turned a building into a "fake hotel" — every room is a different photo set: pool room, laundromat, retro bedroom. Clothes for sale throughout. Free entry. Very Instagram-friendly. The 3CE makeup line is their main draw.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>11am–11pm</strong></span><span>Free entry</span><span>📸 Photo paradise</span></div>
+          </div>
+          <div class="nbh-place-type">Shopping</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">10</div>
+          <div>
+            <div class="nbh-place-name">Common Ground Container Mall</div>
+            <div class="nbh-place-name-kr">커먼그라운드 · Korean indie shipping container shopping</div>
+            <p class="nbh-place-desc">A 15-minute subway from Hongdae (Konkuk University Station), but worth combining. 200 blue shipping containers stacked into a unique shopping center. All Korean indie brands — clothing, accessories, design goods. Built to be temporary in 2015 but stayed because it's so loved.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>11am–10pm</strong></span><span>📍 Konkuk Univ Stn</span><span>🇰🇷 100% Korean indie</span></div>
+          </div>
+          <div class="nbh-place-type">Shopping</div>
         </div>
       </div>
     </div>
@@ -1387,77 +1670,133 @@
 
   <!-- GANGNAM -->
   <div class="nbh-panel" data-nbh="gangnam">
+    <div class="nbh-image-header" style="background-image: url('https://images.unsplash.com/photo-1538485399081-7c8978d29db1?w=1200&q=70');">
+      <div class="nbh-image-overlay">Gangnam · 강남 · Modern Luxury</div>
+    </div>
     <div class="nbh-panel-grid">
       <div class="nbh-info">
         <div class="nbh-vibe">★ Modern & Luxury</div>
         <h4 class="nbh-headline">Wealthy, glittering, <em>cinematic</em>.</h4>
         <div class="nbh-headline-kr">강남 · South of the river</div>
-        <p class="nbh-desc">Yes, the "Gangnam Style" Gangnam. The neighborhood is Seoul's financial hub by day and a sleek nightlife district by night. Apartment buildings tower over wide boulevards. K-pop entertainment headquarters cluster here. Plastic surgery clinics line the streets — and many tourists come specifically for them.</p>
+        <p class="nbh-desc">Yes, the "Gangnam Style" Gangnam. Seoul's financial hub by day and a sleek nightlife district by night. Apartment buildings tower over wide boulevards. K-pop entertainment headquarters cluster here. Plastic surgery clinics line entire streets — many tourists come specifically for them. Less spontaneous than Hongdae, more polished, more expensive.</p>
         <div class="nbh-meta">
-          <div class="nbh-meta-item">
-            <div class="label">Best For</div>
-            <div class="value">Luxury, K-pop, nightlife<span class="value-kr">고급·K-pop</span></div>
-          </div>
-          <div class="nbh-meta-item">
-            <div class="label">Subway</div>
-            <div class="value">Line 2 · Gangnam Stn</div>
-          </div>
-          <div class="nbh-meta-item">
-            <div class="label">Best Time</div>
-            <div class="value">Evening hours</div>
-          </div>
-          <div class="nbh-meta-item">
-            <div class="label">Pricier than</div>
-            <div class="value">Other districts</div>
-          </div>
+          <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Luxury, K-pop, nightlife<span class="value-kr">고급·K-pop</span></div></div>
+          <div class="nbh-meta-item"><div class="label">Subway</div><div class="value">Line 2 · Gangnam Stn</div></div>
+          <div class="nbh-meta-item"><div class="label">Best Time</div><div class="value">Evening hours</div></div>
+          <div class="nbh-meta-item"><div class="label">Pricier than</div><div class="value">Other districts</div></div>
         </div>
       </div>
       <div class="nbh-places">
-        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-places-title">10 must-see places</div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">1</div>
           <div>
             <div class="nbh-place-name">Coex Mall & Starfield Library</div>
             <div class="nbh-place-name-kr">코엑스몰·별마당도서관</div>
-            <div class="nbh-place-tip">A 13-meter tall library inside a mall. Free to visit, photogenic, has aquarium.</div>
+            <p class="nbh-place-desc">Asia's largest underground mall holds the Starfield Library — a 13-meter-tall public library with 50,000 books. Free to visit, photogenic from any angle. Inside the same complex are an aquarium, kimchi museum, and SM Town. Easy 2–3 hour visit.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10am–10pm</strong></span><span>Free library</span><span>📍 Connect to subway</span></div>
           </div>
           <div class="nbh-place-type">Mall</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">2</div>
           <div>
-            <div class="nbh-place-name">SM Town Coex</div>
-            <div class="nbh-place-name-kr">SM타운 · K-pop pilgrimage site</div>
-            <div class="nbh-place-tip">Holograms, merch, photo zones for SM artists. ₩18k for full experience.</div>
+            <div class="nbh-place-name">SM Town Coex Atrium</div>
+            <div class="nbh-place-name-kr">SM타운 코엑스 · K-pop pilgrimage</div>
+            <p class="nbh-place-desc">SM Entertainment's flagship experience center. Holograms of NCT, aespa, RIIZE. Photo zones with full-size star statues. Exclusive merch you won't find anywhere else. Café serves drinks themed after artists. ₩18k for full experience including hologram show.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>11am–10pm</strong></span><span>₩ <strong>18,000</strong> all access</span><span>🎵 SM artists only</span></div>
           </div>
           <div class="nbh-place-type">K-pop</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">3</div>
           <div>
             <div class="nbh-place-name">Bongeunsa Temple</div>
             <div class="nbh-place-name-kr">봉은사 · Buddhist temple in skyscrapers</div>
-            <div class="nbh-place-tip">Free temple stay programs in English. Monumentally peaceful contrast.</div>
+            <p class="nbh-place-desc">A 1,200-year-old Buddhist temple surrounded by Gangnam's glass towers — surreal and beautiful. Free temple stay programs in English (overnight, includes meditation and traditional meals, ₩50k). The 28-meter Maitreya Buddha statue is iconic. Most peaceful early morning.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>3am–10pm</strong></span><span>Free entry</span><span>🧘 Temple stay ₩50k</span></div>
           </div>
           <div class="nbh-place-type">Temple</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">4</div>
           <div>
             <div class="nbh-place-name">Garosu-gil</div>
             <div class="nbh-place-name-kr">가로수길 · Tree-lined boutique street</div>
-            <div class="nbh-place-tip">Designer brands and concept stores. Best for slow window shopping.</div>
+            <p class="nbh-place-desc">Seoul's most cosmopolitan shopping street, lined with ginkgo trees that turn brilliant yellow in October. Designer boutiques, concept stores, and high-end cafés. Best for slow window-shopping rather than bargain-hunting. Side streets (Sero-gil) are even more interesting.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>11am–10pm</strong></span><span>📍 Sinsa Stn</span><span>🍂 Best in October</span></div>
           </div>
           <div class="nbh-place-type">Shopping</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">5</div>
           <div>
             <div class="nbh-place-name">Apgujeong Rodeo</div>
-            <div class="nbh-place-name-kr">압구정 로데오 · Luxury hub</div>
-            <div class="nbh-place-tip">Famous for K-beauty clinics offering free consultations in English.</div>
+            <div class="nbh-place-name-kr">압구정 로데오 · Korea's plastic surgery hub</div>
+            <p class="nbh-place-desc">An entire district devoted to K-beauty clinics and luxury fashion. Dozens of clinics offer free initial consultations in English/Chinese for visiting "medical tourists." The flagship boutiques of major Korean designers are also here. Coffee scene is excellent.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10am–10pm</strong></span><span>Free consults</span><span>📍 Apgujeong Rodeo Stn</span></div>
           </div>
           <div class="nbh-place-type">Beauty</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">6</div>
+          <div>
+            <div class="nbh-place-name">Lotte World Tower & Mall</div>
+            <div class="nbh-place-name-kr">롯데월드타워 · Korea's tallest building</div>
+            <p class="nbh-place-desc">555 meters tall, 5th tallest building in the world. The 117th–123rd floor "Seoul Sky" observation deck has glass floors and panoramic views. Lotte World theme park is right next door (Korea's Disneyland). The mall complex below is massive and tax-free friendly.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10am–10pm</strong></span><span>Sky deck ₩ <strong>30k</strong></span><span>📍 Jamsil Stn</span></div>
+          </div>
+          <div class="nbh-place-type">View</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">7</div>
+          <div>
+            <div class="nbh-place-name">K-Star Road</div>
+            <div class="nbh-place-name-kr">K-스타로드 · K-pop walk of fame</div>
+            <p class="nbh-place-desc">A 1km walking street from Apgujeong Rodeo to Cheongdam, lined with bear statues representing famous K-pop groups. SM, JYP, YG, HYBE entertainment buildings are all within walking distance. Fans regularly camp out. Best for fan photos.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🐻 Bear statues</span></div>
+          </div>
+          <div class="nbh-place-type">K-pop</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">8</div>
+          <div>
+            <div class="nbh-place-name">Hyundai IFC Mall (One The Hyundai)</div>
+            <div class="nbh-place-name-kr">더현대 서울 · Architectural marvel mall</div>
+            <p class="nbh-place-desc">A breathtaking new department store with a 12,000㎡ urban park inside, multiple atriums, and waterfall installations. The architecture itself is the attraction. Top-floor restaurant district has Korea's best designed eateries. Located in Yeouido, 15 min from Gangnam.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10:30am–8pm</strong></span><span>📍 Yeouido Stn</span><span>🌳 Indoor park</span></div>
+          </div>
+          <div class="nbh-place-type">Mall</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">9</div>
+          <div>
+            <div class="nbh-place-name">Banpo Bridge Rainbow Fountain</div>
+            <div class="nbh-place-name-kr">반포대교 무지개분수 · World's longest fountain</div>
+            <p class="nbh-place-desc">A 1.1km fountain along the Banpo Bridge that shoots colored water in choreographed shows. Free, runs nightly April–October at 7pm, 8pm, 9pm (20 min each). View from the riverside park below the bridge or from Some Sevit floating islands. Bring snacks.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>Apr–Oct, 7/8/9pm</strong></span><span>Free</span><span>🌈 20-min show</span></div>
+          </div>
+          <div class="nbh-place-type">Show</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">10</div>
+          <div>
+            <div class="nbh-place-name">Gangnam Style Statue</div>
+            <div class="nbh-place-name-kr">강남스타일 동상 · The famous hand statue</div>
+            <p class="nbh-place-desc">A massive bronze statue of two hands doing the "Gangnam Style" pose. Located in front of Coex Mall. Yes, it's silly. Yes, you should take a photo. Press a button to play the song from speakers. Free, always open.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🕺 Press for song</span></div>
+          </div>
+          <div class="nbh-place-type">Photo</div>
         </div>
       </div>
     </div>
@@ -1465,77 +1804,133 @@
 
   <!-- SEONGSU -->
   <div class="nbh-panel" data-nbh="seongsu">
+    <div class="nbh-image-header" style="background-image: url('https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?w=1200&q=70');">
+      <div class="nbh-image-overlay">Seongsu · 성수동 · Trendy Industrial</div>
+    </div>
     <div class="nbh-panel-grid">
       <div class="nbh-info">
         <div class="nbh-vibe">★ Trendy Industrial</div>
         <h4 class="nbh-headline">The <em>Brooklyn</em> of Seoul.</h4>
         <div class="nbh-headline-kr">성수동 · Once factories, now cafés</div>
-        <p class="nbh-desc">A decade ago, Seongsu was old shoe factories. Now those same brick buildings house the most photographed cafés in Seoul, indie fashion brands, and pop-up stores that change weekly. The aesthetic is industrial-meets-elegant, and creators flock here to film.</p>
+        <p class="nbh-desc">A decade ago, Seongsu was where shoes and leather goods were manufactured. Then artists moved into the cheap warehouses. Now those same brick buildings house Seoul's most photographed cafés, indie fashion brands, and pop-up stores that change weekly. Korean creators flock here to film. The aesthetic is industrial-meets-elegant — exposed brick, polished concrete, expensive minimalism.</p>
         <div class="nbh-meta">
-          <div class="nbh-meta-item">
-            <div class="label">Best For</div>
-            <div class="value">Cafés, design, photo spots<span class="value-kr">카페·사진</span></div>
-          </div>
-          <div class="nbh-meta-item">
-            <div class="label">Subway</div>
-            <div class="value">Line 2 · Seongsu Stn</div>
-          </div>
-          <div class="nbh-meta-item">
-            <div class="label">Best Time</div>
-            <div class="value">Tuesday–Thursday</div>
-          </div>
-          <div class="nbh-meta-item">
-            <div class="label">Avoid</div>
-            <div class="value">Weekend afternoons</div>
-          </div>
+          <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Cafés, design, photo spots<span class="value-kr">카페·사진</span></div></div>
+          <div class="nbh-meta-item"><div class="label">Subway</div><div class="value">Line 2 · Seongsu Stn</div></div>
+          <div class="nbh-meta-item"><div class="label">Best Time</div><div class="value">Tuesday–Thursday</div></div>
+          <div class="nbh-meta-item"><div class="label">Avoid</div><div class="value">Weekend afternoons</div></div>
         </div>
       </div>
       <div class="nbh-places">
-        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-places-title">10 must-see places</div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">1</div>
           <div>
             <div class="nbh-place-name">Onion Seongsu</div>
-            <div class="nbh-place-name-kr">어니언 성수 · Iconic café</div>
-            <div class="nbh-place-tip">Bakery in a former factory. Famous for pandoro and croissants. Lines on weekends.</div>
+            <div class="nbh-place-name-kr">어니언 성수 · Iconic factory café</div>
+            <p class="nbh-place-desc">The café that made Seongsu famous. A former metal factory transformed into a bakery-café — exposed steel beams, raw concrete, and trays of pandoro and croissants. Lines up to 30 minutes on weekends. Try the salted bread and pandoro. Multiple seating areas across the property.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>8am–10pm</strong></span><span>Coffee ₩ <strong>5–8k</strong></span><span>📸 Most photographed</span></div>
           </div>
           <div class="nbh-place-type">Café</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">2</div>
           <div>
-            <div class="nbh-place-name">Seongsu Cafe Street</div>
-            <div class="nbh-place-name-kr">성수동 카페거리</div>
-            <div class="nbh-place-tip">A whole district of design-forward cafés. Each one has a distinct concept.</div>
+            <div class="nbh-place-name">Daelim Changgo Gallery & Café</div>
+            <div class="nbh-place-name-kr">대림창고 · Warehouse turned creative space</div>
+            <p class="nbh-place-desc">An old rice warehouse from the 1970s, now a sprawling café-meets-gallery-meets-shop. Rotating exhibitions free to visit. The interior is huge with multiple zones and design elements. Coffee here is just OK but the space is the experience. A Seongsu must-see.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>11am–10pm</strong></span><span>Coffee ₩ <strong>7k</strong></span><span>🎨 Free gallery</span></div>
           </div>
-          <div class="nbh-place-type">Cafés</div>
+          <div class="nbh-place-type">Café</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">3</div>
           <div>
             <div class="nbh-place-name">Common Ground</div>
-            <div class="nbh-place-name-kr">커먼그라운드 · Container mall</div>
-            <div class="nbh-place-tip">200 shipping containers stacked into a shopping center. Indie brands only.</div>
+            <div class="nbh-place-name-kr">커먼그라운드 · 200-container indie mall</div>
+            <p class="nbh-place-desc">200 blue shipping containers stacked into Korea's most unique shopping mall. Built in 2015 as a 5-year temporary structure, it stayed because it's beloved. Only Korean indie brands — fashion, accessories, design goods. Restaurants in the central plaza. Excellent for finding gifts.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>11am–10pm</strong></span><span>📍 Konkuk Univ Stn</span><span>🇰🇷 Korean indie only</span></div>
           </div>
           <div class="nbh-place-type">Shopping</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">4</div>
           <div>
             <div class="nbh-place-name">Pop-up Stores</div>
             <div class="nbh-place-name-kr">팝업스토어 · Always something new</div>
-            <div class="nbh-place-tip">Follow @seoul.popup on Instagram. Brands rotate weekly, often free entry.</div>
+            <p class="nbh-place-desc">Seongsu has become Seoul's pop-up capital. Major brands and indie creators rotate weekly — cosmetics, fashion, food, art. Most are free to enter and have free samples or photo zones. Follow @seoul.popup on Instagram for current listings. Fridays and Saturdays are most exciting.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>Varies daily</strong></span><span>Most free</span><span>📱 Check IG: seoul.popup</span></div>
           </div>
           <div class="nbh-place-type">Pop-up</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">5</div>
           <div>
             <div class="nbh-place-name">Seoul Forest</div>
             <div class="nbh-place-name-kr">서울숲 · Urban park</div>
-            <div class="nbh-place-tip">Right next to Seongsu. Has a deer feeding area and bike rentals.</div>
+            <p class="nbh-place-desc">Seoul's answer to Central Park, right next to Seongsu. A deer feeding area (free), butterfly garden, sculptures, bike rentals (₩3k/hr), and a small lake. The eco-forest section is genuinely peaceful. Excellent break from urban Seoul. Best in spring (cherry blossoms) and autumn (foliage).</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🦌 Deer feeding</span></div>
           </div>
           <div class="nbh-place-type">Park</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">6</div>
+          <div>
+            <div class="nbh-place-name">Mesh Coffee</div>
+            <div class="nbh-place-name-kr">메쉬커피 · Specialty roaster</div>
+            <p class="nbh-place-desc">A Korean specialty coffee roaster in a converted industrial space. The single-origin pour-overs are exceptional. Espresso bar inspired by Australian café culture. Smaller than Onion or Daelim, no lines, real coffee snobs come here. Their bean retail is excellent for souvenirs.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–9pm</strong></span><span>Pour-over ₩ <strong>7–10k</strong></span><span>☕ For coffee snobs</span></div>
+          </div>
+          <div class="nbh-place-type">Café</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">7</div>
+          <div>
+            <div class="nbh-place-name">Seongsu Yeonbang</div>
+            <div class="nbh-place-name-kr">성수연방 · Multi-brand concept space</div>
+            <p class="nbh-place-desc">A converted printing factory now housing multiple Korean indie design brands under one roof. Different rooms have different brands — fashion, ceramics, books, fragrance. Excellent for browsing and discovering. Café in the central courtyard. Less hyped than Onion, more rewarding.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>11am–9pm</strong></span><span>Free entry</span><span>🛍 Multi-brand space</span></div>
+          </div>
+          <div class="nbh-place-type">Shopping</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">8</div>
+          <div>
+            <div class="nbh-place-name">Galleria Foret</div>
+            <div class="nbh-place-name-kr">갤러리아 포레 · Luxury department store</div>
+            <p class="nbh-place-desc">A high-end department store between Seongsu and Apgujeong, attached to a luxury apartment complex. Worth visiting for the architectural lobby and the food court (B1) which is excellent value. Top international brands. Tax-free service available.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10:30am–8pm</strong></span><span>📍 Ttukseom Stn</span><span>🍱 Excellent food court</span></div>
+          </div>
+          <div class="nbh-place-type">Shopping</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">9</div>
+          <div>
+            <div class="nbh-place-name">Ttukseom Han River Park</div>
+            <div class="nbh-place-name-kr">뚝섬한강공원 · Riverside relaxation</div>
+            <p class="nbh-place-desc">The closest Han River park to Seongsu. Walking and biking paths, picnic-friendly grass areas, and the famous "ramyeon convenience stores" where you cook instant ramen at provided machines. Korean Sunday afternoon tradition. Bike rental ₩3k/hr.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🍜 Ramen at CU/GS25</span></div>
+          </div>
+          <div class="nbh-place-type">Park</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">10</div>
+          <div>
+            <div class="nbh-place-name">Sungsu Lab</div>
+            <div class="nbh-place-name-kr">성수랩 · Creator-focused gallery</div>
+            <p class="nbh-place-desc">A rotating exhibition space spotlighting young Korean creators across photography, illustration, and design. Free entry, exhibitions change every 2 months. Coffee/cocktail bar attached. The crowd here is creative-industry locals — a different vibe than tourist Seongsu.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>12pm–9pm</strong></span><span>Free</span><span>📅 Closed Mon</span></div>
+          </div>
+          <div class="nbh-place-type">Gallery</div>
         </div>
       </div>
     </div>
@@ -1543,81 +1938,138 @@
 
   <!-- ITAEWON -->
   <div class="nbh-panel" data-nbh="itaewon">
+    <div class="nbh-image-header" style="background-image: url('https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=1200&q=70');">
+      <div class="nbh-image-overlay">Itaewon · 이태원 · International Quarter</div>
+    </div>
     <div class="nbh-panel-grid">
       <div class="nbh-info">
         <div class="nbh-vibe">★ International</div>
         <h4 class="nbh-headline">Where the <em>world</em> meets Seoul.</h4>
         <div class="nbh-headline-kr">이태원 · The international quarter</div>
-        <p class="nbh-desc">Originally home to expat military families, Itaewon evolved into Seoul's most international neighborhood. Halal restaurants sit next to Mexican taquerias next to traditional Korean BBQ. Most signs are in English. It's the easiest neighborhood for non-Korean speakers.</p>
+        <p class="nbh-desc">Originally home to expat military families during the Korean War era, Itaewon evolved into Seoul's most international neighborhood. Halal restaurants sit next to Mexican taquerias next to traditional Korean BBQ. Most signs are in English. It's the easiest neighborhood for non-Korean speakers, and the city's most diverse food scene. Hannam-dong (next door) has become Seoul's most luxurious quiet neighborhood.</p>
         <div class="nbh-meta">
-          <div class="nbh-meta-item">
-            <div class="label">Best For</div>
-            <div class="value">Diverse food, expat scene<span class="value-kr">국제·다국적</span></div>
-          </div>
-          <div class="nbh-meta-item">
-            <div class="label">Subway</div>
-            <div class="value">Line 6 · Itaewon Stn</div>
-          </div>
-          <div class="nbh-meta-item">
-            <div class="label">Best Time</div>
-            <div class="value">Evening, dinner onwards</div>
-          </div>
-          <div class="nbh-meta-item">
-            <div class="label">Language</div>
-            <div class="value">English widely spoken</div>
-          </div>
+          <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Diverse food, expat scene<span class="value-kr">국제·다국적</span></div></div>
+          <div class="nbh-meta-item"><div class="label">Subway</div><div class="value">Line 6 · Itaewon Stn</div></div>
+          <div class="nbh-meta-item"><div class="label">Best Time</div><div class="value">Evening, dinner onwards</div></div>
+          <div class="nbh-meta-item"><div class="label">Language</div><div class="value">English widely spoken</div></div>
         </div>
       </div>
       <div class="nbh-places">
-        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-places-title">10 must-see places</div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">1</div>
           <div>
             <div class="nbh-place-name">Leeum Museum of Art</div>
-            <div class="nbh-place-name-kr">리움미술관 · Samsung's art collection</div>
-            <div class="nbh-place-tip">World-class contemporary and traditional Korean art. Free entry to permanent.</div>
+            <div class="nbh-place-name-kr">리움미술관 · Samsung family's collection</div>
+            <p class="nbh-place-desc">One of Asia's finest contemporary art museums. The building itself was designed by three architects (Mario Botta, Jean Nouvel, Rem Koolhaas). Free entry to permanent collection (traditional and modern Korean art). Special exhibitions ₩18k. Allow 2–3 hours minimum. Reserve online for weekends.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10am–6pm</strong></span><span>Permanent free</span><span>📅 Closed Mondays</span></div>
           </div>
           <div class="nbh-place-type">Museum</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">2</div>
           <div>
             <div class="nbh-place-name">War Memorial of Korea</div>
-            <div class="nbh-place-name-kr">전쟁기념관 · Free, comprehensive</div>
-            <div class="nbh-place-tip">Outdoor weapons display is impressive. Plan 2 hours minimum. English guides.</div>
+            <div class="nbh-place-name-kr">전쟁기념관 · Korea's largest war museum</div>
+            <p class="nbh-place-desc">A free, comprehensive museum covering Korean war history from ancient times to today. Outdoor displays of tanks, planes, and missiles are extensive. Indoor exhibits walk through Korean War extensively, with English signage throughout. Plan minimum 2 hours. Excellent for understanding modern Korea.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9:30am–6pm</strong></span><span>Free</span><span>📅 Closed Mondays</span></div>
           </div>
           <div class="nbh-place-type">Museum</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">3</div>
           <div>
             <div class="nbh-place-name">Hannam-dong</div>
             <div class="nbh-place-name-kr">한남동 · Sophisticated sister hood</div>
-            <div class="nbh-place-tip">Higher-end restaurants and concept stores. Quieter than Itaewon center.</div>
+            <p class="nbh-place-desc">Where Seoul's wealthy creatives live. Designer boutiques, concept stores like Mtl, Sounds Hannam (Aesop spa), and Korea's best curated indie bookstores. Quieter than Itaewon center, more refined. Best for slow afternoon exploration. Hyatt Hotel rooftop bar has city views.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>11am–10pm</strong></span><span>Coffee ₩ <strong>7–10k</strong></span><span>🌳 Quiet & sophisticated</span></div>
           </div>
-          <div class="nbh-place-type">Cafés</div>
+          <div class="nbh-place-type">Shopping</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">4</div>
           <div>
             <div class="nbh-place-name">Antiques Street</div>
-            <div class="nbh-place-name-kr">이태원 골동품거리</div>
-            <div class="nbh-place-tip">Vintage furniture, vinyl records, retro Korean items. Best for browsers.</div>
+            <div class="nbh-place-name-kr">이태원 골동품거리 · Vintage shopping</div>
+            <p class="nbh-place-desc">Several blocks of dedicated antique stores, mostly selling 20th-century Korean and Japanese furniture, vinyl records, retro electronics, and military memorabilia. Negotiation expected. Most shops are family-owned for decades. Best for browsers and collectors, not impulse buyers.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10am–7pm</strong></span><span>💰 Negotiate</span><span>📅 Some closed Sun</span></div>
           </div>
           <div class="nbh-place-type">Vintage</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">5</div>
           <div>
             <div class="nbh-place-name">Seoul Central Mosque</div>
-            <div class="nbh-place-name-kr">서울중앙성원 · Korea's first mosque</div>
-            <div class="nbh-place-tip">The surrounding "Muslim Town" has Halal restaurants. Open to respectful visitors.</div>
+            <div class="nbh-place-name-kr">서울중앙성원 · Korea's largest mosque</div>
+            <p class="nbh-place-desc">Korea's largest mosque, built in 1976. The surrounding "Muslim Town" has authentic Halal restaurants from Pakistan, Turkey, Egypt, and Uzbekistan. Visitors are welcome to enter the mosque outside prayer times (cover shoulders/knees, remove shoes). Friday afternoons are busy.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–9pm</strong></span><span>Free entry</span><span>📍 Modest dress</span></div>
           </div>
           <div class="nbh-place-type">Religious</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">6</div>
+          <div>
+            <div class="nbh-place-name">Itaewon Globe Books</div>
+            <div class="nbh-place-name-kr">이태원 영문서점 · English bookstores cluster</div>
+            <p class="nbh-place-desc">Three English-language bookstores within 200m of each other — What the Book, English Bookcase, and Itaewon Books. Used and new books, including Korean translations of English bestsellers. Cafés inside two of them. Excellent for travelers who want English reading material.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>11am–9pm</strong></span><span>Books ₩ <strong>5–25k</strong></span><span>📚 Used + new</span></div>
+          </div>
+          <div class="nbh-place-type">Books</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">7</div>
+          <div>
+            <div class="nbh-place-name">Comme des Garcons Hannam</div>
+            <div class="nbh-place-name-kr">꼼데가르송 한남 · Architectural flagship</div>
+            <p class="nbh-place-desc">Comme des Garcons's largest flagship in Asia is a 5-floor architectural marvel. Free to walk through even without buying. Houses Dover Street Market — multi-brand luxury fashion. Free coffee on the top floor. The building itself is photo-worthy.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>11am–8pm</strong></span><span>Free entry</span><span>🏗 5 floors</span></div>
+          </div>
+          <div class="nbh-place-type">Shopping</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">8</div>
+          <div>
+            <div class="nbh-place-name">Itaewon Bar Street</div>
+            <div class="nbh-place-name-kr">이태원 술집거리 · International nightlife</div>
+            <p class="nbh-place-desc">The strip from Noksapyeong Station to Hamilton Hotel is Seoul's most international nightlife area. Craft beer bars, cocktail lounges, hookah cafés, and clubs all within walking distance. English menus everywhere. Diverse crowd. Active from 8pm to 4am Friday/Saturday.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>8pm–4am</strong></span><span>Cocktails ₩ <strong>15–25k</strong></span><span>🌍 International</span></div>
+          </div>
+          <div class="nbh-place-type">Nightlife</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">9</div>
+          <div>
+            <div class="nbh-place-name">Haebangchon (HBC)</div>
+            <div class="nbh-place-name-kr">해방촌 · Hilltop village turned hipster</div>
+            <p class="nbh-place-desc">A hill village above Itaewon with steep streets, vintage shops, indie cafés, and hidden bars. Originally settled by Koreans returning home after Japan's surrender (해방 = liberation). Now home to Seoul's expat creative community. Lonely Planet's "Best Neighborhoods in Asia" pick.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10am–11pm</strong></span><span>Coffee ₩ <strong>5–8k</strong></span><span>🏔 Hill walking</span></div>
+          </div>
+          <div class="nbh-place-type">Cafés</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">10</div>
+          <div>
+            <div class="nbh-place-name">Itaewon Antique Furniture Street</div>
+            <div class="nbh-place-name-kr">이태원 가구거리 · Mid-century modern hub</div>
+            <p class="nbh-place-desc">Different from the antiques street — this is dedicated to mid-century modern furniture, both Western and Korean. Expensive but unique. Several stores have been there 30+ years. Even if not buying, fascinating to browse. Most owners speak English well.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10am–6pm</strong></span><span>Browse free</span><span>📅 Closed Sun</span></div>
+          </div>
+          <div class="nbh-place-type">Vintage</div>
         </div>
       </div>
     </div>
   </div>
+
 </section>
 
 <!-- MAP -->
@@ -1849,48 +2301,127 @@
 
 <section class="seoul-food">
   <div class="food-grid">
+
     <div class="food-card">
       <div class="food-tag">◉ Soup</div>
       <div class="food-name">Samgyetang</div>
       <div class="food-name-kr">삼계탕 · Ginseng chicken soup</div>
-      <p class="food-desc">A whole young chicken stuffed with rice, ginseng, jujubes, and garlic, slow-simmered for hours. Eaten in summer for stamina, but perfect any season.</p>
-      <div class="food-where">Best at <strong>Tosokchon (토속촌)</strong>, near Gyeongbokgung</div>
+      <p class="food-desc">A whole young chicken stuffed with sweet glutinous rice, ginseng root, jujubes, and garlic, then slow-simmered for hours. Eaten traditionally in summer (the "fight heat with heat" philosophy), but its mild, restorative warmth works year-round. Comes with salt and pepper for seasoning, and a small cup of ginseng wine.</p>
+      <div class="food-restaurant-list">
+        <h6>★ Best places</h6>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Tosokchon (토속촌)</div>
+          <div class="food-restaurant-name-kr">5 Jahamun-ro 5-gil, Jongno-gu · 종로구 자하문로5길 5</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>20,000</strong></span><span>⏰ 10am–10pm</span><span>📍 Gyeongbokgung Stn</span><span>⏳ 30 min wait</span></div>
+        </div>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Goryeo Samgyetang (고려삼계탕)</div>
+          <div class="food-restaurant-name-kr">11-3 Seosomun-ro 11-gil, Jung-gu</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>18,000</strong></span><span>⏰ 10am–10pm</span><span>📍 City Hall Stn</span><span>👥 Less crowded</span></div>
+        </div>
+      </div>
     </div>
+
     <div class="food-card">
       <div class="food-tag">◉ Stew</div>
       <div class="food-name">Budae Jjigae</div>
       <div class="food-name-kr">부대찌개 · Army base stew</div>
-      <p class="food-desc">A spicy stew born after the Korean War — kimchi, spam, sausage, ramyeon noodles, and cheese all simmer together. Comforting, heavy, perfect for cold evenings.</p>
-      <div class="food-where">Best at <strong>Nolbu Budae Jjigae</strong> (chain), or any local spot</div>
+      <p class="food-desc">A spicy stew born from the aftermath of the Korean War — Korean families used surplus American canned goods (Spam, sausage, baked beans) and combined them with kimchi, tofu, ramen noodles, and a fiery red broth. The result is comforting, nostalgic, and uniquely Korean. Cheese gets added at the end for richness.</p>
+      <div class="food-restaurant-list">
+        <h6>★ Best places</h6>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Nolbu Budae Jjigae (놀부부대찌개)</div>
+          <div class="food-restaurant-name-kr">Nationwide chain · Multiple locations</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>10–13k</strong> /person</span><span>⏰ 11am–10pm</span><span>📍 Most subway stations</span><span>📋 English menu</span></div>
+        </div>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Bada Sikdang (바다식당)</div>
+          <div class="food-restaurant-name-kr">22 Bogwang-ro 60-gil, Yongsan-gu · Itaewon</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>15,000</strong></span><span>⏰ 11am–11pm</span><span>📍 Itaewon Stn</span><span>⭐ Anthony Bourdain pick</span></div>
+        </div>
+      </div>
     </div>
+
     <div class="food-card">
       <div class="food-tag">◉ Street Food</div>
       <div class="food-name">Bindaetteok</div>
       <div class="food-name-kr">빈대떡 · Mung bean pancake</div>
-      <p class="food-desc">Crispy outside, soft inside, made from ground mung beans, kimchi, and pork. Best paired with Korean rice wine (makgeolli).</p>
-      <div class="food-where">Best at <strong>Gwangjang Market (광장시장)</strong></div>
+      <p class="food-desc">Crispy outside, soft inside. Made from ground mung beans mixed with kimchi, mung bean sprouts, and pork, then pan-fried in generous oil. Best paired with Korean rice wine (makgeolli) — the slight bitterness of the wine cuts through the richness perfectly. A traditional Korean drinking food.</p>
+      <div class="food-restaurant-list">
+        <h6>★ Best places</h6>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Soonhee-ne Bindaetteok (순희네빈대떡)</div>
+          <div class="food-restaurant-name-kr">Gwangjang Market · 88 Changgyeonggung-ro</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>5,000</strong></span><span>⏰ 9am–11pm</span><span>💵 Cash only</span><span>⭐ Netflix featured</span></div>
+        </div>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Jongno Bindaetteok (종로빈대떡)</div>
+          <div class="food-restaurant-name-kr">15-1 Donhwamun-ro 11-gil, Jongno-gu</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>8,000</strong></span><span>⏰ 11am–10pm</span><span>📍 Jongno 3-ga Stn</span><span>🍶 Best with makgeolli</span></div>
+        </div>
+      </div>
     </div>
+
     <div class="food-card">
       <div class="food-tag">◉ Noodles</div>
       <div class="food-name">Naengmyeon</div>
       <div class="food-name-kr">냉면 · Cold buckwheat noodles</div>
-      <p class="food-desc">Thin, chewy noodles in icy beef broth. Comes with mustard and vinegar — pour both in. A summer favorite, surprisingly refreshing year-round.</p>
-      <div class="food-where">Best at <strong>Eulmildae or Pildong Myeonok</strong></div>
+      <p class="food-desc">Thin, chewy buckwheat noodles served in icy beef broth (mul-naengmyeon) or with spicy sauce (bibim-naengmyeon). Comes with mustard and vinegar — pour both in. A Pyongyang specialty that defected south during the war. Surprisingly refreshing year-round, especially after spicy food. Use scissors to cut noodles.</p>
+      <div class="food-restaurant-list">
+        <h6>★ Best places</h6>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Pildong Myeonok (필동면옥)</div>
+          <div class="food-restaurant-name-kr">26 Mareunnae-ro, Jung-gu</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>13,000</strong></span><span>⏰ 11am–9pm</span><span>📍 Chungmuro Stn</span><span>⭐ Michelin Bib Gourmand</span></div>
+        </div>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Eulmildae (을밀대)</div>
+          <div class="food-restaurant-name-kr">11 Sungui-gil, Mapo-gu</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>14,000</strong></span><span>⏰ 11am–10pm</span><span>📍 Aewon Stn</span><span>👴 Since 1971</span></div>
+        </div>
+      </div>
     </div>
+
     <div class="food-card">
       <div class="food-tag">◉ BBQ</div>
       <div class="food-name">Mapo Galmaegi-sal</div>
-      <div class="food-name-kr">마포 갈매기살 · Pork skirt meat</div>
-      <p class="food-desc">A specific cut found mostly around Mapo. More flavorful than samgyeopsal, less fatty. Grill with garlic, wrap in lettuce with ssamjang.</p>
-      <div class="food-where">Best in <strong>Mapo neighborhood</strong></div>
+      <div class="food-name-kr">마포 갈매기살 · Pork skirt meat BBQ</div>
+      <p class="food-desc">A specific cut of pork (the diaphragm) found mostly in the Mapo neighborhood. More flavorful than samgyeopsal, less fatty, with a distinct chewy texture. Grill at your table with garlic, mushrooms, and onions. Wrap in lettuce and perilla leaves with ssamjang and rice. The Mapo specialty since the 1960s.</p>
+      <div class="food-restaurant-list">
+        <h6>★ Best places</h6>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Mapo Jeong Daepo (마포정대포)</div>
+          <div class="food-restaurant-name-kr">14-1 Dohwa-dong 1-gil, Mapo-gu</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>15k</strong> /200g</span><span>⏰ 11:30am–11pm</span><span>📍 Mapo Stn</span><span>🍻 Locals' favorite</span></div>
+        </div>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Yongmun-jip (용문집)</div>
+          <div class="food-restaurant-name-kr">21 Mapodaero 4-da-gil · Mapo</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>17k</strong> /200g</span><span>⏰ 4pm–11pm</span><span>📍 Gongdeok Stn</span><span>👴 50+ years old</span></div>
+        </div>
+      </div>
     </div>
+
     <div class="food-card">
       <div class="food-tag">◉ Late Night</div>
       <div class="food-name">Kalguksu</div>
-      <div class="food-name-kr">칼국수 · Knife-cut noodles</div>
-      <p class="food-desc">Hand-cut wheat noodles in clam, anchovy, or chicken broth. Served with kimchi and pickled radish. Soothing after late-night drinking.</p>
-      <div class="food-where">Best at <strong>Myeongdong Kyoja</strong> (since 1966)</div>
+      <div class="food-name-kr">칼국수 · Hand-cut knife noodles</div>
+      <p class="food-desc">Hand-cut wheat noodles in clam, anchovy, or chicken broth. Served with kimchi, pickled radish, and a small bowl of warm rice on the side. A simple, soothing dish that's perfect after late-night drinking — the broth is warming, the noodles are filling, and there's no spice to upset a sensitive stomach.</p>
+      <div class="food-restaurant-list">
+        <h6>★ Best places</h6>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Myeongdong Kyoja (명동교자)</div>
+          <div class="food-restaurant-name-kr">29 Myeongdong 10-gil, Jung-gu · Since 1966</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>10,000</strong></span><span>⏰ 10:30am–10pm</span><span>📍 Myeongdong Stn</span><span>⭐ Michelin Bib Gourmand</span></div>
+        </div>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Jamak Kalguksu (자막칼국수)</div>
+          <div class="food-restaurant-name-kr">10-7 Donhwamun-ro 11ga-gil, Jongno-gu</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>9,000</strong></span><span>⏰ 11am–11pm</span><span>📍 Jongno 3-ga Stn</span><span>🌶 Spicy version available</span></div>
+        </div>
+      </div>
     </div>
+
   </div>
 </section>
 

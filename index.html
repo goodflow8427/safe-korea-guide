@@ -1568,7 +1568,7 @@
 
   .budget-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 1px;
     background: var(--ink);
     border: 1px solid var(--ink);
@@ -1628,6 +1628,186 @@
     font-weight: 700;
     color: var(--paper);
     letter-spacing: -0.01em;
+  }
+
+  /* === STAY SECTION === */
+  .stay-section {
+    padding: 40px 48px;
+    border-bottom: 1px solid var(--ink);
+    background: var(--paper);
+  }
+
+  .stay-types-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border: 1px solid var(--ink);
+    margin-top: 24px;
+  }
+
+  .stay-type-card {
+    padding: 28px 24px;
+    border-right: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    background: var(--paper);
+    transition: background 0.3s;
+    position: relative;
+  }
+
+  .stay-type-card:nth-child(2n) { border-right: none; }
+  .stay-type-card:nth-last-child(-n+2) { border-bottom: none; }
+  .stay-type-card:hover { background: var(--paper-warm); }
+
+  .stay-type-card.recommended {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .stay-type-card.recommended:hover {
+    background: var(--ink);
+  }
+
+  .stay-recommended-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 3px 8px;
+  }
+
+  .stay-type-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .stay-type-icon svg {
+    width: 100%;
+    height: 100%;
+    stroke: var(--ink);
+    fill: none;
+    stroke-width: 1.3;
+  }
+
+  .stay-type-card.recommended .stay-type-icon svg {
+    stroke: var(--gold);
+  }
+
+  .stay-type-name {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+
+  .stay-type-card.recommended .stay-type-name em {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .stay-type-kr {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .stay-type-card.recommended .stay-type-kr {
+    color: rgba(244,239,230,0.6);
+  }
+
+  .stay-type-price {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--crimson);
+    line-height: 1;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+
+  .stay-type-card.recommended .stay-type-price {
+    color: var(--gold);
+  }
+
+  .stay-type-price-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .stay-type-card.recommended .stay-type-price-note {
+    color: rgba(244,239,230,0.5);
+  }
+
+  .stay-type-desc {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink);
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px dashed var(--ink);
+  }
+
+  .stay-type-card.recommended .stay-type-desc {
+    color: rgba(244,239,230,0.85);
+    border-color: rgba(244,239,230,0.3);
+  }
+
+  .stay-type-areas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .stay-area-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  .stay-type-card.recommended .stay-area-tag {
+    border-color: var(--gold);
+    background: transparent;
+    color: var(--gold);
+  }
+
+  .stay-platforms {
+    margin-top: 24px;
+    padding: 16px 20px;
+    background: var(--paper-warm);
+    border-left: 2px solid var(--crimson);
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  .stay-platforms strong {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--crimson);
+    display: block;
+    margin-bottom: 6px;
   }
 
   /* Tips section */
@@ -2472,9 +2652,13 @@
     .quiz-options { grid-template-columns: 1fr; }
     .quiz-start { padding: 40px 24px; }
     .style-bar { grid-template-columns: 100px 1fr 40px; gap: 10px; }
-    .results-header, .style-match, .recommended-section, .budget-section, .tips-section, .quiz-restart, .results-map-section { padding: 28px 24px; }
+    .results-header, .style-match, .recommended-section, .budget-section, .tips-section, .quiz-restart, .results-map-section, .stay-section { padding: 28px 24px; }
     .results-map { height: 360px; }
     .map-legend { padding: 14px 16px; gap: 10px 16px; }
+    .stay-types-grid { grid-template-columns: 1fr; }
+    .stay-type-card { border-right: none; }
+    .stay-type-card:nth-last-child(-n+2) { border-bottom: 1px solid var(--ink); }
+    .stay-type-card:last-child { border-bottom: none; }
     .budget-grid { grid-template-columns: 1fr 1fr; }
     .tips-list { grid-template-columns: 1fr; }
   }
@@ -3053,6 +3237,17 @@
         <div class="budget-total">
           <span class="budget-total-label">Estimated Total Trip Cost</span>
           <span class="budget-total-value" id="budgetTotal">—</span>
+        </div>
+      </div>
+
+      <!-- Where to Stay -->
+      <div class="stay-section">
+        <div class="recommended-title">— Where to stay</div>
+        <h5 class="recommended-heading">Pick your <em>style</em> of accommodation</h5>
+        <div class="stay-types-grid" id="stayTypesGrid"></div>
+        <div class="stay-platforms">
+          <strong>How to book</strong>
+          Booking.com, Agoda, and Hotels.com cover hotels and most guesthouses. For hanok stays, try Bookhanok.com or Airbnb. Korean platform Yanolja often has the lowest local prices but is mostly Korean-language.
         </div>
       </div>
 
@@ -5023,6 +5218,98 @@
     extended: 14
   };
 
+  // Stay types with prices that scale by budget tier
+  // Multiplier for budget tier: budget=0.5x, moderate=1x, comfort=1.8x, luxury=3.5x
+  const stayTypes = [
+    {
+      id: 'hotel',
+      name: 'Hotel',
+      kr: '호텔',
+      basePrice: [80, 140], // base range for moderate tier (in thousands KRW)
+      desc: 'Reliable, comfortable, with daily housekeeping. Best for first-time visitors who want zero hassle. Most have English staff.',
+      areasByStyle: {
+        kpop:    ['Hongdae', 'Gangnam', 'Itaewon'],
+        food:    ['Myeongdong', 'Jongno', 'Gangnam'],
+        culture: ['Insadong', 'Jongno', 'Myeongdong'],
+        nature:  ['Jeju City', 'Sokcho', 'Gangneung'],
+        beauty:  ['Myeongdong', 'Apgujeong', 'Gangnam'],
+        trendy:  ['Seongsu', 'Hongdae', 'Itaewon']
+      },
+      icon: `<svg viewBox="0 0 48 48"><rect x="8" y="14" width="32" height="28"/><rect x="14" y="20" width="6" height="6"/><rect x="28" y="20" width="6" height="6"/><rect x="14" y="30" width="6" height="6"/><rect x="28" y="30" width="6" height="6"/><line x1="8" y1="14" x2="40" y2="6"/><line x1="40" y1="14" x2="40" y2="6"/></svg>`
+    },
+    {
+      id: 'guesthouse',
+      name: 'Guesthouse',
+      kr: '게스트하우스',
+      basePrice: [30, 60],
+      desc: 'Budget-friendly, social atmosphere. Often run by young Korean owners who give great local tips. Shared or private rooms available.',
+      areasByStyle: {
+        kpop:    ['Hongdae', 'Hapjeong', 'Itaewon'],
+        food:    ['Hongdae', 'Itaewon', 'Jongno'],
+        culture: ['Bukchon', 'Jongno', 'Insadong'],
+        nature:  ['Jeju Island', 'Gangneung', 'Sokcho'],
+        beauty:  ['Hongdae', 'Itaewon', 'Sinsa'],
+        trendy:  ['Hongdae', 'Itaewon', 'Hapjeong']
+      },
+      icon: `<svg viewBox="0 0 48 48"><path d="M 8 40 L 8 22 L 24 10 L 40 22 L 40 40"/><rect x="20" y="28" width="8" height="12"/><rect x="12" y="26" width="5" height="5"/><rect x="31" y="26" width="5" height="5"/></svg>`
+    },
+    {
+      id: 'hanok',
+      name: 'Hanok Stay',
+      kr: '한옥스테이',
+      basePrice: [90, 180],
+      desc: 'Sleep in a traditional Korean wooden house with paper-screen doors and floor heating. A cultural experience as much as accommodation.',
+      areasByStyle: {
+        kpop:    ['Bukchon', 'Ikseon-dong'],
+        food:    ['Bukchon', 'Jeonju', 'Ikseon-dong'],
+        culture: ['Bukchon', 'Jeonju Hanok Village', 'Andong'],
+        nature:  ['Jeonju', 'Andong', 'Gyeongju'],
+        beauty:  ['Bukchon', 'Ikseon-dong'],
+        trendy:  ['Ikseon-dong', 'Bukchon', 'Jeonju']
+      },
+      icon: `<svg viewBox="0 0 48 48"><path d="M 6 22 L 24 10 L 42 22"/><path d="M 4 22 L 44 22"/><line x1="10" y1="22" x2="10" y2="40"/><line x1="38" y1="22" x2="38" y2="40"/><rect x="14" y="26" width="8" height="14"/><rect x="26" y="26" width="8" height="14"/></svg>`
+    },
+    {
+      id: 'airbnb',
+      name: 'Airbnb / Apartment',
+      kr: '에어비앤비',
+      basePrice: [60, 130],
+      desc: 'Best for stays over 4 days or groups. Kitchen access saves on meals. Some hosts include local tips and welcome kits.',
+      areasByStyle: {
+        kpop:    ['Hongdae', 'Seongsu', 'Hapjeong'],
+        food:    ['Yeonnam', 'Mangwon', 'Yongsan'],
+        culture: ['Bukchon', 'Seochon', 'Jongno'],
+        nature:  ['Jeju', 'Gangneung', 'Yangyang'],
+        beauty:  ['Garosu-gil', 'Apgujeong', 'Hannam'],
+        trendy:  ['Seongsu', 'Yeonnam', 'Ikseon-dong']
+      },
+      icon: `<svg viewBox="0 0 48 48"><path d="M 6 40 L 6 20 L 24 8 L 42 20 L 42 40"/><path d="M 6 40 L 42 40"/><rect x="20" y="26" width="8" height="14"/><rect x="12" y="22" width="5" height="6"/><rect x="31" y="22" width="5" height="6"/></svg>`
+    }
+  ];
+
+  // Map quiz energy + style → which stay type best matches
+  function getRecommendedStayId(topStyle, energyAnswer) {
+    // Culture seekers love hanok
+    if (topStyle === 'culture') return 'hanok';
+    // Nature lovers usually want airbnb (longer stays, kitchen)
+    if (topStyle === 'nature') return 'airbnb';
+    // Slow travelers benefit from airbnb
+    if (energyAnswer === 'slow') return 'airbnb';
+    // Spontaneous & social → guesthouse
+    if (energyAnswer === 'spontaneous') return 'guesthouse';
+    // Default: hotel for most cases
+    return 'hotel';
+  }
+
+  // Calculate price range for a stay type given budget tier
+  function calculateStayPrice(basePrice, tier) {
+    const multipliers = { budget: 0.5, moderate: 1, comfort: 1.8, luxury: 3.5 };
+    const mult = multipliers[tier] || 1;
+    const low = Math.round(basePrice[0] * mult);
+    const high = Math.round(basePrice[1] * mult);
+    return { low, high };
+  }
+
   // ===========================================
   // QUIZ FLOW
   // ===========================================
@@ -5195,11 +5482,6 @@
 
     document.getElementById('budgetGrid').innerHTML = `
       <div class="budget-item">
-        <div class="budget-item-label">Stay / Night</div>
-        <div class="budget-item-value">₩${budget.stay}</div>
-        <div class="budget-item-note">Per night</div>
-      </div>
-      <div class="budget-item">
         <div class="budget-item-label">Food / Day</div>
         <div class="budget-item-value">₩${budget.food}</div>
         <div class="budget-item-note">3 meals + snacks</div>
@@ -5215,8 +5497,55 @@
         <div class="budget-item-note">Entries + extras</div>
       </div>
     `;
-    const totalUSD = budget.daily * days;
+
+    // Where to Stay - 4 types, with one recommended based on style + energy
+    const recommendedStayId = getRecommendedStayId(topStyle, quizAnswers[4]);
+    const stayGrid = document.getElementById('stayTypesGrid');
+    stayGrid.innerHTML = '';
+
+    let recommendedStayPrice = null;
+
+    stayTypes.forEach(stayType => {
+      const isRecommended = stayType.id === recommendedStayId;
+      const price = calculateStayPrice(stayType.basePrice, tier);
+      const areas = stayType.areasByStyle[topStyle] || stayType.areasByStyle.food;
+
+      if (isRecommended) {
+        recommendedStayPrice = (price.low + price.high) / 2;
+      }
+
+      const card = document.createElement('div');
+      card.className = 'stay-type-card' + (isRecommended ? ' recommended' : '');
+
+      const recBadge = isRecommended ? '<div class="stay-recommended-badge">★ Best for You</div>' : '';
+      const nameHtml = isRecommended
+        ? `<em>${stayType.name}</em>`
+        : stayType.name;
+
+      const areaTags = areas.map(a => `<span class="stay-area-tag">${a}</span>`).join('');
+
+      card.innerHTML = `
+        ${recBadge}
+        <div class="stay-type-icon">${stayType.icon}</div>
+        <div class="stay-type-name">${nameHtml}</div>
+        <div class="stay-type-kr">${stayType.kr}</div>
+        <div class="stay-type-price">₩${price.low}k–${price.high}k</div>
+        <div class="stay-type-price-note">Per night</div>
+        <div class="stay-type-desc">${stayType.desc}</div>
+        <div class="stay-type-areas">${areaTags}</div>
+      `;
+      stayGrid.appendChild(card);
+    });
+
+    // Update total cost using actual recommended stay price
+    // budget.daily = food + transport + activities (without stay)
+    const dailyWithoutStay = (parseInt(budget.food) || 0) + (parseInt(budget.transport) || 0) + (parseInt(budget.activities) || 0);
+    const dailyTotalKRW = (recommendedStayPrice || 0) + dailyWithoutStay; // in thousands
+    const totalKRW = dailyTotalKRW * days; // in thousands
+    const totalUSD = Math.round(totalKRW * 1000 / 1300); // approximate KRW→USD
+
     document.getElementById('budgetTotal').textContent = `~$${totalUSD.toLocaleString()} USD · ${days} days`;
+
 
     // Tips
     const topTips = tipsByStyle[topStyle] || [];

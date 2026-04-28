@@ -1032,6 +1032,683 @@
     letter-spacing: 0.15em;
     animation: pulse 1.5s infinite;
   }
+  /* ============ TRAVEL QUIZ ============ */
+  .quiz-section {
+    padding: 0 32px 80px;
+    border-top: 1px solid var(--ink);
+    background: var(--paper-warm);
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(26,24,20,0.08) 1px, transparent 0);
+    background-size: 24px 24px;
+  }
+
+  .quiz-container {
+    max-width: 900px;
+    margin: 0 auto;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .quiz-progress-bar {
+    height: 4px;
+    background: var(--paper-warm);
+    position: relative;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .quiz-progress-fill {
+    height: 100%;
+    background: var(--crimson);
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  .quiz-step {
+    display: none;
+    padding: 60px 48px;
+    min-height: 480px;
+    flex-direction: column;
+  }
+
+  .quiz-step.active {
+    display: flex;
+  }
+
+  .quiz-step-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--crimson);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .quiz-step-meta::before {
+    content: '';
+    width: 30px;
+    height: 1px;
+    background: var(--crimson);
+  }
+
+  .quiz-question {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.1;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+
+  .quiz-question em {
+    font-style: italic;
+    color: var(--crimson);
+    font-weight: 600;
+  }
+
+  .quiz-question-sub {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 36px;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+
+  .quiz-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 32px;
+    flex: 1;
+  }
+
+  .quiz-options.full-width {
+    grid-template-columns: 1fr;
+  }
+
+  .quiz-option {
+    border: 1px solid var(--ink);
+    background: var(--paper);
+    padding: 22px 24px;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-align: left;
+    font-family: inherit;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    position: relative;
+  }
+
+  .quiz-option:hover {
+    background: var(--paper-warm);
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+
+  .quiz-option.selected {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .quiz-option.selected .quiz-option-num {
+    background: var(--crimson);
+    border-color: var(--crimson);
+    color: var(--paper);
+  }
+
+  .quiz-option-num {
+    width: 32px;
+    height: 32px;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    font-weight: 600;
+    flex-shrink: 0;
+    transition: all 0.25s;
+  }
+
+  .quiz-option-content {
+    flex: 1;
+  }
+
+  .quiz-option-label {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+
+  .quiz-option-desc {
+    font-size: 12px;
+    opacity: 0.7;
+    line-height: 1.4;
+  }
+
+  .quiz-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 24px;
+    border-top: 1px dashed var(--ink);
+  }
+
+  .quiz-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 14px 24px;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .quiz-btn:hover:not(:disabled) {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .quiz-btn-primary {
+    background: var(--crimson);
+    color: var(--paper);
+    border-color: var(--crimson);
+  }
+
+  .quiz-btn-primary:hover:not(:disabled) {
+    background: var(--crimson-deep);
+    border-color: var(--crimson-deep);
+  }
+
+  .quiz-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  /* Quiz Start Screen */
+  .quiz-start {
+    padding: 60px 48px;
+    text-align: center;
+    background: var(--ink);
+    color: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .quiz-start::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(244,239,230,0.08) 1px, transparent 0);
+    background-size: 24px 24px;
+  }
+
+  .quiz-start-content { position: relative; z-index: 1; }
+
+  .quiz-start-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    margin-bottom: 24px;
+  }
+
+  .quiz-start h4 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(36px, 5vw, 56px);
+    line-height: 1.05;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .quiz-start h4 em {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  .quiz-start p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(244,239,230,0.7);
+    max-width: 480px;
+    margin: 0 auto 36px;
+  }
+
+  .quiz-start-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--gold);
+    color: var(--ink);
+    padding: 18px 32px;
+    border: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .quiz-start-btn:hover {
+    background: var(--paper);
+    transform: translateY(-2px);
+  }
+
+  .quiz-start-btn .arrow {
+    transition: transform 0.2s;
+  }
+
+  .quiz-start-btn:hover .arrow {
+    transform: translateX(4px);
+  }
+
+  .quiz-start-meta {
+    margin-top: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: rgba(244,239,230,0.4);
+    text-transform: uppercase;
+  }
+
+  /* RESULTS */
+  .quiz-results {
+    display: none;
+    padding: 0;
+  }
+
+  .quiz-results.active {
+    display: block;
+  }
+
+  .results-header {
+    padding: 48px;
+    background: var(--ink);
+    color: var(--paper);
+    text-align: center;
+  }
+
+  .results-header-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .results-header h4 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1.1;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+
+  .results-header h4 em {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  /* Style match bars */
+  .style-match {
+    padding: 40px 48px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .style-match-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--crimson);
+    margin-bottom: 24px;
+  }
+
+  .style-bar {
+    display: grid;
+    grid-template-columns: 140px 1fr 50px;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .style-bar-label {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .style-bar-track {
+    height: 24px;
+    background: var(--paper-warm);
+    border: 1px solid var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .style-bar-fill {
+    height: 100%;
+    background: var(--crimson);
+    width: 0%;
+    transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 6px,
+      rgba(255,255,255,0.1) 6px,
+      rgba(255,255,255,0.1) 12px
+    );
+  }
+
+  .style-bar-fill.color-jade { background-color: var(--jade); }
+  .style-bar-fill.color-gold { background-color: var(--gold); }
+  .style-bar-fill.color-deep { background-color: var(--crimson-deep); }
+  .style-bar-fill.color-ink { background-color: var(--ink); }
+
+  .style-bar-percent {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: right;
+  }
+
+  /* Recommended places */
+  .recommended-section {
+    padding: 40px 48px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .recommended-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--crimson);
+    margin-bottom: 8px;
+  }
+
+  .recommended-heading {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 400;
+    margin-bottom: 28px;
+    letter-spacing: -0.01em;
+  }
+
+  .recommended-heading em {
+    font-style: italic;
+    color: var(--crimson);
+    font-weight: 600;
+  }
+
+  .place-clusters {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .place-cluster {
+    border: 1px solid var(--ink);
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .cluster-header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .cluster-header .area-name {
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  .cluster-places {
+    padding: 0;
+  }
+
+  .cluster-place {
+    padding: 16px 20px;
+    border-bottom: 1px dashed var(--ink);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .cluster-place:last-child { border-bottom: none; }
+
+  .cluster-place-pin {
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--crimson);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--crimson);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  .cluster-place-name {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 2px;
+  }
+
+  .cluster-place-name-kr {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .cluster-place-tip {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
+    font-style: italic;
+  }
+
+  .cluster-place-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: right;
+  }
+
+  /* Budget section */
+  .budget-section {
+    padding: 40px 48px;
+    border-bottom: 1px solid var(--ink);
+    background: var(--paper-warm);
+  }
+
+  .budget-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--ink);
+    border: 1px solid var(--ink);
+    margin-top: 20px;
+  }
+
+  .budget-item {
+    background: var(--paper);
+    padding: 20px 18px;
+    text-align: center;
+  }
+
+  .budget-item-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .budget-item-value {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--crimson);
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+
+  .budget-item-note {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .budget-total {
+    margin-top: 20px;
+    padding: 18px 24px;
+    background: var(--ink);
+    color: var(--paper);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .budget-total-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .budget-total-value {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--paper);
+    letter-spacing: -0.01em;
+  }
+
+  /* Tips section */
+  .tips-section {
+    padding: 40px 48px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .tips-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .tip-card {
+    border: 1px solid var(--ink);
+    padding: 20px;
+    background: var(--paper);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 14px;
+    align-items: start;
+  }
+
+  .tip-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--crimson);
+    color: var(--paper);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 700;
+    flex-shrink: 0;
+    font-size: 14px;
+  }
+
+  .tip-content h6 {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+
+  .tip-content p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  /* Restart button */
+  .quiz-restart {
+    padding: 32px 48px;
+    text-align: center;
+    background: var(--paper);
+  }
+
+  .quiz-restart-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 28px;
+    border: 1px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .quiz-restart-btn:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
   /* ============ FESTIVALS ============ */
   .festivals {
     padding: 0 32px 80px;
@@ -1595,6 +2272,13 @@
     .situation-panel.active { grid-template-columns: 1fr; }
     .situation-content { border-right: none; border-bottom: 1px solid rgba(244,239,230,0.3); padding: 28px 20px; }
     .translator-side { padding: 28px 20px; }
+    .quiz-step { padding: 36px 24px; min-height: auto; }
+    .quiz-options { grid-template-columns: 1fr; }
+    .quiz-start { padding: 40px 24px; }
+    .style-bar { grid-template-columns: 100px 1fr 40px; gap: 10px; }
+    .results-header, .style-match, .recommended-section, .budget-section, .tips-section, .quiz-restart { padding: 28px 24px; }
+    .budget-grid { grid-template-columns: 1fr 1fr; }
+    .tips-list { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -1608,8 +2292,8 @@
   </div>
   <div class="topbar-right">
     <a href="#places">Places</a>
+    <a href="#quiz">Quiz</a>
     <a href="#festivals">Festivals</a>
-    <a href="#trends">Trends</a>
     <a href="#transport">Transport</a>
     <a href="#phrases">Phrases</a>
     <a href="#faq">FAQ</a>
@@ -1879,10 +2563,307 @@
   </div>
 </section>
 
+<!-- TRAVEL QUIZ -->
+<div class="section-header" id="quiz">
+  <div>
+    <div class="section-num">— 03 / Find Your Korea</div>
+    <h3>What kind of <em>traveler</em> are you?</h3>
+  </div>
+  <div class="desc">Five quick questions, and we'll match you with the trip that fits. No email required, no account — just instant recommendations.</div>
+</div>
+
+<section class="quiz-section">
+  <div class="quiz-container">
+    <!-- Progress Bar -->
+    <div class="quiz-progress-bar">
+      <div class="quiz-progress-fill" id="quizProgress"></div>
+    </div>
+
+    <!-- START SCREEN -->
+    <div class="quiz-start active" id="quizStart">
+      <div class="quiz-start-content">
+        <div class="quiz-start-tag">★ Personalized Trip Planner</div>
+        <h4>Your <em>perfect</em> Korea trip,<br>built in 60 seconds.</h4>
+        <p>Answer five questions about how you like to travel, and we'll show you the places, costs, and tips matched to your style — with a route that flows naturally.</p>
+        <button class="quiz-start-btn" onclick="startQuiz()">
+          <span>Begin the Quiz</span>
+          <span class="arrow">→</span>
+        </button>
+        <div class="quiz-start-meta">5 Questions · No Sign-up · 60 Seconds</div>
+      </div>
+    </div>
+
+    <!-- QUESTION 1 -->
+    <div class="quiz-step" data-step="1">
+      <div class="quiz-step-meta">Question 01 of 05</div>
+      <h4 class="quiz-question">What pulls you to <em>Korea</em> most?</h4>
+      <div class="quiz-question-sub">한국 여행의 가장 큰 이유는?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" data-q="1" data-value="kpop">
+          <span class="quiz-option-num">A</span>
+          <div class="quiz-option-content">
+            <div class="quiz-option-label">K-Pop & K-Drama</div>
+            <div class="quiz-option-desc">Concerts, fan culture, filming locations</div>
+          </div>
+        </button>
+        <button class="quiz-option" data-q="1" data-value="food">
+          <span class="quiz-option-num">B</span>
+          <div class="quiz-option-content">
+            <div class="quiz-option-label">Food & Dining</div>
+            <div class="quiz-option-desc">From street snacks to fine dining</div>
+          </div>
+        </button>
+        <button class="quiz-option" data-q="1" data-value="culture">
+          <span class="quiz-option-num">C</span>
+          <div class="quiz-option-content">
+            <div class="quiz-option-label">History & Culture</div>
+            <div class="quiz-option-desc">Palaces, hanok villages, traditions</div>
+          </div>
+        </button>
+        <button class="quiz-option" data-q="1" data-value="nature">
+          <span class="quiz-option-num">D</span>
+          <div class="quiz-option-content">
+            <div class="quiz-option-label">Nature & Seasons</div>
+            <div class="quiz-option-desc">Cherry blossoms, mountains, beaches</div>
+          </div>
+        </button>
+        <button class="quiz-option" data-q="1" data-value="beauty">
+          <span class="quiz-option-num">E</span>
+          <div class="quiz-option-content">
+            <div class="quiz-option-label">Beauty & Shopping</div>
+            <div class="quiz-option-desc">K-beauty, fashion, design</div>
+          </div>
+        </button>
+        <button class="quiz-option" data-q="1" data-value="trendy">
+          <span class="quiz-option-num">F</span>
+          <div class="quiz-option-content">
+            <div class="quiz-option-label">Trendy Spots</div>
+            <div class="quiz-option-desc">Insta-worthy cafés, photo booths</div>
+          </div>
+        </button>
+      </div>
+      <div class="quiz-nav">
+        <button class="quiz-btn" disabled>← Back</button>
+        <button class="quiz-btn quiz-btn-primary" onclick="nextStep()" disabled id="next1">Next →</button>
+      </div>
+    </div>
+
+    <!-- QUESTION 2 -->
+    <div class="quiz-step" data-step="2">
+      <div class="quiz-step-meta">Question 02 of 05</div>
+      <h4 class="quiz-question">How long is your <em>trip</em>?</h4>
+      <div class="quiz-question-sub">여행 기간은 어떻게 되나요?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" data-q="2" data-value="short">
+          <span class="quiz-option-num">A</span>
+          <div class="quiz-option-content">
+            <div class="quiz-option-label">3 Days or Less</div>
+            <div class="quiz-option-desc">Weekend / Layover</div>
+          </div>
+        </button>
+        <button class="quiz-option" data-q="2" data-value="medium">
+          <span class="quiz-option-num">B</span>
+          <div class="quiz-option-content">
+            <div class="quiz-option-label">4–6 Days</div>
+            <div class="quiz-option-desc">Typical Seoul trip</div>
+          </div>
+        </button>
+        <button class="quiz-option" data-q="2" data-value="long">
+          <span class="quiz-option-num">C</span>
+          <div class="quiz-option-content">
+            <div class="quiz-option-label">7–10 Days</div>
+            <div class="quiz-option-desc">Seoul + one more city</div>
+          </div>
+        </button>
+        <button class="quiz-option" data-q="2" data-value="extended">
+          <span class="quiz-option-num">D</span>
+          <div class="quiz-option-content">
+            <div class="quiz-option-label">2 Weeks+</div>
+            <div class="quiz-option-desc">Full grand tour</div>
+          </div>
+        </button>
+      </div>
+      <div class="quiz-nav">
+        <button class="quiz-btn" onclick="prevStep()">← Back</button>
+        <button class="quiz-btn quiz-btn-primary" onclick="nextStep()" disabled id="next2">Next →</button>
+      </div>
+    </div>
+
+    <!-- QUESTION 3 -->
+    <div class="quiz-step" data-step="3">
+      <div class="quiz-step-meta">Question 03 of 05</div>
+      <h4 class="quiz-question">What's your daily <em>budget</em>?</h4>
+      <div class="quiz-question-sub">하루 평균 예산은? (excluding flight)</div>
+      <div class="quiz-options">
+        <button class="quiz-option" data-q="3" data-value="budget">
+          <span class="quiz-option-num">A</span>
+          <div class="quiz-option-content">
+            <div class="quiz-option-label">Budget — Under ₩100k</div>
+            <div class="quiz-option-desc">~$70 USD · Hostels, street food</div>
+          </div>
+        </button>
+        <button class="quiz-option" data-q="3" data-value="moderate">
+          <span class="quiz-option-num">B</span>
+          <div class="quiz-option-content">
+            <div class="quiz-option-label">Moderate — ₩100k–200k</div>
+            <div class="quiz-option-desc">~$70–140 USD · Mid-range hotels</div>
+          </div>
+        </button>
+        <button class="quiz-option" data-q="3" data-value="comfort">
+          <span class="quiz-option-num">C</span>
+          <div class="quiz-option-content">
+            <div class="quiz-option-label">Comfort — ₩200k–400k</div>
+            <div class="quiz-option-desc">~$140–280 USD · Nice hotels, dining</div>
+          </div>
+        </button>
+        <button class="quiz-option" data-q="3" data-value="luxury">
+          <span class="quiz-option-num">D</span>
+          <div class="quiz-option-content">
+            <div class="quiz-option-label">Luxury — ₩400k+</div>
+            <div class="quiz-option-desc">~$280+ USD · Premium experience</div>
+          </div>
+        </button>
+      </div>
+      <div class="quiz-nav">
+        <button class="quiz-btn" onclick="prevStep()">← Back</button>
+        <button class="quiz-btn quiz-btn-primary" onclick="nextStep()" disabled id="next3">Next →</button>
+      </div>
+    </div>
+
+    <!-- QUESTION 4 -->
+    <div class="quiz-step" data-step="4">
+      <div class="quiz-step-meta">Question 04 of 05</div>
+      <h4 class="quiz-question">What's your travel <em>energy</em>?</h4>
+      <div class="quiz-question-sub">선호하는 여행 스타일은?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" data-q="4" data-value="packed">
+          <span class="quiz-option-num">A</span>
+          <div class="quiz-option-content">
+            <div class="quiz-option-label">See It All</div>
+            <div class="quiz-option-desc">Maximum activities, dawn to night</div>
+          </div>
+        </button>
+        <button class="quiz-option" data-q="4" data-value="balanced">
+          <span class="quiz-option-num">B</span>
+          <div class="quiz-option-content">
+            <div class="quiz-option-label">Balanced Mix</div>
+            <div class="quiz-option-desc">2–3 main activities + free time</div>
+          </div>
+        </button>
+        <button class="quiz-option" data-q="4" data-value="slow">
+          <span class="quiz-option-num">C</span>
+          <div class="quiz-option-content">
+            <div class="quiz-option-label">Slow & Deep</div>
+            <div class="quiz-option-desc">Fewer places, more depth in each</div>
+          </div>
+        </button>
+        <button class="quiz-option" data-q="4" data-value="spontaneous">
+          <span class="quiz-option-num">D</span>
+          <div class="quiz-option-content">
+            <div class="quiz-option-label">Spontaneous</div>
+            <div class="quiz-option-desc">Loose plan, follow whims</div>
+          </div>
+        </button>
+      </div>
+      <div class="quiz-nav">
+        <button class="quiz-btn" onclick="prevStep()">← Back</button>
+        <button class="quiz-btn quiz-btn-primary" onclick="nextStep()" disabled id="next4">Next →</button>
+      </div>
+    </div>
+
+    <!-- QUESTION 5 -->
+    <div class="quiz-step" data-step="5">
+      <div class="quiz-step-meta">Question 05 of 05 — Final</div>
+      <h4 class="quiz-question">Pick your <em>perfect</em> evening.</h4>
+      <div class="quiz-question-sub">완벽한 한국의 저녁이라면?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" data-q="5" data-value="vibrant">
+          <span class="quiz-option-num">A</span>
+          <div class="quiz-option-content">
+            <div class="quiz-option-label">Hongdae Buzz</div>
+            <div class="quiz-option-desc">Live music, neon, late-night energy</div>
+          </div>
+        </button>
+        <button class="quiz-option" data-q="5" data-value="foodie">
+          <span class="quiz-option-num">B</span>
+          <div class="quiz-option-content">
+            <div class="quiz-option-label">BBQ & Soju</div>
+            <div class="quiz-option-desc">Long meal, locals, lots of side dishes</div>
+          </div>
+        </button>
+        <button class="quiz-option" data-q="5" data-value="serene">
+          <span class="quiz-option-num">C</span>
+          <div class="quiz-option-content">
+            <div class="quiz-option-label">Han River Walk</div>
+            <div class="quiz-option-desc">Quiet stroll, ramyeon, city lights</div>
+          </div>
+        </button>
+        <button class="quiz-option" data-q="5" data-value="cultural">
+          <span class="quiz-option-num">D</span>
+          <div class="quiz-option-content">
+            <div class="quiz-option-label">Palace by Night</div>
+            <div class="quiz-option-desc">Lit-up palaces, traditional tea house</div>
+          </div>
+        </button>
+      </div>
+      <div class="quiz-nav">
+        <button class="quiz-btn" onclick="prevStep()">← Back</button>
+        <button class="quiz-btn quiz-btn-primary" onclick="showResults()" disabled id="next5">Show My Trip ✦</button>
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="quiz-results" id="quizResults">
+      <!-- Results header (filled by JS) -->
+      <div class="results-header">
+        <div class="results-header-tag">★ Your Korea Trip Profile</div>
+        <h4 id="resultHeading">Your <em>match</em> is ready</h4>
+        <p id="resultSubheading" style="font-family:'Fraunces',serif;font-style:italic;font-size:18px;color:rgba(244,239,230,0.7);margin-top:12px;"></p>
+      </div>
+
+      <!-- Style match bars -->
+      <div class="style-match">
+        <div class="style-match-title">— How your style breaks down</div>
+        <div id="styleBars"></div>
+      </div>
+
+      <!-- Recommended places clustered by area -->
+      <div class="recommended-section">
+        <div class="recommended-title">— Where you should go</div>
+        <h5 class="recommended-heading">Places <em>grouped</em> by neighborhood — easier to plan your days</h5>
+        <div class="place-clusters" id="placeClusters"></div>
+      </div>
+
+      <!-- Budget breakdown -->
+      <div class="budget-section">
+        <div class="recommended-title">— What it'll cost</div>
+        <h5 class="recommended-heading">Daily budget <em>estimate</em></h5>
+        <div class="budget-grid" id="budgetGrid"></div>
+        <div class="budget-total">
+          <span class="budget-total-label">Estimated Total Trip Cost</span>
+          <span class="budget-total-value" id="budgetTotal">—</span>
+        </div>
+      </div>
+
+      <!-- Tips -->
+      <div class="tips-section">
+        <div class="recommended-title">— Things to know</div>
+        <h5 class="recommended-heading"><em>Tips</em> tailored to your trip</h5>
+        <div class="tips-list" id="tipsList"></div>
+      </div>
+
+      <!-- Restart -->
+      <div class="quiz-restart">
+        <button class="quiz-restart-btn" onclick="restartQuiz()">↺ Take the Quiz Again</button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- FESTIVALS -->
 <div class="section-header" id="festivals">
   <div>
-    <div class="section-num">— 03 / Festivals & Celebrations</div>
+    <div class="section-num">— 04 / Festivals & Celebrations</div>
     <h3>The country in <em>celebration</em>, all year long.</h3>
   </div>
   <div class="desc">From cherry blossoms to ice fishing, every season has its signature festival. All listed events are officially recognized by the Korea Tourism Organization.</div>
@@ -2458,7 +3439,7 @@
 <section class="transport" id="transport">
   <div class="section-header">
     <div>
-      <div class="section-num">— 04 / Getting Around</div>
+      <div class="section-num">— 05 / Getting Around</div>
       <h3>Transport, <em>simplified</em>.</h3>
     </div>
     <div class="desc">Korea has one of the world's most efficient public transport networks. Here's what you actually need to know.</div>
@@ -2541,7 +3522,7 @@
 <section class="phrases-section" id="phrases">
   <div class="section-header">
     <div>
-      <div class="section-num">— 05 / Korean Phrasebook</div>
+      <div class="section-num">— 06 / Korean Phrasebook</div>
       <h3>Speak Korean, <em>situation</em> by situation.</h3>
     </div>
     <div class="desc">Tap a situation, get the phrases you actually need. Hear them pronounced. Or use the live translator at right for anything else — works in both directions.</div>
@@ -3200,7 +4181,7 @@
 <!-- FAQ -->
 <div class="section-header" id="faq">
   <div>
-    <div class="section-num">— 06 / Frequently Asked</div>
+    <div class="section-num">— 07 / Frequently Asked</div>
     <h3>Questions every traveler <em>actually</em> asks.</h3>
   </div>
   <div class="desc">Honest answers to the questions that don't always make it into guidebooks. Compiled from real visitor feedback.</div>
@@ -3368,7 +4349,7 @@
 <section class="emergency" id="emergency">
   <div class="emergency-inner">
     <div class="emergency-left">
-      <div class="label">— 07 / In Case of Need</div>
+      <div class="label">— 08 / In Case of Need</div>
       <h3>Save these numbers <em>before</em> you need them.</h3>
     </div>
     <div class="emergency-numbers">
@@ -3631,6 +4612,434 @@
       }
     });
   });
+  // ===========================================
+  // TRAVEL QUIZ LOGIC
+  // ===========================================
+  const quizAnswers = {};
+  let currentStep = 0;
+
+  // Style scoring matrix - each answer adds points to multiple styles
+  const scoreMatrix = {
+    1: { // Main interest
+      kpop:    { kpop: 30, trendy: 8, beauty: 5 },
+      food:    { food: 30, culture: 6, trendy: 4 },
+      culture: { culture: 30, nature: 6 },
+      nature:  { nature: 30, culture: 8 },
+      beauty:  { beauty: 30, trendy: 8, kpop: 4 },
+      trendy:  { trendy: 30, kpop: 6, food: 6, beauty: 6 }
+    },
+    4: { // Travel energy
+      packed:      { kpop: 5, trendy: 5, food: 3 },
+      balanced:    { food: 4, culture: 4, beauty: 4 },
+      slow:        { culture: 8, nature: 6 },
+      spontaneous: { trendy: 6, food: 4 }
+    },
+    5: { // Perfect evening
+      vibrant:  { kpop: 8, trendy: 6 },
+      foodie:   { food: 12, culture: 3 },
+      serene:   { nature: 8, culture: 4 },
+      cultural: { culture: 12, nature: 3 }
+    }
+  };
+
+  const styleNames = {
+    kpop:    'K-Pop & Drama',
+    food:    'Foodie',
+    culture: 'Culture & History',
+    nature:  'Nature & Seasons',
+    beauty:  'Beauty & Shopping',
+    trendy:  'Trendy Spots'
+  };
+
+  const styleColors = {
+    kpop:    '',
+    food:    'color-deep',
+    culture: 'color-ink',
+    nature:  'color-jade',
+    beauty:  'color-gold',
+    trendy:  ''
+  };
+
+  // Persona descriptions based on top style
+  const personas = {
+    kpop:    { title: 'The K-Culture Pilgrim', sub: 'You came for the music, the dramas, the fan energy.' },
+    food:    { title: 'The Flavor Hunter', sub: 'Your itinerary revolves around the next great meal.' },
+    culture: { title: 'The Heritage Seeker', sub: 'You want depth — palaces, traditions, the soul of Korea.' },
+    nature:  { title: 'The Seasonal Wanderer', sub: 'Cherry blossoms, mountain trails, ocean views call to you.' },
+    beauty:  { title: 'The Aesthetic Curator', sub: 'K-beauty, fashion, design — Korea is your style capital.' },
+    trendy:  { title: 'The Trend Tracker', sub: 'Photo booths, hot cafés, what is everyone Instagramming this week.' }
+  };
+
+  // Place clusters by style and area
+  const placesByStyle = {
+    kpop: [
+      { area: 'Yongsan & Hannam', places: [
+        { name: 'HYBE Insight', kr: 'BTS official building', tip: 'Photo spot outside is free' },
+        { name: 'Line Friends Flagship', kr: 'IPark Mall', tip: 'BT21 character store' }
+      ]},
+      { area: 'Seongsu', places: [
+        { name: 'Idol-themed Cafés', kr: '아이돌 카페', tip: 'Pop-ups change weekly — check Instagram' },
+        { name: 'Daeha Building', kr: 'JYP HQ area', tip: 'Stray Kids, Twice fans gather here' }
+      ]},
+      { area: 'Gangnam', places: [
+        { name: 'SM Town Coex', kr: 'SM 아티움', tip: 'Merch + holograms + photo zones' },
+        { name: 'K-Star Road', kr: '케이스타로드', tip: 'Bear statues of major groups' }
+      ]}
+    ],
+    food: [
+      { area: 'Jongno', places: [
+        { name: 'Gwangjang Market', kr: '광장시장', tip: 'Bindaetteok and mayak gimbap are must-tries' },
+        { name: 'Ikseon-dong Hanok Alley', kr: '익선동', tip: 'Modern fusion in old hanok houses' }
+      ]},
+      { area: 'Mapo & Hongdae', places: [
+        { name: 'Mapo Galmaegi-sal', kr: '마포 갈매기살', tip: 'Pork skirt meat — Mapo specialty' },
+        { name: 'Yeonnam-dong', kr: '연남동', tip: 'Hidden cafés and indie restaurants' }
+      ]},
+      { area: 'Busan (if visiting)', places: [
+        { name: 'Jagalchi Fish Market', kr: '자갈치시장', tip: 'Pick downstairs, eat upstairs' },
+        { name: 'Gukje Market', kr: '국제시장', tip: 'Bibim dangmyeon and ssiat hotteok' }
+      ]}
+    ],
+    culture: [
+      { area: 'Jongno', places: [
+        { name: 'Gyeongbokgung Palace', kr: '경복궁', tip: 'Free entry in hanbok' },
+        { name: 'Bukchon Hanok Village', kr: '북촌한옥마을', tip: 'Quiet hours: before 10am' },
+        { name: 'Insadong', kr: '인사동', tip: 'Traditional crafts + tea houses' }
+      ]},
+      { area: 'Jung-gu', places: [
+        { name: 'Deoksugung Palace', kr: '덕수궁', tip: 'Stone wall walk in autumn is iconic' },
+        { name: 'National Museum of Korea', kr: '국립중앙박물관', tip: 'Free, English audio guide' }
+      ]},
+      { area: 'Andong (day trip)', places: [
+        { name: 'Hahoe Folk Village', kr: '하회마을', tip: 'UNESCO site, mask dance performances' }
+      ]}
+    ],
+    nature: [
+      { area: 'Seoul', places: [
+        { name: 'Bukhansan National Park', kr: '북한산', tip: 'Beginner trail: Baegundae 4 hours round trip' },
+        { name: 'Han River Parks', kr: '한강공원', tip: 'Bike rentals, picnic mats, sunset views' }
+      ]},
+      { area: 'Jeju Island', places: [
+        { name: 'Hallasan National Park', kr: '한라산', tip: 'Reserve summit trails in advance' },
+        { name: 'Olle Trails', kr: '올레길', tip: 'Coastal walking routes, color-marked' }
+      ]},
+      { area: 'Gangwon', places: [
+        { name: 'Seoraksan Mountain', kr: '설악산', tip: 'Best in October for fall colors' },
+        { name: 'Gangneung Beach', kr: '강릉 해변', tip: '2hr from Seoul by KTX' }
+      ]}
+    ],
+    beauty: [
+      { area: 'Myeongdong', places: [
+        { name: 'Olive Young Flagship', kr: '올리브영 명동', tip: 'Tax-free counter on-site' },
+        { name: 'Cosmetic Road', kr: '명동 화장품 거리', tip: 'Free samples are everywhere' }
+      ]},
+      { area: 'Garosu-gil & Apgujeong', places: [
+        { name: 'Sinsa Garosu-gil', kr: '신사동 가로수길', tip: 'Designer boutiques and concept stores' },
+        { name: 'Apgujeong Rodeo', kr: '압구정 로데오', tip: 'Luxury brands and K-beauty clinics' }
+      ]},
+      { area: 'Seongsu', places: [
+        { name: 'Common Ground', kr: '커먼그라운드', tip: 'Container mall with indie brands' }
+      ]}
+    ],
+    trendy: [
+      { area: 'Seongsu', places: [
+        { name: 'Seongsu Cafés', kr: '성수동 카페거리', tip: 'New ones open weekly — Onion, Daelim are classics' },
+        { name: 'Pop-up Stores', kr: '팝업스토어', tip: 'Always something themed running' }
+      ]},
+      { area: 'Hongdae', places: [
+        { name: 'Photo Booth Cafés', kr: '인생네컷', tip: 'Find them on every block' },
+        { name: 'Hongdae Walking Street', kr: '홍대 걷고싶은거리', tip: 'Buskers nightly from 7pm' }
+      ]},
+      { area: 'Ikseon & Euljiro', places: [
+        { name: 'Ikseon-dong Cafés', kr: '익선동 카페', tip: 'Hanok aesthetic + modern menus' },
+        { name: 'Euljiro Hipster Bars', kr: '을지로 노포', tip: 'Old industrial vibe, young crowd' }
+      ]}
+    ]
+  };
+
+  // Tips by style
+  const tipsByStyle = {
+    kpop: [
+      { icon: '!', title: 'Concert Tickets', desc: 'Use Interpark Global or Melon Ticket. Many require Korean ID — check fan club presales for international tickets.' },
+      { icon: '★', title: 'Pop-up Schedules', desc: 'Follow @hybe_official, @smtown, @jypentertainment on Instagram for current pop-ups.' },
+      { icon: '✓', title: 'Fan Etiquette', desc: 'No flash photography, no following idols, no entering company buildings. Outside areas only.' },
+      { icon: '◉', title: 'Best Districts', desc: 'Stay near Hongdae or Gangnam for easy access to most music venues and pop-ups.' }
+    ],
+    food: [
+      { icon: '!', title: 'Reservation Apps', desc: 'CatchTable for high-end spots, Naver Map for everything else. Many places no longer take walk-ins.' },
+      { icon: '★', title: 'Allergies', desc: 'Print "I\'m allergic to ___" cards in Korean. Soy, sesame, shellfish are common in Korean cooking.' },
+      { icon: '✓', title: 'Side Dishes', desc: 'Banchan refills are usually free — just ask "더 주세요" (more, please).' },
+      { icon: '◉', title: 'Best Markets', desc: 'Gwangjang for traditional, Mangwon for local life, Tongin for the lunchbox experience.' }
+    ],
+    culture: [
+      { icon: '!', title: 'Hanbok Discount', desc: 'All five royal palaces are free if you wear hanbok. Rentals near Gyeongbokgung run ₩15–30k for 4 hours.' },
+      { icon: '★', title: 'Temple Stays', desc: 'Book at templestay.com 2+ weeks ahead. Magoksa and Golgulsa offer English programs.' },
+      { icon: '✓', title: 'Free Museums', desc: 'National Museum of Korea, National Folk Museum, War Memorial — all free admission.' },
+      { icon: '◉', title: 'Best Day', desc: 'Wednesdays — many palaces and museums offer free or extended hours.' }
+    ],
+    nature: [
+      { icon: '!', title: 'Hiking Permits', desc: 'Some Hallasan trails require advance reservation. Book at visitjeju.net.' },
+      { icon: '★', title: 'Layered Clothing', desc: 'Mountain weather changes fast. Even in summer, bring a jacket above 1,000m.' },
+      { icon: '✓', title: 'KTX to Nature', desc: 'Gangneung (2hr), Andong (2hr), Busan (2.5hr) all have nature within 30min of station.' },
+      { icon: '◉', title: 'Best Months', desc: 'April for blossoms, October for foliage, February for snow — avoid July–August (humid).' }
+    ],
+    beauty: [
+      { icon: '!', title: 'Tax Refund', desc: 'Spend ₩30k+ at one store, keep receipts, claim at airport. Many stores process instantly.' },
+      { icon: '★', title: 'Skin Consultations', desc: 'Many dermatology clinics in Apgujeong offer free consultations in English.' },
+      { icon: '✓', title: 'Sample Strategy', desc: 'Buy small at Olive Young first, try for 2 days, go back for full size if you love it.' },
+      { icon: '◉', title: 'Avoid Crowds', desc: 'Myeongdong is busiest 3–7pm. Visit before noon for breathing room.' }
+    ],
+    trendy: [
+      { icon: '!', title: 'Café Hours', desc: 'Trendy spots often close 9–10pm, not late. Plan café-hopping for afternoon.' },
+      { icon: '★', title: 'Photo Booths', desc: '인생네컷 (Life Four Cuts) and Photoism are most popular. Bring small bills (₩4,000).' },
+      { icon: '✓', title: 'Pop-up Awareness', desc: 'Follow @seoul.popup on Instagram for daily updates on what\'s new.' },
+      { icon: '◉', title: 'Avoid Lines', desc: 'Famous spots have 1hr+ waits on weekends. Visit Tuesday–Thursday for short lines.' }
+    ]
+  };
+
+  // Daily budget by tier
+  const budgetByTier = {
+    budget:   { stay: '40k', food: '25k', transport: '8k', activities: '15k', daily: 88, label: 'Budget' },
+    moderate: { stay: '90k', food: '45k', transport: '10k', activities: '30k', daily: 175, label: 'Moderate' },
+    comfort:  { stay: '180k', food: '80k', transport: '15k', activities: '60k', daily: 335, label: 'Comfort' },
+    luxury:   { stay: '400k', food: '150k', transport: '30k', activities: '120k', daily: 700, label: 'Luxury' }
+  };
+
+  const tripDays = {
+    short: 3,
+    medium: 5,
+    long: 8,
+    extended: 14
+  };
+
+  // ===========================================
+  // QUIZ FLOW
+  // ===========================================
+  function startQuiz() {
+    document.getElementById('quizStart').classList.remove('active');
+    currentStep = 1;
+    showStep(1);
+    updateProgress();
+
+    // Smooth scroll to quiz
+    document.querySelector('.quiz-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function showStep(step) {
+    document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
+    const target = document.querySelector(`.quiz-step[data-step="${step}"]`);
+    if (target) target.classList.add('active');
+  }
+
+  function nextStep() {
+    if (currentStep < 5) {
+      currentStep++;
+      showStep(currentStep);
+      updateProgress();
+    }
+  }
+
+  function prevStep() {
+    if (currentStep > 1) {
+      currentStep--;
+      showStep(currentStep);
+      updateProgress();
+    }
+  }
+
+  function updateProgress() {
+    const total = 5;
+    const percent = (currentStep / total) * 100;
+    document.getElementById('quizProgress').style.width = percent + '%';
+  }
+
+  // Option selection
+  document.querySelectorAll('.quiz-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const q = opt.dataset.q;
+      const v = opt.dataset.value;
+
+      // Mark this option as selected (deselect siblings)
+      document.querySelectorAll(`.quiz-option[data-q="${q}"]`).forEach(s => s.classList.remove('selected'));
+      opt.classList.add('selected');
+
+      // Save answer
+      quizAnswers[q] = v;
+
+      // Enable next button
+      const nextBtn = document.getElementById('next' + q);
+      if (nextBtn) nextBtn.disabled = false;
+    });
+  });
+
+  // Calculate scores and show results
+  function calculateScores() {
+    const scores = { kpop: 0, food: 0, culture: 0, nature: 0, beauty: 0, trendy: 0 };
+
+    // Question 1 - main interest
+    const q1Score = scoreMatrix[1][quizAnswers[1]];
+    if (q1Score) Object.keys(q1Score).forEach(k => scores[k] += q1Score[k]);
+
+    // Question 4 - energy
+    const q4Score = scoreMatrix[4][quizAnswers[4]];
+    if (q4Score) Object.keys(q4Score).forEach(k => scores[k] += q4Score[k]);
+
+    // Question 5 - evening
+    const q5Score = scoreMatrix[5][quizAnswers[5]];
+    if (q5Score) Object.keys(q5Score).forEach(k => scores[k] += q5Score[k]);
+
+    // Normalize to percentages (max possible per style ~50)
+    const maxScore = 50;
+    Object.keys(scores).forEach(k => {
+      scores[k] = Math.min(100, Math.round((scores[k] / maxScore) * 100));
+    });
+
+    return scores;
+  }
+
+  function showResults() {
+    const scores = calculateScores();
+    const sortedStyles = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+    const topStyle = sortedStyles[0][0];
+    const persona = personas[topStyle];
+
+    // Hide all steps, show results
+    document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('quizResults').classList.add('active');
+    document.getElementById('quizProgress').style.width = '100%';
+
+    // Header
+    document.getElementById('resultHeading').innerHTML = `You're <em>${persona.title}</em>`;
+    document.getElementById('resultSubheading').textContent = persona.sub;
+
+    // Style bars
+    const barsContainer = document.getElementById('styleBars');
+    barsContainer.innerHTML = '';
+    sortedStyles.forEach(([style, percent], idx) => {
+      const bar = document.createElement('div');
+      bar.className = 'style-bar';
+      bar.innerHTML = `
+        <div class="style-bar-label">${styleNames[style]}</div>
+        <div class="style-bar-track">
+          <div class="style-bar-fill ${styleColors[style]}" data-target="${percent}"></div>
+        </div>
+        <div class="style-bar-percent">${percent}%</div>
+      `;
+      barsContainer.appendChild(bar);
+    });
+
+    // Animate bars
+    setTimeout(() => {
+      document.querySelectorAll('.style-bar-fill').forEach(fill => {
+        fill.style.width = fill.dataset.target + '%';
+      });
+    }, 200);
+
+    // Recommended places (top 2 styles, clustered by area)
+    const clustersContainer = document.getElementById('placeClusters');
+    clustersContainer.innerHTML = '';
+    const usedAreas = new Set();
+    const stylesToShow = sortedStyles.slice(0, 2).map(s => s[0]);
+
+    stylesToShow.forEach(style => {
+      const clusters = placesByStyle[style] || [];
+      clusters.forEach(cluster => {
+        if (usedAreas.has(cluster.area)) return;
+        usedAreas.add(cluster.area);
+
+        const div = document.createElement('div');
+        div.className = 'place-cluster';
+        const places = cluster.places.map((p, i) => `
+          <div class="cluster-place">
+            <div class="cluster-place-pin">${i + 1}</div>
+            <div>
+              <div class="cluster-place-name">${p.name}</div>
+              <div class="cluster-place-name-kr">${p.kr}</div>
+              <div class="cluster-place-tip">Tip — ${p.tip}</div>
+            </div>
+            <div class="cluster-place-time">${30 + i * 30}min</div>
+          </div>
+        `).join('');
+
+        div.innerHTML = `
+          <div class="cluster-header">
+            <span>◉ <span class="area-name">${cluster.area}</span></span>
+            <span>${cluster.places.length} stops · half-day</span>
+          </div>
+          <div class="cluster-places">${places}</div>
+        `;
+        clustersContainer.appendChild(div);
+      });
+    });
+
+    // Budget
+    const tier = quizAnswers[3] || 'moderate';
+    const days = tripDays[quizAnswers[2]] || 5;
+    const budget = budgetByTier[tier];
+
+    document.getElementById('budgetGrid').innerHTML = `
+      <div class="budget-item">
+        <div class="budget-item-label">Stay / Night</div>
+        <div class="budget-item-value">₩${budget.stay}</div>
+        <div class="budget-item-note">Per night</div>
+      </div>
+      <div class="budget-item">
+        <div class="budget-item-label">Food / Day</div>
+        <div class="budget-item-value">₩${budget.food}</div>
+        <div class="budget-item-note">3 meals + snacks</div>
+      </div>
+      <div class="budget-item">
+        <div class="budget-item-label">Transport</div>
+        <div class="budget-item-value">₩${budget.transport}</div>
+        <div class="budget-item-note">Daily average</div>
+      </div>
+      <div class="budget-item">
+        <div class="budget-item-label">Activities</div>
+        <div class="budget-item-value">₩${budget.activities}</div>
+        <div class="budget-item-note">Entries + extras</div>
+      </div>
+    `;
+    const totalUSD = budget.daily * days;
+    document.getElementById('budgetTotal').textContent = `~$${totalUSD.toLocaleString()} USD · ${days} days`;
+
+    // Tips
+    const topTips = tipsByStyle[topStyle] || [];
+    document.getElementById('tipsList').innerHTML = topTips.map(t => `
+      <div class="tip-card">
+        <div class="tip-icon">${t.icon}</div>
+        <div class="tip-content">
+          <h6>${t.title}</h6>
+          <p>${t.desc}</p>
+        </div>
+      </div>
+    `).join('');
+
+    // Scroll to results
+    setTimeout(() => {
+      document.querySelector('.results-header').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  }
+
+  function restartQuiz() {
+    // Reset answers
+    Object.keys(quizAnswers).forEach(k => delete quizAnswers[k]);
+
+    // Reset UI
+    document.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+    document.querySelectorAll('.quiz-btn-primary').forEach(btn => {
+      if (btn.id && btn.id.startsWith('next')) btn.disabled = true;
+    });
+    document.getElementById('quizResults').classList.remove('active');
+    document.getElementById('quizProgress').style.width = '0%';
+
+    // Show start screen
+    document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('quizStart').classList.add('active');
+    currentStep = 0;
+
+    // Scroll back
+    document.querySelector('.quiz-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 </script>
 
 </body>

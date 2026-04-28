@@ -107,6 +107,35 @@
   .nbh-place-name { font-family: 'Fraunces', serif; font-size: 17px; font-weight: 600; line-height: 1.2; margin-bottom: 2px; }
   .nbh-place-name-kr { font-family: 'Noto Sans KR', sans-serif; font-size: 11px; color: var(--muted); margin-bottom: 6px; }
   .nbh-place-tip { font-size: 13px; line-height: 1.5; color: var(--muted); font-style: italic; }
+  .nbh-place-desc { font-size: 13px; line-height: 1.6; color: var(--ink); margin-bottom: 8px; }
+  .nbh-place-meta { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 8px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.05em; color: var(--muted); }
+  .nbh-place-meta span { display: inline-flex; align-items: center; gap: 4px; }
+  .nbh-place-meta strong { color: var(--jade); font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+
+  /* Magazine-style hero for neighborhoods */
+  .nbh-hero { width: 100%; height: 200px; border-bottom: 1px solid var(--ink); position: relative; overflow: hidden; display: flex; align-items: center; padding: 0 40px; }
+  .nbh-hero-pattern { position: absolute; inset: 0; opacity: 0.12; pointer-events: none; }
+  .nbh-hero-content { position: relative; z-index: 1; display: flex; align-items: baseline; gap: 32px; width: 100%; flex-wrap: wrap; }
+  .nbh-hero-num { font-family: 'Fraunces', serif; font-size: 100px; font-weight: 200; line-height: 1; color: var(--paper); font-style: italic; opacity: 0.95; letter-spacing: -0.04em; }
+  .nbh-hero-text { flex: 1; min-width: 200px; }
+  .nbh-hero-name { font-family: 'Fraunces', serif; font-size: clamp(48px, 6vw, 72px); font-weight: 800; font-style: italic; line-height: 0.95; letter-spacing: -0.03em; color: var(--paper); margin-bottom: 4px; }
+  .nbh-hero-kr { font-family: 'Noto Sans KR', sans-serif; font-size: 20px; color: var(--paper); opacity: 0.7; margin-bottom: 8px; }
+  .nbh-hero-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--paper); opacity: 0.85; padding: 4px 10px; border: 1px solid rgba(244,239,230,0.5); display: inline-block; }
+  .nbh-hero.color-haeundae { background: linear-gradient(135deg, #1e4438 0%, #2d5d4f 100%); }
+  .nbh-hero.color-seomyeon { background: linear-gradient(135deg, #6b4423 0%, #b8924a 100%); }
+  .nbh-hero.color-nampo { background: linear-gradient(135deg, #8b1e18 0%, #c8362d 100%); }
+  .nbh-hero.color-gamcheon { background: linear-gradient(135deg, #2d2d4a 0%, #4a4a6b 100%); }
+  .nbh-hero.color-gwangalli { background: linear-gradient(135deg, #1a3d4a 0%, #2d5d6b 100%); }
+
+  /* Restaurant detail block */
+  .food-restaurant-list { border-top: 1px dashed var(--ink); padding-top: 16px; margin-top: 16px; }
+  .food-restaurant-list h6 { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--crimson); margin-bottom: 12px; }
+  .food-restaurant-item { padding: 10px 0; border-bottom: 1px dashed var(--paper-warm); }
+  .food-restaurant-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .food-restaurant-name { font-family: 'Fraunces', serif; font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+  .food-restaurant-name-kr { font-family: 'Noto Sans KR', sans-serif; font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .food-restaurant-meta { display: flex; flex-wrap: wrap; gap: 6px 12px; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 0.05em; }
+  .food-restaurant-meta strong { color: var(--jade); }
   .nbh-place-type { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--crimson); border: 1px solid var(--crimson); padding: 2px 6px; text-align: center; }
 
   .city-map-section { padding: 0 32px 80px; border-bottom: 1px solid var(--ink); }
@@ -192,6 +221,9 @@
     .nbh-tabs { grid-template-columns: repeat(2, 1fr); }
     .nbh-tab { border-bottom: 1px solid var(--ink); }
     .nbh-panel-grid { grid-template-columns: 1fr; }
+    .nbh-hero { height: 160px; padding: 0 20px; }
+    .nbh-hero-num { font-size: 60px; }
+    .nbh-hero-content { gap: 16px; }
     .nbh-info { border-right: none; border-bottom: 1px solid var(--ink); }
     .day-tabs { grid-template-columns: 1fr; }
     .day-tab { border-right: none; border-bottom: 1px solid rgba(244,239,230,0.3); }
@@ -306,12 +338,30 @@
 
   <!-- HAEUNDAE -->
   <div class="nbh-panel active" data-nbh="haeundae">
+    <div class="nbh-hero color-haeundae">
+      <svg class="nbh-hero-pattern" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <pattern id="wave-haeundae" x="0" y="0" width="80" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 0 20 Q 20 10 40 20 T 80 20" fill="none" stroke="#f4efe6" stroke-width="2"/>
+          </pattern>
+        </defs>
+        <rect width="600" height="200" fill="url(#wave-haeundae)"/>
+      </svg>
+      <div class="nbh-hero-content">
+        <div class="nbh-hero-num">01</div>
+        <div class="nbh-hero-text">
+          <div class="nbh-hero-name">Haeundae</div>
+          <div class="nbh-hero-kr">해운대 · The Beach Capital</div>
+          <div class="nbh-hero-tag">Korea's Most Famous Beach</div>
+        </div>
+      </div>
+    </div>
     <div class="nbh-panel-grid">
       <div class="nbh-info">
         <div class="nbh-vibe">★ Beach & Resort</div>
         <h4 class="nbh-headline">Korea's most <em>famous</em> beach.</h4>
         <div class="nbh-headline-kr">해운대 · The crown jewel of Busan</div>
-        <p class="nbh-desc">A 1.5km crescent of golden sand backed by skyscrapers. Crowded in summer, peaceful in shoulder seasons. Premium hotels, seafood restaurants, and a coastal walking trail that leads to dramatic cliffs and a 200-year-old lighthouse.</p>
+        <p class="nbh-desc">A 1.5km crescent of golden sand backed by skyscrapers. Crowded in summer, peaceful in shoulder seasons. Premium hotels, seafood restaurants, and a coastal walking trail that leads to dramatic cliffs and a 200-year-old lighthouse. The beach itself is just the starting point — explore the connected Dongbaek Island and Mipo coastal trail for the full experience.</p>
         <div class="nbh-meta">
           <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Beach lovers, families<span class="value-kr">해변·가족</span></div></div>
           <div class="nbh-meta-item"><div class="label">Subway</div><div class="value">Line 2 · Haeundae Stn</div></div>
@@ -320,51 +370,116 @@
         </div>
       </div>
       <div class="nbh-places">
-        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-places-title">10 must-see places</div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">1</div>
           <div>
             <div class="nbh-place-name">Haeundae Beach</div>
             <div class="nbh-place-name-kr">해운대해수욕장 · Korea's most popular beach</div>
-            <div class="nbh-place-tip">Sunrise here is iconic. Avoid weekends in July–August unless you love crowds.</div>
+            <p class="nbh-place-desc">A 1.5km crescent of fine golden sand with the city skyline as backdrop. Korean New Year sunrise tradition draws thousands at 5am every January 1st. Even in regular days, sunrise here is iconic — locals come early to watch with coffee. Free, open 24/7.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🌅 Best at sunrise</span></div>
           </div>
           <div class="nbh-place-type">Beach</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">2</div>
           <div>
             <div class="nbh-place-name">Dongbaek Island</div>
             <div class="nbh-place-name-kr">동백섬 · Coastal walking park</div>
-            <div class="nbh-place-tip">A 1-hour loop with sea views, mermaid statue, and APEC house. Free.</div>
+            <p class="nbh-place-desc">Connected to Haeundae Beach by a short walk. A 1-hour loop trail with sea views, the famous mermaid statue, and APEC House (where the 2005 APEC summit was held). Pine forest path stays cool even in summer. The lighthouse views are spectacular.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🚶 1hr loop</span></div>
           </div>
           <div class="nbh-place-type">Park</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">3</div>
           <div>
-            <div class="nbh-place-name">Haeundae Blueline Park</div>
-            <div class="nbh-place-name-kr">해운대 블루라인파크 · Sea train</div>
-            <div class="nbh-place-tip">A small train along the coast — book online for the sky capsule view.</div>
+            <div class="nbh-place-name">Haeundae Blueline Park (Sky Capsule)</div>
+            <div class="nbh-place-name-kr">해운대 블루라인파크 · Coastal sky train</div>
+            <p class="nbh-place-desc">A scenic train system along the coast — choose between the open-air Beach Train (₩7k) or the elevated Sky Capsule (₩30k for 4 people). Travels 4.8km between Mipo and Cheongsapo with breathtaking ocean views. Book Sky Capsule online in advance — it sells out daily.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9:30am–7pm</strong></span><span>Sky Capsule ₩ <strong>30k</strong></span><span>📱 Book online</span></div>
           </div>
           <div class="nbh-place-type">Activity</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">4</div>
           <div>
-            <div class="nbh-place-name">Haeundae Market</div>
+            <div class="nbh-place-name">Haeundae Traditional Market</div>
             <div class="nbh-place-name-kr">해운대시장 · Local food market</div>
-            <div class="nbh-place-tip">Try ssiat hotteok (seed-stuffed pancake) — Busan's signature street food.</div>
+            <p class="nbh-place-desc">A 5-min walk from the beach, this market is famous for ssiat hotteok (seed-stuffed pancake) — Busan's signature street food. Also try jjukkumi (baby octopus), milmyeon (Busan-style cold noodles), and live octopus sashimi. Most stalls cash-only.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–10pm</strong></span><span>Snacks ₩ <strong>3–8k</strong></span><span>💵 Cash preferred</span></div>
           </div>
           <div class="nbh-place-type">Food</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">5</div>
           <div>
-            <div class="nbh-place-name">Sea Life Aquarium</div>
+            <div class="nbh-place-name">SEA LIFE Busan Aquarium</div>
             <div class="nbh-place-name-kr">씨라이프 부산아쿠아리움</div>
-            <div class="nbh-place-tip">Right on the beach, perfect rainy-day backup. ₩30k for adults.</div>
+            <p class="nbh-place-desc">Located right on Haeundae Beach. 10,000+ marine creatures including sharks, otters, and sea turtles. Underwater tunnel walk-through is a highlight. Perfect rainy-day backup. Discount tickets available on Klook or Trazy (₩25k vs ₩30k at door).</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10am–7pm</strong></span><span>₩ <strong>25–30k</strong></span><span>👨‍👩‍👧 Family friendly</span></div>
           </div>
           <div class="nbh-place-type">Indoor</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">6</div>
+          <div>
+            <div class="nbh-place-name">Cheongsapo Daritdol Skywalk</div>
+            <div class="nbh-place-name-kr">청사포 다릿돌 전망대 · Glass cliff walk</div>
+            <p class="nbh-place-desc">A glass-floored observation deck extending 20m over the ocean from a cliff. Look straight down at the waves crashing below. Free, open all day. 15-min walk from Cheongsapo (end of the Sky Capsule route). Best at sunset.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–6pm</strong></span><span>Free</span><span>🌅 Best at sunset</span></div>
+          </div>
+          <div class="nbh-place-type">View</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">7</div>
+          <div>
+            <div class="nbh-place-name">Centum City</div>
+            <div class="nbh-place-name-kr">센텀시티 · Shinsegae shopping complex</div>
+            <p class="nbh-place-desc">Home to the Guinness-certified largest department store in the world. Spa Land (Korean jjimjilbang spa, ₩20k) is excellent. CGV Cinema, ice rink, and 11 floors of luxury shopping. Connected directly to Centum City subway station (Line 2).</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10:30am–8pm</strong></span><span>Spa ₩ <strong>20k</strong></span><span>📍 Centum City Stn</span></div>
+          </div>
+          <div class="nbh-place-type">Mall</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">8</div>
+          <div>
+            <div class="nbh-place-name">Busan Cinema Center (BIFF)</div>
+            <div class="nbh-place-name-kr">영화의전당 · Architectural icon</div>
+            <p class="nbh-place-desc">A stunning architectural masterpiece by Coop Himmelb(l)au — home to the Busan International Film Festival. The cantilevered roof is the world's longest at 163m. Even outside festival time, you can catch independent and Korean films here. Free outdoor space at night.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>Cinema 10am–11pm</strong></span><span>🎬 Tickets ₩ <strong>10k</strong></span><span>🏛 Free architecture</span></div>
+          </div>
+          <div class="nbh-place-type">Culture</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">9</div>
+          <div>
+            <div class="nbh-place-name">Haeundae LCT The Sharp</div>
+            <div class="nbh-place-name-kr">해운대 LCT 더샵 · 411m skyline tower</div>
+            <p class="nbh-place-desc">Korea's tallest residential building at 411m. The 100th floor "Busan X the Sky" observation deck has 360° views of Haeundae and the bridge. Glass floor sections, café, and unforgettable sunset views. ₩27k for adults; cheaper online.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10am–10pm</strong></span><span>₩ <strong>27,000</strong></span><span>🌅 Sunset spectacular</span></div>
+          </div>
+          <div class="nbh-place-type">View</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">10</div>
+          <div>
+            <div class="nbh-place-name">Mipo Coastal Walk</div>
+            <div class="nbh-place-name-kr">미포 해안산책로 · Hidden trail</div>
+            <p class="nbh-place-desc">Less famous than Dongbaek, this 4km walking path runs from Mipo Port to Songjeong Beach along dramatic cliffs. Old fishing village vibes, hidden cafés, sea cliffs, and almost no tourists. Take Sky Capsule one way, walk back. Memorable.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🚶 1.5hr easy walk</span></div>
+          </div>
+          <div class="nbh-place-type">Walk</div>
         </div>
       </div>
     </div>
@@ -372,12 +487,31 @@
 
   <!-- SEOMYEON -->
   <div class="nbh-panel" data-nbh="seomyeon">
+    <div class="nbh-hero color-seomyeon">
+      <svg class="nbh-hero-pattern" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <pattern id="grid-seomyeon" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+            <rect x="0" y="0" width="40" height="40" fill="none" stroke="#f4efe6" stroke-width="1"/>
+            <circle cx="20" cy="20" r="3" fill="#f4efe6"/>
+          </pattern>
+        </defs>
+        <rect width="600" height="200" fill="url(#grid-seomyeon)"/>
+      </svg>
+      <div class="nbh-hero-content">
+        <div class="nbh-hero-num">02</div>
+        <div class="nbh-hero-text">
+          <div class="nbh-hero-name">Seomyeon</div>
+          <div class="nbh-hero-kr">서면 · The City Center</div>
+          <div class="nbh-hero-tag">Shopping, Food & Late-Night Energy</div>
+        </div>
+      </div>
+    </div>
     <div class="nbh-panel-grid">
       <div class="nbh-info">
         <div class="nbh-vibe">★ City Center</div>
         <h4 class="nbh-headline">Busan's <em>downtown</em> heart.</h4>
         <div class="nbh-headline-kr">서면 · Where two subway lines cross</div>
-        <p class="nbh-desc">The commercial center of Busan — and where Lines 1 and 2 intersect. Underground shopping arcades stretch for blocks. Late-night food alleys come alive after 10pm. This is where locals shop, eat, and meet friends. Less polished than Haeundae, more authentic.</p>
+        <p class="nbh-desc">The commercial center of Busan — and where Lines 1 and 2 intersect. Underground shopping arcades stretch for blocks. Late-night food alleys come alive after 10pm. This is where locals shop, eat, and meet friends. Less polished than Haeundae, more authentic. The Jeonpo Café Street nearby was named by NYT as one of Asia's coolest neighborhoods.</p>
         <div class="nbh-meta">
           <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Shopping, late-night food<span class="value-kr">쇼핑·야식</span></div></div>
           <div class="nbh-meta-item"><div class="label">Subway</div><div class="value">Lines 1 & 2 · Seomyeon Stn</div></div>
@@ -386,51 +520,116 @@
         </div>
       </div>
       <div class="nbh-places">
-        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-places-title">10 must-see places</div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">1</div>
           <div>
-            <div class="nbh-place-name">Seomyeon Underground Mall</div>
+            <div class="nbh-place-name">Seomyeon Underground Shopping Mall</div>
             <div class="nbh-place-name-kr">서면지하상가 · 1km of shops</div>
-            <div class="nbh-place-tip">Hundreds of small clothing and accessory stores. Bargain-friendly.</div>
+            <p class="nbh-place-desc">One of Korea's largest underground arcades, with hundreds of small clothing, cosmetics, and accessory stores. Great for bargains — multiple-item discounts often available. Connects directly between Lines 1 and 2 at Seomyeon Station. Convenient on rainy days.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10am–10pm</strong></span><span>💵 Cash bargains</span><span>📍 Direct subway access</span></div>
           </div>
           <div class="nbh-place-type">Shopping</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">2</div>
           <div>
             <div class="nbh-place-name">Seomyeon Food Alley</div>
-            <div class="nbh-place-name-kr">서면 먹자골목 · Late-night food</div>
-            <div class="nbh-place-tip">Open until 3am. Order soju with grilled meats. Locals' favorite.</div>
+            <div class="nbh-place-name-kr">서면 먹자골목 · Late-night dining</div>
+            <p class="nbh-place-desc">Open until 3am most nights. Korean BBQ, gopchang (grilled intestines), pork hocks, and soju are the specialties. Loud, crowded, smoky, and authentic — exactly how Korean drinking culture works. Locals gather here after 10pm. Look for places with the most middle-aged Koreans inside.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>5pm–3am</strong></span><span>BBQ ₩ <strong>15–25k</strong> /person</span><span>🍻 Authentic</span></div>
           </div>
           <div class="nbh-place-type">Food</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">3</div>
           <div>
             <div class="nbh-place-name">Jeonpo Café Street</div>
-            <div class="nbh-place-name-kr">전포카페거리 · Indie cafés</div>
-            <div class="nbh-place-tip">A 5-min walk from Seomyeon. Voted by NYT as one of Asia's best café streets.</div>
+            <div class="nbh-place-name-kr">전포카페거리 · NYT-rated district</div>
+            <p class="nbh-place-desc">A 5-min walk from Seomyeon Station, this district was voted by NYT as one of Asia's coolest neighborhoods. Indie cafés in converted old buildings, design boutiques, and Korea's most photographed roastery scene. Tuesday–Thursday afternoons are best. Most cafés are independent, not chains.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>11am–10pm</strong></span><span>Coffee ₩ <strong>5–8k</strong></span><span>📅 Skip weekends</span></div>
           </div>
           <div class="nbh-place-type">Cafés</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">4</div>
           <div>
-            <div class="nbh-place-name">Lotte Department Store</div>
+            <div class="nbh-place-name">Lotte Department Store Seomyeon</div>
             <div class="nbh-place-name-kr">롯데백화점 서면점</div>
-            <div class="nbh-place-tip">Tax-free shopping, premium brands. Top-floor food court is excellent.</div>
+            <p class="nbh-place-desc">Tax-free shopping, premium brands, and excellent food court. Top-floor restaurant district has Michelin-noted Korean fine dining. Free observation deck on top floor with city views. Tax-free service desk on 9th floor for tourists.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10:30am–8pm</strong></span><span>🏷 Tax-free 9F</span><span>🌃 Free rooftop</span></div>
           </div>
           <div class="nbh-place-type">Shopping</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">5</div>
           <div>
-            <div class="nbh-place-name">Hwangnyeongsan Mountain</div>
-            <div class="nbh-place-name-kr">황령산 · Night view spot</div>
-            <div class="nbh-place-tip">Best night view of Busan. Take a taxi to the top — driving up is easy.</div>
+            <div class="nbh-place-name">Hwangnyeongsan Mountain Observatory</div>
+            <div class="nbh-place-name-kr">황령산 봉수대 · Best night view</div>
+            <p class="nbh-place-desc">The single best night view of Busan. From the summit, you can see Haeundae, Gwangalli Bridge, and the entire city lit up. Take a taxi to the top (₩10k from Seomyeon) — no bus goes there. Drive up is easy, parking free. No food at top, bring snacks.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🌃 Best at night</span></div>
           </div>
           <div class="nbh-place-type">View</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">6</div>
+          <div>
+            <div class="nbh-place-name">Seomyeon Medical Street</div>
+            <div class="nbh-place-name-kr">서면 메디컬 스트리트 · K-beauty clinics</div>
+            <p class="nbh-place-desc">Busan's plastic surgery and K-beauty hub — over 200 clinics in a 4-block radius. Free initial consultations in Korean, English, Chinese, and Japanese for medical tourists. Even if not getting surgery, derma treatments and skin consultations are popular and reasonably priced.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10am–7pm</strong></span><span>Free consults</span><span>📅 Closed Sunday</span></div>
+          </div>
+          <div class="nbh-place-type">Beauty</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">7</div>
+          <div>
+            <div class="nbh-place-name">Bujeon Market</div>
+            <div class="nbh-place-name-kr">부전시장 · Korea's largest fruit market</div>
+            <p class="nbh-place-desc">10-min walk from Seomyeon. Massive market specializing in fresh fruit at wholesale prices — especially cheap during peach, melon, and persimmon seasons. Also has a side seafood section. Cash only. Mornings are most active.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>5am–8pm</strong></span><span>💵 Cash only</span><span>🍑 Best for fruit</span></div>
+          </div>
+          <div class="nbh-place-type">Market</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">8</div>
+          <div>
+            <div class="nbh-place-name">Seomyeon 1st Street (NC Department)</div>
+            <div class="nbh-place-name-kr">서면 1번가 · Pedestrian fashion street</div>
+            <p class="nbh-place-desc">A pedestrian-only street running through Seomyeon's center, lined with mid-range fashion brands favored by Korean students. Friday and Saturday nights, K-pop dance crews perform here. The atmosphere is youthful and cheap. Good for accessories and casual fashion.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>11am–11pm</strong></span><span>🎤 K-pop covers Fri/Sat</span><span>🎽 Affordable fashion</span></div>
+          </div>
+          <div class="nbh-place-type">Shopping</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">9</div>
+          <div>
+            <div class="nbh-place-name">Seomyeon Pojangmacha Tents</div>
+            <div class="nbh-place-name-kr">서면 포장마차 · Korean street tent bars</div>
+            <p class="nbh-place-desc">Orange-tarp tents that pop up at sunset and run until dawn. Order tteokbokki, dak-bal (chicken feet), kalguksu, and soju. Communal tables, usually shared with strangers. The most authentic late-night experience in Busan. Cash strongly preferred.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>7pm–4am</strong></span><span>Per person ₩ <strong>15k</strong></span><span>💵 Cash only</span></div>
+          </div>
+          <div class="nbh-place-type">Nightlife</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">10</div>
+          <div>
+            <div class="nbh-place-name">Busan Citizens Park</div>
+            <div class="nbh-place-name-kr">부산시민공원 · Urban green space</div>
+            <p class="nbh-place-desc">Built on the former site of US military Camp Hialeah, opened 2014. A 470,000㎡ park with walking paths, art installations, water features, and seasonal flower fields. Excellent for joggers and families. 15-min walk from Seomyeon, or 1 stop on Line 1 to Bujeon Station.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🌳 Cherry blossoms April</span></div>
+          </div>
+          <div class="nbh-place-type">Park</div>
         </div>
       </div>
     </div>
@@ -438,12 +637,32 @@
 
   <!-- NAMPO -->
   <div class="nbh-panel" data-nbh="nampo">
+    <div class="nbh-hero color-nampo">
+      <svg class="nbh-hero-pattern" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <pattern id="port-nampo" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+            <path d="M 10 60 L 70 60 L 60 50 L 20 50 Z" fill="#f4efe6"/>
+            <line x1="40" y1="20" x2="40" y2="50" stroke="#f4efe6" stroke-width="2"/>
+            <path d="M 40 25 L 55 35 L 40 35 Z" fill="#f4efe6"/>
+          </pattern>
+        </defs>
+        <rect width="600" height="200" fill="url(#port-nampo)"/>
+      </svg>
+      <div class="nbh-hero-content">
+        <div class="nbh-hero-num">03</div>
+        <div class="nbh-hero-text">
+          <div class="nbh-hero-name">Nampo</div>
+          <div class="nbh-hero-kr">남포동 · The Old Port Town</div>
+          <div class="nbh-hero-tag">Markets, Cinema & Korean History</div>
+        </div>
+      </div>
+    </div>
     <div class="nbh-panel-grid">
       <div class="nbh-info">
         <div class="nbh-vibe">★ Old Town</div>
         <h4 class="nbh-headline">Busan's <em>original</em> downtown.</h4>
         <div class="nbh-headline-kr">남포동 · The historic port heart</div>
-        <p class="nbh-desc">Before Haeundae was developed, this was Busan. The port, the markets, the cinema district — all here. Today Nampo is a walkable old-town with the country's largest fish market, an iconic cinema street, and Yongdusan Park's famous tower.</p>
+        <p class="nbh-desc">Before Haeundae was developed, this was Busan. The port, the markets, the cinema district — all here. Today Nampo is a walkable old-town with the country's largest fish market, an iconic cinema street where the Busan International Film Festival started, and Yongdusan Park's famous tower. It's grittier and more authentic than Haeundae, with deeper history.</p>
         <div class="nbh-meta">
           <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Markets, walking tours<span class="value-kr">시장·산책</span></div></div>
           <div class="nbh-meta-item"><div class="label">Subway</div><div class="value">Line 1 · Nampo Stn</div></div>
@@ -452,51 +671,116 @@
         </div>
       </div>
       <div class="nbh-places">
-        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-places-title">10 must-see places</div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">1</div>
           <div>
             <div class="nbh-place-name">Jagalchi Fish Market</div>
             <div class="nbh-place-name-kr">자갈치시장 · Korea's largest fish market</div>
-            <div class="nbh-place-tip">Pick fresh seafood downstairs, eat upstairs. Look for blue "Trusted Vendor" stickers.</div>
+            <p class="nbh-place-desc">Korea's biggest fish market, with hundreds of vendors selling everything from live octopus to king crab. Pick fresh seafood downstairs, eat upstairs at restaurants that prepare it for you (sashimi, hot pot, grilled). Look for blue "Trusted Vendor" stickers. Bring cash. Best 7am to noon.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>5am–10pm</strong></span><span>Sashimi ₩ <strong>30–60k</strong></span><span>💵 Cash preferred</span></div>
           </div>
           <div class="nbh-place-type">Market</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">2</div>
           <div>
             <div class="nbh-place-name">BIFF Square</div>
             <div class="nbh-place-name-kr">BIFF광장 · Cinema district</div>
-            <div class="nbh-place-tip">Home to the Busan International Film Festival. Look for handprints of stars on the ground.</div>
+            <p class="nbh-place-desc">The original home of the Busan International Film Festival (now called BIFF). Look for handprints of famous actors and directors embedded in the ground. Outside cinemas, an excellent street food zone with fried chicken stalls, hotteok carts, and bingsu cafés. Active until midnight.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7 outdoor</strong></span><span>Free</span><span>🎬 Cinema heritage</span></div>
           </div>
           <div class="nbh-place-type">Culture</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">3</div>
           <div>
             <div class="nbh-place-name">Gukje Market</div>
             <div class="nbh-place-name-kr">국제시장 · Traditional market</div>
-            <div class="nbh-place-tip">The setting of the famous Korean film "Ode to My Father". Try bibim dangmyeon.</div>
+            <p class="nbh-place-desc">Featured in the famous Korean film "Ode to My Father" (2014). A sprawling market with thousands of small stalls — clothing, electronics, knock-offs, military surplus, and traditional Korean goods. Try bibim dangmyeon (cold glass noodles) and yubu jeongol (tofu hotpot) at the food alley.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–8pm</strong></span><span>💵 Cash + bargain</span><span>🎬 Movie famous</span></div>
           </div>
           <div class="nbh-place-type">Market</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">4</div>
           <div>
-            <div class="nbh-place-name">Yongdusan Park</div>
-            <div class="nbh-place-name-kr">용두산공원 · With Busan Tower</div>
-            <div class="nbh-place-tip">Free park, ₩12k tower. 360° views of port and city. Best at dusk.</div>
+            <div class="nbh-place-name">Yongdusan Park & Busan Tower</div>
+            <div class="nbh-place-name-kr">용두산공원·부산타워</div>
+            <p class="nbh-place-desc">A small hilltop park reached by escalator from Nampo street. Park itself is free with city views. Busan Tower (₩12k) gives 360° views of the port and Haeundae in the distance. Best at sunset. Combine with surrounding markets for a full afternoon.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–10pm</strong></span><span>Tower ₩ <strong>12,000</strong></span><span>🌅 Best at sunset</span></div>
           </div>
           <div class="nbh-place-type">View</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">5</div>
           <div>
             <div class="nbh-place-name">Bupyeong Kkangtong Market</div>
             <div class="nbh-place-name-kr">부평깡통시장 · Night food market</div>
-            <div class="nbh-place-tip">Opens at 7pm. Famous yubu jeongol (tofu hotpot) and street snacks.</div>
+            <p class="nbh-place-desc">Opens at 7pm and runs until 1am. Famous for unique night-market foods you won't find elsewhere — yubu jeongol (tofu hotpot), bibim dangmyeon, ssiat hotteok. The "Kkangtong" name means "can" — refers to the imported foods sold here after the Korean War. Cash strongly preferred.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>7pm–1am</strong></span><span>Per person ₩ <strong>10–15k</strong></span><span>💵 Cash only</span></div>
           </div>
           <div class="nbh-place-type">Food</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">6</div>
+          <div>
+            <div class="nbh-place-name">40 Step Cultural Street</div>
+            <div class="nbh-place-name-kr">40계단 문화관광테마거리 · Korean War memorial</div>
+            <p class="nbh-place-desc">A 40-step staircase that became a meeting point for separated families during the Korean War. Bronze statues recreate iconic scenes. Free outdoor museum surrounding the stairs. 5-min walk from Jungang Station. Quiet historical break from busy markets.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🎭 Outdoor museum</span></div>
+          </div>
+          <div class="nbh-place-type">Historic</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">7</div>
+          <div>
+            <div class="nbh-place-name">Bosu-dong Book Alley</div>
+            <div class="nbh-place-name-kr">보수동 책방골목 · Used book heaven</div>
+            <p class="nbh-place-desc">A 70-year-old book alley with 50+ used bookstores stacked into narrow lanes. Korean and Japanese books mostly, but excellent for collectors. Books from ₩2,000. The atmosphere itself is the attraction — towering stacks, quiet conversations, smell of old paper. 10-min walk from Nampo.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10am–8pm</strong></span><span>Books ₩ <strong>2k+</strong></span><span>📚 50+ shops</span></div>
+          </div>
+          <div class="nbh-place-type">Books</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">8</div>
+          <div>
+            <div class="nbh-place-name">Yongkungsa Temple Day Trip</div>
+            <div class="nbh-place-name-kr">해동용궁사 · Temple by the sea</div>
+            <p class="nbh-place-desc">25-min taxi from Nampo. A rare Buddhist temple built right on the rocky seashore — most temples are in mountains. Built in 1376, with dragon statues, ornate gates, and stunning sunrise views. Free entry, open 5am for sunrise visitors. Combine with morning market visit.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>5am–7pm</strong></span><span>Free</span><span>🌅 Best sunrise</span></div>
+          </div>
+          <div class="nbh-place-type">Temple</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">9</div>
+          <div>
+            <div class="nbh-place-name">Songdo Beach & Cable Car</div>
+            <div class="nbh-place-name-kr">송도해수욕장 · Korea's first beach</div>
+            <p class="nbh-place-desc">Korea's first official public beach (opened 1913). The Songdo Marine Cable Car (₩15–20k) crosses the bay with glass-floor cabins available — stunning ocean views. Quieter than Haeundae, with a small but charming beach. 15-min taxi from Nampo.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–9pm</strong></span><span>Cable car ₩ <strong>15k</strong></span><span>🚠 Glass-floor option</span></div>
+          </div>
+          <div class="nbh-place-type">Beach</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">10</div>
+          <div>
+            <div class="nbh-place-name">Nampo Mid-Century Cafés</div>
+            <div class="nbh-place-name-kr">남포동 빈티지 카페 · Old port aesthetic</div>
+            <p class="nbh-place-desc">In the back alleys near Bosu-dong, several cafés have preserved 1970s Korean port-town aesthetics — wooden interiors, vinyl records, hand-drip coffee, retro pottery. "Café Magpie" and "Yeonbang" are highly recommended. The vibe is unique to old Busan.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>11am–10pm</strong></span><span>Coffee ₩ <strong>5–8k</strong></span><span>🎵 Vinyl music</span></div>
+          </div>
+          <div class="nbh-place-type">Cafés</div>
         </div>
       </div>
     </div>
@@ -504,12 +788,34 @@
 
   <!-- GAMCHEON -->
   <div class="nbh-panel" data-nbh="gamcheon">
+    <div class="nbh-hero color-gamcheon">
+      <svg class="nbh-hero-pattern" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <pattern id="houses-gamcheon" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+            <rect x="10" y="40" width="20" height="25" fill="#f4efe6"/>
+            <path d="M 10 40 L 20 30 L 30 40 Z" fill="#f4efe6"/>
+            <rect x="35" y="50" width="20" height="20" fill="#f4efe6"/>
+            <path d="M 35 50 L 45 42 L 55 50 Z" fill="#f4efe6"/>
+            <rect x="60" y="35" width="15" height="20" fill="#f4efe6"/>
+          </pattern>
+        </defs>
+        <rect width="600" height="200" fill="url(#houses-gamcheon)"/>
+      </svg>
+      <div class="nbh-hero-content">
+        <div class="nbh-hero-num">04</div>
+        <div class="nbh-hero-text">
+          <div class="nbh-hero-name">Gamcheon</div>
+          <div class="nbh-hero-kr">감천문화마을 · The Art Village</div>
+          <div class="nbh-hero-tag">Korea's Machu Picchu · Pastel Hillside</div>
+        </div>
+      </div>
+    </div>
     <div class="nbh-panel-grid">
       <div class="nbh-info">
         <div class="nbh-vibe">★ Art & Culture</div>
         <h4 class="nbh-headline">A village built on a <em>hillside</em>.</h4>
         <div class="nbh-headline-kr">감천문화마을 · Korea's "Machu Picchu"</div>
-        <p class="nbh-desc">In the 1950s, Korean War refugees settled this steep hillside, building tiny pastel-colored houses. In 2009, the city turned it into an art village — adding murals, galleries, and walking trails. Today it's one of Busan's most photographed places, but real residents still live here.</p>
+        <p class="nbh-desc">In the 1950s, Korean War refugees settled this steep hillside, building tiny pastel-colored houses stacked one above another. In 2009, the city turned it into an art village — adding murals, galleries, walking trails, and small museums. Today it's one of Busan's most photographed places, but real residents still live here. Walk slowly, speak quietly.</p>
         <div class="nbh-meta">
           <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Photography, art lovers<span class="value-kr">사진·예술</span></div></div>
           <div class="nbh-meta-item"><div class="label">How to get</div><div class="value">Bus 2-2 from Toseong Stn</div></div>
@@ -518,51 +824,116 @@
         </div>
       </div>
       <div class="nbh-places">
-        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-places-title">10 must-see places</div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">1</div>
           <div>
             <div class="nbh-place-name">Little Prince Statue</div>
             <div class="nbh-place-name-kr">어린왕자 동상 · Iconic photo spot</div>
-            <div class="nbh-place-tip">Most-photographed bench in Korea. Expect a 10-min wait for your photo.</div>
+            <p class="nbh-place-desc">The most photographed spot in all of Busan — a bronze Little Prince and his fox sitting on a viewpoint bench, overlooking the entire pastel village. Expect a 10–15 min wait for your photo on weekdays, longer on weekends. Free, always accessible.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>📸 10-min wait avg</span></div>
           </div>
           <div class="nbh-place-type">Photo</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">2</div>
           <div>
-            <div class="nbh-place-name">Stamp Tour</div>
-            <div class="nbh-place-name-kr">스탬프투어 · Self-guided</div>
-            <div class="nbh-place-tip">Buy a map at the visitor center (₩2k). Collect 8 stamps for a small gift.</div>
+            <div class="nbh-place-name">Gamcheon Stamp Tour</div>
+            <div class="nbh-place-name-kr">스탬프투어 · Self-guided exploration</div>
+            <p class="nbh-place-desc">Buy a map at the visitor center for ₩2k — collect 8 stamps from various corners of the village to get a small commemorative gift. Forces you to walk through hidden alleys you'd otherwise miss. Takes about 1.5 hours. The map alone is a beautiful souvenir.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–6pm</strong></span><span>Map ₩ <strong>2,000</strong></span><span>📍 Visitor center first</span></div>
           </div>
           <div class="nbh-place-type">Activity</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">3</div>
           <div>
             <div class="nbh-place-name">Sky Lookout Point</div>
-            <div class="nbh-place-name-kr">전망대 · Top of village</div>
-            <div class="nbh-place-tip">A short hike up. Panoramic view of the entire pastel village.</div>
+            <div class="nbh-place-name-kr">전망대 · Top of the village</div>
+            <p class="nbh-place-desc">A short uphill walk from the entrance. Panoramic view of the entire pastel village stacked on the hillside, with the harbor in the distance. Best photo angle. Free wooden viewing platform. 5–10 min walk depending on which entrance you use.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🌅 Best at sunset</span></div>
           </div>
           <div class="nbh-place-type">View</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">4</div>
           <div>
-            <div class="nbh-place-name">Art Galleries</div>
-            <div class="nbh-place-name-kr">감천문화마을 갤러리</div>
-            <div class="nbh-place-tip">Multiple small galleries scattered through alleys. Free entry, local artists.</div>
+            <div class="nbh-place-name">Art Galleries & Museums</div>
+            <div class="nbh-place-name-kr">감천 갤러리 · Local artists</div>
+            <p class="nbh-place-desc">Multiple small galleries scattered through alleys feature local Busan artists. Most are free or ₩1k entry. The "Beauty in Daily Life" museum (₩2k) shows what village life was like in the 1960s. The "Sky Bridge" gallery is the most photographic.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10am–6pm</strong></span><span>Most free</span><span>📅 Some closed Mon</span></div>
           </div>
           <div class="nbh-place-type">Culture</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">5</div>
           <div>
-            <div class="nbh-place-name">Cafe Sunset</div>
+            <div class="nbh-place-name">Sunset Cafés</div>
             <div class="nbh-place-name-kr">감천 카페 · Hillside views</div>
-            <div class="nbh-place-tip">Several rooftop cafés with sea views. Order café latte and stay an hour.</div>
+            <p class="nbh-place-desc">Several rooftop cafés in the village have stunning sea views. "Cafe Eelee" and "Cafe Banya" are most popular. Order café latte or yuja-cha (citrus tea) and stay an hour for the sunset. Slightly more expensive than city cafés but worth it for the view.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>11am–8pm</strong></span><span>Drink ₩ <strong>6–10k</strong></span><span>🌅 Sunset essential</span></div>
           </div>
           <div class="nbh-place-type">Café</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">6</div>
+          <div>
+            <div class="nbh-place-name">Mural Alleys</div>
+            <div class="nbh-place-name-kr">감천 벽화골목 · Painted walls</div>
+            <p class="nbh-place-desc">Throughout the village, narrow alleys are filled with murals by local and international artists. Each alley has a different theme — some traditional Korean motifs, some modern, some abstract. Just wander; you'll find them everywhere. Many are interactive (designed for photos).</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🎨 Interactive photos</span></div>
+          </div>
+          <div class="nbh-place-type">Art</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">7</div>
+          <div>
+            <div class="nbh-place-name">Haneul-maru Observatory</div>
+            <div class="nbh-place-name-kr">하늘마루 · Sky pavilion</div>
+            <p class="nbh-place-desc">A wooden traditional pavilion at the highest point of the village. Free to enter, open 24/7. Less crowded than the Sky Lookout. The view here includes both Gamcheon and Songdo Beach in the distance. Quiet meditation spot away from crowds.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>📍 Highest point</span></div>
+          </div>
+          <div class="nbh-place-type">View</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">8</div>
+          <div>
+            <div class="nbh-place-name">Photo Postcard Studio</div>
+            <div class="nbh-place-name-kr">감천 엽서 · Send-yourself postcards</div>
+            <p class="nbh-place-desc">A small studio where you write a postcard to your future self (or anyone). The shop holds it and mails it 6 months or 1 year later. ₩2k including stamp. Surprisingly emotional experience for travelers. Several similar shops in the village; the original is near the Little Prince statue.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10am–6pm</strong></span><span>₩ <strong>2,000</strong></span><span>💌 Mailed in 6mo–1yr</span></div>
+          </div>
+          <div class="nbh-place-type">Activity</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">9</div>
+          <div>
+            <div class="nbh-place-name">Snack Shops</div>
+            <div class="nbh-place-name-kr">감천 군것질 · Local treats</div>
+            <p class="nbh-place-desc">Several traditional snack shops sell handmade treats — yakgwa (honey cookies), Korean rice cakes, traditional candies. Most cost ₩1–3k each. Try gosohan-juk (sesame porridge) at the small shop near the entrance — a Gamcheon specialty. Cash only.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10am–6pm</strong></span><span>Snacks ₩ <strong>1–3k</strong></span><span>💵 Cash only</span></div>
+          </div>
+          <div class="nbh-place-type">Food</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">10</div>
+          <div>
+            <div class="nbh-place-name">Hanbok Rental</div>
+            <div class="nbh-place-name-kr">한복 대여 · Traditional dress</div>
+            <p class="nbh-place-desc">Several hanbok rental shops near the village entrance offer traditional dress for ₩15–25k for 4 hours. The pastel village makes a stunning backdrop for hanbok photos. Family-friendly, all sizes available. Modern hanbok styles also offered for those who prefer.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10am–7pm</strong></span><span>4hr ₩ <strong>15–25k</strong></span><span>👘 Photo-perfect</span></div>
+          </div>
+          <div class="nbh-place-type">Activity</div>
         </div>
       </div>
     </div>
@@ -570,12 +941,35 @@
 
   <!-- GWANGALLI -->
   <div class="nbh-panel" data-nbh="gwangalli">
+    <div class="nbh-hero color-gwangalli">
+      <svg class="nbh-hero-pattern" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <pattern id="bridge-gwangalli" x="0" y="0" width="120" height="80" patternUnits="userSpaceOnUse">
+            <line x1="0" y1="50" x2="120" y2="50" stroke="#f4efe6" stroke-width="2"/>
+            <line x1="20" y1="50" x2="20" y2="20" stroke="#f4efe6" stroke-width="2"/>
+            <line x1="60" y1="50" x2="60" y2="10" stroke="#f4efe6" stroke-width="2"/>
+            <line x1="100" y1="50" x2="100" y2="20" stroke="#f4efe6" stroke-width="2"/>
+            <line x1="20" y1="20" x2="60" y2="10" stroke="#f4efe6" stroke-width="1"/>
+            <line x1="60" y1="10" x2="100" y2="20" stroke="#f4efe6" stroke-width="1"/>
+          </pattern>
+        </defs>
+        <rect width="600" height="200" fill="url(#bridge-gwangalli)"/>
+      </svg>
+      <div class="nbh-hero-content">
+        <div class="nbh-hero-num">05</div>
+        <div class="nbh-hero-text">
+          <div class="nbh-hero-name">Gwangalli</div>
+          <div class="nbh-hero-kr">광안리 · Beach & Bridge</div>
+          <div class="nbh-hero-tag">Sunset · Drone Shows · Locals' Favorite</div>
+        </div>
+      </div>
+    </div>
     <div class="nbh-panel-grid">
       <div class="nbh-info">
         <div class="nbh-vibe">★ Beach + Bridge</div>
         <h4 class="nbh-headline">The <em>second</em> beach, with the better view.</h4>
         <div class="nbh-headline-kr">광안리 · Locals' favorite beach</div>
-        <p class="nbh-desc">Less crowded than Haeundae, but with the iconic Gwangan Bridge as backdrop. The bridge lights up at night with rotating colors. The promenade has a younger, hipper vibe — surf shops, craft beer bars, and design-forward cafés. Drone shows happen monthly.</p>
+        <p class="nbh-desc">Less crowded than Haeundae, but with the iconic Gwangan Bridge as backdrop. The bridge lights up at night with rotating colors and hosts monthly drone shows that draw thousands. The promenade has a younger, hipper vibe — surf shops, craft beer bars, and design-forward cafés. Most locals prefer this beach to Haeundae. The energy is real and unforced.</p>
         <div class="nbh-meta">
           <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Beach + nightlife combo<span class="value-kr">해변·야경</span></div></div>
           <div class="nbh-meta-item"><div class="label">Subway</div><div class="value">Line 2 · Gwangan Stn</div></div>
@@ -584,55 +978,121 @@
         </div>
       </div>
       <div class="nbh-places">
-        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-places-title">10 must-see places</div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">1</div>
           <div>
             <div class="nbh-place-name">Gwangalli Beach</div>
             <div class="nbh-place-name-kr">광안리해수욕장 · Beach with bridge view</div>
-            <div class="nbh-place-tip">Sunset over the bridge is unmissable. Free, less crowded than Haeundae.</div>
+            <p class="nbh-place-desc">A 1.4km beach with the iconic Gwangan Bridge framing the view. Sunset over the bridge is unmissable. Free, always open. Less crowded than Haeundae, especially on weekdays. Walking the full beach takes 30 min. The cafés along the boardwalk are excellent.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🌅 Best at sunset</span></div>
           </div>
           <div class="nbh-place-type">Beach</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">2</div>
           <div>
             <div class="nbh-place-name">Gwangan Bridge</div>
-            <div class="nbh-place-name-kr">광안대교 · Lit-up bridge</div>
-            <div class="nbh-place-tip">Color-rotating lights from sunset to midnight. Best photo from the beach.</div>
+            <div class="nbh-place-name-kr">광안대교 · Lit-up suspension bridge</div>
+            <p class="nbh-place-desc">A 7.4km suspension bridge with color-rotating lights from sunset to midnight (typically 7pm-11pm). Best photo angles from Gwangalli Beach or Millak Park. The bridge is illuminated with different patterns daily — Korean holidays get special displays.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>Lights 7pm–11pm</strong></span><span>Free to view</span><span>🌈 Color-rotating</span></div>
           </div>
           <div class="nbh-place-type">View</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">3</div>
           <div>
             <div class="nbh-place-name">Millak Raw Fish Center</div>
             <div class="nbh-place-name-kr">민락활어회센터 · Sashimi market</div>
-            <div class="nbh-place-tip">Pick live fish, eat upstairs with bridge view. ₩40–60k feeds two.</div>
+            <p class="nbh-place-desc">5-min walk from Gwangalli. Pick live fish at the wholesale market downstairs (₩30-50k for 2 people), then take it to the restaurants upstairs to be prepared. Eat while watching the bridge light up — windows face the sea. Service charge ₩5k pp at the restaurant.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10am–10pm</strong></span><span>Per person ₩ <strong>30–50k</strong></span><span>🐟 Live fish first</span></div>
           </div>
           <div class="nbh-place-type">Food</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">4</div>
           <div>
             <div class="nbh-place-name">Gwangalli Café Street</div>
-            <div class="nbh-place-name-kr">광안리 카페거리</div>
-            <div class="nbh-place-tip">Beachfront cafés with second-floor views. Try Gallery Onyeon or Café Pero.</div>
+            <div class="nbh-place-name-kr">광안리 카페거리 · Beachfront cafés</div>
+            <p class="nbh-place-desc">Beachfront cafés with second-floor seating for unobstructed bridge views. "Gallery Onyeon" is the most popular — book ahead on weekends. "Café Pero" has the best espresso. "Sunset Beach" is laid-back and pet-friendly. Coffee from ₩6k.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–10pm</strong></span><span>Coffee ₩ <strong>6–10k</strong></span><span>📅 Reserve weekends</span></div>
           </div>
           <div class="nbh-place-type">Café</div>
         </div>
+
         <div class="nbh-place-item">
           <div class="nbh-place-num">5</div>
           <div>
             <div class="nbh-place-name">Suyeong River Park</div>
             <div class="nbh-place-name-kr">수영강공원 · Riverside walk</div>
-            <div class="nbh-place-tip">15 min walk from Gwangalli. Quiet, locals-only feel, good for jogging.</div>
+            <p class="nbh-place-desc">15-min walk from Gwangalli. Quiet riverside park with walking and biking paths, locals-only feel. Connects to F1963 cultural complex (a former wire factory turned art space). Excellent for jogging or escape from beach crowds. Free bike rental on weekends.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>24/7</strong></span><span>Free</span><span>🚴 Free bikes weekend</span></div>
           </div>
           <div class="nbh-place-type">Park</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">6</div>
+          <div>
+            <div class="nbh-place-name">F1963 Cultural Complex</div>
+            <div class="nbh-place-name-kr">F1963 · Wire factory turned art</div>
+            <p class="nbh-place-desc">A 1963 wire factory transformed into a cultural complex with galleries, indie bookstore (YES24), Korean traditional tea house, brewery, and event spaces. Free to enter, exhibitions vary in price. The architecture itself is the attraction — exposed steel beams, raw concrete.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>10am–10pm</strong></span><span>Free general</span><span>🏛 Industrial heritage</span></div>
+          </div>
+          <div class="nbh-place-type">Culture</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">7</div>
+          <div>
+            <div class="nbh-place-name">Gwangalli Drone Shows</div>
+            <div class="nbh-place-name-kr">광안리 드론쇼 · Monthly spectacle</div>
+            <p class="nbh-place-desc">A free 1,000-drone choreographed light show, held the second Saturday of most months at 8pm. The drones form 3D patterns over the bay — K-pop themes, Korean holidays, Busan history. Arrive 30 min early for best viewing. Free, hugely crowded but worth it.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>2nd Sat 8pm</strong></span><span>Free</span><span>🎆 1,000 drones</span></div>
+          </div>
+          <div class="nbh-place-type">Show</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">8</div>
+          <div>
+            <div class="nbh-place-name">Craft Beer Streets</div>
+            <div class="nbh-place-name-kr">광안리 수제맥주 · Local breweries</div>
+            <p class="nbh-place-desc">Behind Gwangalli Beach, several blocks of craft beer pubs serving local Busan brewers. "Galmegi Brewing" is the most famous — Korean-themed beers with English menus. Beer flights ₩15k. Most pubs run from 5pm to 1am, with food menus.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>5pm–1am</strong></span><span>Pint ₩ <strong>8–10k</strong></span><span>🍺 Galmegi Brewing</span></div>
+          </div>
+          <div class="nbh-place-type">Nightlife</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">9</div>
+          <div>
+            <div class="nbh-place-name">Hwangnyeongsan Trail (Walk Up)</div>
+            <div class="nbh-place-name-kr">황령산 등산로 · Mountain hike</div>
+            <p class="nbh-place-desc">For hikers — a 2-hour round trip up to Hwangnyeongsan summit, starting from Gwangalli neighborhood. The view from the top includes both Gwangalli and Haeundae bridges, with the entire city below. Moderate difficulty, paved path most of the way. Best at sunset.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>5am–9pm</strong></span><span>Free</span><span>⛰ 2hr round trip</span></div>
+          </div>
+          <div class="nbh-place-type">Hike</div>
+        </div>
+
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">10</div>
+          <div>
+            <div class="nbh-place-name">SUP & Surfing</div>
+            <div class="nbh-place-name-kr">서핑·SUP · Beach activities</div>
+            <p class="nbh-place-desc">Several rental shops along Gwangalli Beach offer stand-up paddle boarding (SUP, ₩30k/hr) and surfing lessons (₩60k for 2 hours). The bay is calmer than Haeundae, making it better for beginners. Wetsuits provided. Best in May-September. Most instructors speak basic English.</p>
+            <div class="nbh-place-meta"><span>⏰ <strong>9am–6pm</strong></span><span>SUP ₩ <strong>30k/hr</strong></span><span>🏄 May–September</span></div>
+          </div>
+          <div class="nbh-place-type">Activity</div>
         </div>
       </div>
     </div>
   </div>
+
 </section>
 
 <div class="section-header" id="map">
@@ -808,48 +1268,127 @@
 
 <section class="city-food">
   <div class="food-grid">
+
     <div class="food-card">
       <div class="food-tag">◉ Soup</div>
       <div class="food-name">Dwaeji Gukbap</div>
       <div class="food-name-kr">돼지국밥 · Pork & rice soup</div>
-      <p class="food-desc">Pork bones simmered for 12+ hours into a rich, milky broth, served with rice and pork slices. Customize with chives, salted shrimp, and red pepper paste. Soul food during Korean War, now Busan's most defining dish.</p>
-      <div class="food-where">Best at <strong>Sinchang Gukbap (신창국밥)</strong>, Seomyeon</div>
+      <p class="food-desc">Pork bones simmered for 12+ hours into a rich, milky broth, served with rice and tender pork slices. Customize at the table with chives, salted shrimp, and red pepper paste. Soul food during the Korean War, now Busan's most defining dish. Eaten any time of day.</p>
+      <div class="food-restaurant-list">
+        <h6>★ Best places</h6>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Sinchang Gukbap (신창국밥)</div>
+          <div class="food-restaurant-name-kr">25 Seojeon-ro 49-gil, Busanjin-gu · Seomyeon</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>8,000</strong></span><span>⏰ 24 hours</span><span>📍 Seomyeon Stn</span><span>👴 Since 1969</span></div>
+        </div>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Halmae Gukbap (할매국밥)</div>
+          <div class="food-restaurant-name-kr">295 Bujeon-ro, Busanjin-gu</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>9,000</strong></span><span>⏰ 9am–10pm</span><span>📍 Bujeon Stn</span><span>⭐ Locals' favorite</span></div>
+        </div>
+      </div>
     </div>
+
     <div class="food-card">
       <div class="food-tag">◉ Noodles</div>
       <div class="food-name">Mil Myeon</div>
       <div class="food-name-kr">밀면 · Wheat cold noodles</div>
-      <p class="food-desc">Created by North Korean refugees who couldn't find buckwheat — they used wheat instead. The result is chewier than naengmyeon, served in icy beef broth. Uniquely Busan.</p>
-      <div class="food-where">Best at <strong>Gaegeum Halmae Mil Myeon</strong></div>
+      <p class="food-desc">Created by North Korean refugees who couldn't find buckwheat — they used wheat instead. The result is chewier than naengmyeon, served in icy beef broth or with spicy bibim sauce. Uniquely Busan, available in two styles: mul-milmyeon (cold soup) and bibim-milmyeon (spicy mixed).</p>
+      <div class="food-restaurant-list">
+        <h6>★ Best places</h6>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Gaegeum Halmae Mil Myeon (개금할매밀면)</div>
+          <div class="food-restaurant-name-kr">73 Bumin-dong 1-ga, Seo-gu</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>7,000</strong></span><span>⏰ 10am–9pm</span><span>📍 Toseong Stn</span><span>👴 Since 1972</span></div>
+        </div>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Choryang Mil Myeon (초량밀면)</div>
+          <div class="food-restaurant-name-kr">1 Choryang-ro 12-gil, Dong-gu</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>8,000</strong></span><span>⏰ 11am–9pm</span><span>📍 Busan Station</span><span>📋 English menu</span></div>
+        </div>
+      </div>
     </div>
+
     <div class="food-card">
       <div class="food-tag">◉ Seafood</div>
       <div class="food-name">Hwe (Sashimi)</div>
       <div class="food-name-kr">회 · Korean-style sashimi</div>
-      <p class="food-desc">Cut thicker than Japanese sashimi, eaten with chogochujang (vinegar red pepper paste) wrapped in lettuce or sesame leaves. Pick your fish live at the market.</p>
-      <div class="food-where">Best at <strong>Jagalchi Market 2nd floor</strong></div>
+      <p class="food-desc">Cut thicker than Japanese sashimi, eaten with chogochujang (vinegar red pepper paste) wrapped in lettuce or sesame leaves with garlic and pepper. Pick your fish live from the tank — flounder, sea bream, halibut. The freshness is the point.</p>
+      <div class="food-restaurant-list">
+        <h6>★ Best places</h6>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Jagalchi 2nd Floor Restaurants</div>
+          <div class="food-restaurant-name-kr">Jagalchi Market, Jung-gu · 자갈치시장 2층</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>30–60k</strong> /person</span><span>⏰ 10am–10pm</span><span>📍 Jagalchi Stn</span><span>🐟 Pick fish first</span></div>
+        </div>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Millak Hoetae Town (민락회타운)</div>
+          <div class="food-restaurant-name-kr">1-1 Millak-dong, Suyeong-gu · Gwangalli</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>40–70k</strong> /person</span><span>⏰ 11am–11pm</span><span>📍 Gwangan Stn</span><span>🌉 Bridge view</span></div>
+        </div>
+      </div>
     </div>
+
     <div class="food-card">
       <div class="food-tag">◉ Street Food</div>
       <div class="food-name">Ssiat Hotteok</div>
       <div class="food-name-kr">씨앗호떡 · Seed-stuffed pancake</div>
-      <p class="food-desc">A Busan twist on the classic Korean street pancake — fried, then split open and stuffed with sunflower seeds, peanuts, and cinnamon. Crunchy, sweet, addictive.</p>
-      <div class="food-where">Best at <strong>BIFF Square Hotteok stalls</strong></div>
+      <p class="food-desc">A Busan twist on the classic Korean street pancake — fried until crispy, then split open and stuffed with sunflower seeds, peanuts, brown sugar, and cinnamon. The seeds add crunch that the original lacks. Best eaten standing on the street, hot from the griddle.</p>
+      <div class="food-restaurant-list">
+        <h6>★ Best places</h6>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">BIFF Square Hotteok Stalls</div>
+          <div class="food-restaurant-name-kr">BIFF광장 호떡 거리 · Nampo-dong</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>2,000</strong></span><span>⏰ 11am–11pm</span><span>📍 Nampo Stn</span><span>💵 Cash only</span></div>
+        </div>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Gwangbok-ro Sweets Street</div>
+          <div class="food-restaurant-name-kr">광복로 단과거리 · Multiple stalls</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>2,000</strong></span><span>⏰ 10am–10pm</span><span>📍 Nampo Stn</span><span>🌶 Spicy variant ₩2.5k</span></div>
+        </div>
+      </div>
     </div>
+
     <div class="food-card">
       <div class="food-tag">◉ Fish Stew</div>
       <div class="food-name">Maeuntang</div>
       <div class="food-name-kr">매운탕 · Spicy fish stew</div>
-      <p class="food-desc">Made with the fish bones and head left after sashimi, simmered with tofu, mushrooms, and red pepper. The deepest flavor in Korean seafood cooking. Order after eating sashimi.</p>
-      <div class="food-where">Free with most sashimi orders at fish markets</div>
+      <p class="food-desc">Made with the fish bones, head, and tail left after sashimi, simmered with tofu, mushrooms, scallions, and red pepper paste. The deepest flavor in Korean seafood cooking. Most sashimi restaurants offer this as a follow-up dish — never order it alone.</p>
+      <div class="food-restaurant-list">
+        <h6>★ Best places</h6>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">After-sashimi at Jagalchi</div>
+          <div class="food-restaurant-name-kr">Free with sashimi orders</div>
+          <div class="food-restaurant-meta"><span>Often <strong>FREE</strong></span><span>⏰ Any time</span><span>📍 With sashimi</span><span>🍲 Comes after</span></div>
+        </div>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Haedongchon (해동촌)</div>
+          <div class="food-restaurant-name-kr">99 Sajik-buk-ro, Dongnae-gu</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>15,000</strong></span><span>⏰ 11am–10pm</span><span>📍 Sajik Stn</span><span>🌶 Adjustable spice</span></div>
+        </div>
+      </div>
     </div>
+
     <div class="food-card">
       <div class="food-tag">◉ Late Night</div>
       <div class="food-name">Bibim Dangmyeon</div>
       <div class="food-name-kr">비빔당면 · Cold glass noodles</div>
-      <p class="food-desc">Sweet potato glass noodles tossed with red pepper sauce, vegetables, and sometimes pig's blood sausage. Cheap, addictive, deeply Korean. Sold mostly in markets.</p>
-      <div class="food-where">Best at <strong>Gukje Market food alley</strong></div>
+      <p class="food-desc">Sweet potato glass noodles tossed with red pepper sauce, julienned vegetables, sesame oil, and sometimes pig's blood sausage (sundae). Cheap, addictive, deeply Korean. Sold mostly in traditional markets, almost never in regular restaurants. ₩4–6k for a generous portion.</p>
+      <div class="food-restaurant-list">
+        <h6>★ Best places</h6>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Gukje Market Food Alley</div>
+          <div class="food-restaurant-name-kr">국제시장 먹자골목 · Multiple stalls</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>4–6k</strong></span><span>⏰ 9am–8pm</span><span>📍 Nampo Stn</span><span>💵 Cash only</span></div>
+        </div>
+        <div class="food-restaurant-item">
+          <div class="food-restaurant-name">Bupyeong Kkangtong Night Market</div>
+          <div class="food-restaurant-name-kr">부평깡통야시장 · Open 7pm onwards</div>
+          <div class="food-restaurant-meta"><span>₩ <strong>5,000</strong></span><span>⏰ 7pm–1am</span><span>📍 Nampo Stn</span><span>🌙 Night only</span></div>
+        </div>
+      </div>
     </div>
+
   </div>
 </section>
 

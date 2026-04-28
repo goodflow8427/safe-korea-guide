@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   :root {
     --ink: #1a1814;
@@ -1891,6 +1892,338 @@
     color: var(--paper);
   }
 
+  /* === SHARE CARD === */
+  .share-section {
+    padding: 32px 48px 40px;
+    background: var(--paper-warm);
+    border-bottom: 1px solid var(--ink);
+    text-align: center;
+  }
+
+  .share-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--crimson);
+    margin-bottom: 8px;
+  }
+
+  .share-heading {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .share-heading em {
+    font-style: italic;
+    color: var(--crimson);
+    font-weight: 600;
+  }
+
+  .share-subheading {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 28px;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+
+  .share-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--ink);
+    color: var(--paper);
+    border: 1px solid var(--ink);
+    padding: 16px 28px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .share-button:hover:not(:disabled) {
+    background: var(--crimson);
+    border-color: var(--crimson);
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+
+  .share-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .share-status {
+    margin-top: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--jade);
+    min-height: 16px;
+  }
+
+  /* Share card stage (hidden, used for canvas rendering) */
+  .share-card-stage {
+    position: fixed;
+    left: -9999px;
+    top: 0;
+    width: 1080px;
+    height: 1080px;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .share-card {
+    width: 1080px;
+    height: 1080px;
+    background: #1a1814;
+    color: #f4efe6;
+    padding: 64px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    font-family: 'Fraunces', serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .share-card-pattern {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(244,239,230,0.06) 1px, transparent 0);
+    background-size: 32px 32px;
+    pointer-events: none;
+  }
+
+  .share-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(244,239,230,0.3);
+    position: relative;
+  }
+
+  .share-card-brand {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 800;
+    font-style: italic;
+    letter-spacing: -0.02em;
+  }
+
+  .share-card-brand-accent {
+    color: #c8362d;
+    font-style: normal;
+  }
+
+  .share-card-vol {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(244,239,230,0.5);
+  }
+
+  .share-card-tag-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 36px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .share-card-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #b8924a;
+    padding: 6px 14px;
+    border: 1px solid #b8924a;
+  }
+
+  .share-card-line {
+    flex: 1;
+    height: 1px;
+    background: #b8924a;
+  }
+
+  .share-card-persona {
+    font-family: 'Fraunces', serif;
+    font-size: 84px;
+    line-height: 0.95;
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    margin-bottom: 14px;
+    position: relative;
+  }
+
+  .share-card-persona-em {
+    font-style: italic;
+    color: #c8362d;
+    font-weight: 800;
+  }
+
+  .share-card-sub {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 24px;
+    line-height: 1.4;
+    color: rgba(244,239,230,0.8);
+    margin-bottom: 36px;
+    position: relative;
+  }
+
+  .share-card-section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #b8924a;
+    margin-bottom: 18px;
+    position: relative;
+    padding-top: 28px;
+    border-top: 1px solid rgba(244,239,230,0.3);
+  }
+
+  /* Style match bars */
+  .share-card-styles {
+    margin-bottom: 32px;
+    position: relative;
+  }
+
+  .share-style-row {
+    display: grid;
+    grid-template-columns: 220px 1fr 80px;
+    gap: 18px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .share-style-label {
+    font-family: 'Fraunces', serif;
+    font-size: 19px;
+    font-weight: 600;
+  }
+
+  .share-style-track {
+    height: 18px;
+    background: rgba(244,239,230,0.1);
+    border: 1px solid rgba(244,239,230,0.4);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .share-style-fill {
+    height: 100%;
+    background: #c8362d;
+  }
+
+  .share-style-fill.style-2 { background: #2d5d4f; }
+  .share-style-fill.style-3 { background: #b8924a; }
+  .share-style-fill.style-4 { background: #8b1e18; }
+  .share-style-fill.style-5 { background: #6b5544; }
+  .share-style-fill.style-6 { background: rgba(244,239,230,0.4); }
+
+  .share-style-percent {
+    font-family: 'Fraunces', serif;
+    font-size: 21px;
+    font-weight: 700;
+    text-align: right;
+  }
+
+  /* Recommended areas */
+  .share-card-areas {
+    margin-bottom: 28px;
+    position: relative;
+  }
+
+  .share-areas-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .share-area-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 10px 18px;
+    border: 1px solid rgba(244,239,230,0.5);
+    color: #f4efe6;
+  }
+
+  .share-area-pill.primary {
+    background: #c8362d;
+    border-color: #c8362d;
+    color: #f4efe6;
+  }
+
+  /* Footer */
+  .share-card-footer {
+    margin-top: auto;
+    padding-top: 24px;
+    border-top: 1px solid rgba(244,239,230,0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+  }
+
+  .share-card-cta {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: rgba(244,239,230,0.85);
+    line-height: 1.3;
+  }
+
+  .share-card-cta-strong {
+    color: #b8924a;
+    font-weight: 700;
+    font-style: normal;
+    display: block;
+  }
+
+  .share-card-stamp {
+    width: 110px;
+    height: 110px;
+    border: 2px solid #c8362d;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(-12deg);
+    color: #c8362d;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-align: center;
+    letter-spacing: 0.1em;
+    line-height: 1.3;
+    font-weight: 600;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .share-card-stamp-inner {
+    position: absolute;
+    inset: 5px;
+    border: 1px solid #c8362d;
+    border-radius: 50%;
+  }
+
   /* === MAP SECTION === */
   .results-map-section {
     padding: 40px 48px;
@@ -2652,7 +2985,7 @@
     .quiz-options { grid-template-columns: 1fr; }
     .quiz-start { padding: 40px 24px; }
     .style-bar { grid-template-columns: 100px 1fr 40px; gap: 10px; }
-    .results-header, .style-match, .recommended-section, .budget-section, .tips-section, .quiz-restart, .results-map-section, .stay-section { padding: 28px 24px; }
+    .results-header, .style-match, .recommended-section, .budget-section, .tips-section, .quiz-restart, .results-map-section, .stay-section, .share-section { padding: 28px 24px; }
     .results-map { height: 360px; }
     .map-legend { padding: 14px 16px; gap: 10px 16px; }
     .stay-types-grid { grid-template-columns: 1fr; }
@@ -3258,6 +3591,18 @@
         <div class="tips-list" id="tipsList"></div>
       </div>
 
+      <!-- Share -->
+      <div class="share-section">
+        <div class="share-title">— Share Your Result</div>
+        <h5 class="share-heading">Take your <em>Korea trip card</em> with you.</h5>
+        <p class="share-subheading">Download as a PNG image — perfect for Instagram, Twitter, or saving to your phone.</p>
+        <button class="share-button" id="shareDownloadBtn" onclick="downloadShareCard()">
+          <span class="icon">⬇</span>
+          <span>Download My Card</span>
+        </button>
+        <div class="share-status" id="shareStatus"></div>
+      </div>
+
       <!-- Restart -->
       <div class="quiz-restart">
         <button class="quiz-restart-btn" onclick="restartQuiz()">↺ Take the Quiz Again</button>
@@ -3265,6 +3610,45 @@
     </div>
   </div>
 </section>
+
+<!-- Hidden stage for share card rendering -->
+<div class="share-card-stage" aria-hidden="true">
+  <div class="share-card" id="shareCard">
+    <div class="share-card-pattern"></div>
+
+    <div class="share-card-header">
+      <div class="share-card-brand">Safe<span class="share-card-brand-accent">·</span><em>Korea</em></div>
+      <div class="share-card-vol">Trip Profile · 2026</div>
+    </div>
+
+    <div class="share-card-tag-row">
+      <div class="share-card-tag">★ Your Travel Style</div>
+      <div class="share-card-line"></div>
+    </div>
+
+    <h2 class="share-card-persona" id="shareCardPersona">You're <span class="share-card-persona-em">The Heritage Seeker</span></h2>
+    <p class="share-card-sub" id="shareCardSub">Your style breakdown, mapped.</p>
+
+    <div class="share-card-section-label">— Style Match</div>
+    <div class="share-card-styles" id="shareCardStyles"></div>
+
+    <div class="share-card-section-label">— Top Neighborhoods to Explore</div>
+    <div class="share-card-areas">
+      <div class="share-areas-list" id="shareCardAreas"></div>
+    </div>
+
+    <div class="share-card-footer">
+      <div class="share-card-cta">
+        Find your match —<br>
+        <span class="share-card-cta-strong">safekorea.guide</span>
+      </div>
+      <div class="share-card-stamp">
+        <div class="share-card-stamp-inner"></div>
+        <span>VERIFIED<br>TRAVELER<br>2026</span>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- FESTIVALS -->
 <div class="section-header" id="festivals">
@@ -5475,6 +5859,9 @@
     // === RENDER MAP ===
     renderResultsMap(clustersForMap);
 
+    // Fill share card data (rendered off-screen, ready when user clicks download)
+    fillShareCard(scores, sortedStyles, persona, clustersForMap);
+
     // Budget
     const tier = quizAnswers[3] || 'moderate';
     const days = tripDays[quizAnswers[2]] || 5;
@@ -5564,6 +5951,106 @@
       document.querySelector('.results-header').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 100);
   }
+
+  // === SHARE CARD ===
+  function fillShareCard(scores, sortedStyles, persona, clustersForMap) {
+    // Persona heading
+    document.getElementById('shareCardPersona').innerHTML =
+      `You're <span class="share-card-persona-em">${persona.title}</span>`;
+    document.getElementById('shareCardSub').textContent = persona.sub;
+
+    // Style match bars
+    const stylesContainer = document.getElementById('shareCardStyles');
+    stylesContainer.innerHTML = '';
+    sortedStyles.forEach(([style, percent], idx) => {
+      const row = document.createElement('div');
+      row.className = 'share-style-row';
+      const colorClass = idx === 0 ? '' : `style-${idx + 1}`;
+      row.innerHTML = `
+        <div class="share-style-label">${styleNames[style]}</div>
+        <div class="share-style-track">
+          <div class="share-style-fill ${colorClass}" style="width: ${percent}%"></div>
+        </div>
+        <div class="share-style-percent">${percent}%</div>
+      `;
+      stylesContainer.appendChild(row);
+    });
+
+    // Top neighborhoods (from top clusters, max 6 area names)
+    const areasContainer = document.getElementById('shareCardAreas');
+    areasContainer.innerHTML = '';
+    const seenAreas = new Set();
+    let count = 0;
+    for (const cluster of clustersForMap) {
+      if (count >= 6) break;
+      if (seenAreas.has(cluster.area)) continue;
+      seenAreas.add(cluster.area);
+      const pill = document.createElement('div');
+      pill.className = 'share-area-pill' + (count === 0 ? ' primary' : '');
+      pill.textContent = cluster.area;
+      areasContainer.appendChild(pill);
+      count++;
+    }
+  }
+
+  // Triggered by share button
+  async function downloadShareCard() {
+    const btn = document.getElementById('shareDownloadBtn');
+    const status = document.getElementById('shareStatus');
+
+    if (typeof html2canvas === 'undefined') {
+      status.textContent = '✕ Image library not loaded. Please refresh and try again.';
+      status.style.color = '#c8362d';
+      return;
+    }
+
+    btn.disabled = true;
+    status.style.color = '';
+    status.textContent = 'Generating your card...';
+
+    try {
+      const cardElement = document.getElementById('shareCard');
+      const canvas = await html2canvas(cardElement, {
+        width: 1080,
+        height: 1080,
+        scale: 1,
+        backgroundColor: '#1a1814',
+        logging: false,
+        useCORS: true,
+        allowTaint: true
+      });
+
+      // Convert to blob and download
+      canvas.toBlob((blob) => {
+        if (!blob) {
+          throw new Error('Failed to generate image');
+        }
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `safe-korea-trip-card.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+        status.textContent = '✓ Downloaded! Check your downloads folder.';
+        status.style.color = '';
+        btn.disabled = false;
+
+        setTimeout(() => { status.textContent = ''; }, 5000);
+      }, 'image/png');
+
+    } catch (err) {
+      console.error('Share card error:', err);
+      status.textContent = '✕ Could not generate image. Please try again.';
+      status.style.color = '#c8362d';
+      btn.disabled = false;
+    }
+  }
+
+  // Expose globally for onclick
+  window.downloadShareCard = downloadShareCard;
 
   // === MAP RENDERING ===
   let resultsMapInstance = null;

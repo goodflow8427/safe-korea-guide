@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Busan · Safe Korea Travel Guide</title>
+<meta name="description" content="A complete neighborhood-by-neighborhood guide to Busan for international travelers — beaches, seafood, hidden temples, and local tips.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<style>
+  :root {
+    --ink: #1a1814;
+    --paper: #f4efe6;
+    --paper-warm: #ebe3d3;
+    --crimson: #c8362d;
+    --crimson-deep: #8b1e18;
+    --jade: #2d5d4f;
+    --gold: #b8924a;
+    --muted: #6b6356;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Fraunces', serif;
+    line-height: 1.5;
+    overflow-x: hidden;
+    background-image: radial-gradient(circle at 1px 1px, rgba(26,24,20,0.06) 1px, transparent 0);
+    background-size: 28px 28px;
+  }
+
+  .topbar { border-bottom: 1px solid var(--ink); padding: 14px 32px; display: flex; justify-content: space-between; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; background: var(--paper); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(8px); }
+  .topbar a { color: var(--ink); text-decoration: none; transition: color 0.2s; margin-left: 24px; }
+  .topbar a:hover { color: var(--crimson); }
+  .topbar-back { display: flex; align-items: center; gap: 8px; }
+  .topbar-back a { margin-left: 0; }
+  .live-dot { display: inline-block; width: 6px; height: 6px; background: var(--jade); border-radius: 50%; margin-right: 6px; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.4); } }
+
+  .city-hero { border-bottom: 3px double var(--ink); padding: 60px 32px 48px; position: relative; }
+  .city-hero-meta { display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--ink); }
+  .city-hero-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 60px; align-items: end; }
+  .city-hero-tag { display: inline-flex; align-items: center; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--jade); margin-bottom: 24px; }
+  .city-hero-tag::before { content: ''; width: 32px; height: 1px; background: var(--jade); }
+  .city-name { font-family: 'Fraunces', serif; font-size: clamp(80px, 14vw, 200px); line-height: 0.85; letter-spacing: -0.04em; font-weight: 800; font-style: italic; margin-bottom: 8px; }
+  .city-name .accent { color: var(--jade); font-style: normal; font-weight: 300; }
+  .city-name-kr { font-family: 'Noto Sans KR', sans-serif; font-size: 24px; color: var(--muted); margin-bottom: 24px; letter-spacing: 0.1em; }
+  .city-hero-intro { font-family: 'Fraunces', serif; font-size: 18px; line-height: 1.7; color: var(--ink); max-width: 540px; }
+  .city-hero-stats { border: 1px solid var(--ink); background: var(--paper-warm); padding: 32px; position: relative; }
+  .city-hero-stats::before { content: 'AT A GLANCE'; position: absolute; top: -10px; left: 24px; background: var(--paper); padding: 0 12px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.25em; color: var(--muted); }
+  .stat-item { padding: 14px 0; border-bottom: 1px dashed var(--ink); display: grid; grid-template-columns: 130px 1fr; gap: 16px; align-items: baseline; }
+  .stat-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .stat-item:first-child { padding-top: 0; }
+  .stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--jade); }
+  .stat-value { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 600; line-height: 1.3; }
+  .stat-sub { display: block; font-family: 'Noto Sans KR', sans-serif; font-size: 11px; color: var(--muted); font-weight: 400; margin-top: 2px; }
+
+  .section-header { padding: 80px 32px 32px; display: flex; justify-content: space-between; align-items: end; gap: 40px; }
+  .section-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--jade); margin-bottom: 12px; }
+  .section-header h3 { font-family: 'Fraunces', serif; font-size: clamp(36px, 5vw, 64px); line-height: 0.95; letter-spacing: -0.03em; font-weight: 400; max-width: 640px; }
+  .section-header h3 em { font-style: italic; color: var(--jade); font-weight: 600; }
+  .section-header .desc { max-width: 320px; font-size: 14px; line-height: 1.7; color: var(--muted); text-align: right; border-top: 1px solid var(--ink); padding-top: 16px; }
+
+  .essence { padding: 0 32px 80px; border-bottom: 1px solid var(--ink); }
+  .essence-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--ink); }
+  .essence-card { padding: 36px 28px; border-right: 1px solid var(--ink); transition: background 0.3s; }
+  .essence-card:last-child { border-right: none; }
+  .essence-card:hover { background: var(--paper-warm); }
+  .essence-num { font-family: 'Fraunces', serif; font-style: italic; font-size: 48px; color: var(--jade); line-height: 1; margin-bottom: 24px; font-weight: 400; }
+  .essence-title { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 600; margin-bottom: 16px; letter-spacing: -0.01em; line-height: 1.15; }
+  .essence-desc { font-size: 15px; line-height: 1.7; color: var(--muted); }
+
+  .neighborhoods { padding: 0 32px 80px; border-bottom: 1px solid var(--ink); }
+  .nbh-tabs { display: grid; grid-template-columns: repeat(5, 1fr); border: 1px solid var(--ink); }
+  .nbh-tab { background: var(--paper); border: none; border-right: 1px solid var(--ink); padding: 20px 14px; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); transition: all 0.3s; text-align: center; line-height: 1.4; }
+  .nbh-tab:last-child { border-right: none; }
+  .nbh-tab .nbh-tab-name { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 600; color: var(--ink); text-transform: none; letter-spacing: -0.01em; display: block; margin-bottom: 4px; }
+  .nbh-tab.active { background: var(--ink); color: var(--paper); }
+  .nbh-tab.active .nbh-tab-name { color: var(--gold); font-style: italic; }
+  .nbh-tab:hover:not(.active) { background: var(--paper-warm); }
+
+  .nbh-panel { display: none; border: 1px solid var(--ink); border-top: none; background: var(--paper); }
+  .nbh-panel.active { display: block; }
+  .nbh-panel-grid { display: grid; grid-template-columns: 1fr 1.2fr; }
+  .nbh-info { padding: 40px 36px; border-right: 1px solid var(--ink); background: var(--paper-warm); }
+  .nbh-vibe { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--jade); margin-bottom: 12px; }
+  .nbh-headline { font-family: 'Fraunces', serif; font-size: 36px; line-height: 1.1; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 8px; }
+  .nbh-headline em { font-style: italic; color: var(--jade); font-weight: 600; }
+  .nbh-headline-kr { font-family: 'Noto Sans KR', sans-serif; font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+  .nbh-desc { font-size: 15px; line-height: 1.7; color: var(--ink); margin-bottom: 24px; }
+  .nbh-meta { border-top: 1px solid var(--ink); padding-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .nbh-meta-item .label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--jade); margin-bottom: 4px; }
+  .nbh-meta-item .value { font-family: 'Fraunces', serif; font-size: 14px; font-weight: 600; line-height: 1.3; }
+  .nbh-meta-item .value-kr { display: block; font-family: 'Noto Sans KR', sans-serif; font-size: 11px; color: var(--muted); font-weight: 400; margin-top: 2px; }
+
+  .nbh-places { padding: 40px 36px; }
+  .nbh-places-title { font-family: 'Fraunces', serif; font-style: italic; font-size: 22px; margin-bottom: 24px; padding-bottom: 14px; border-bottom: 1px solid var(--ink); }
+  .nbh-place-item { padding: 18px 0; border-bottom: 1px dashed var(--ink); display: grid; grid-template-columns: 36px 1fr auto; gap: 16px; align-items: start; }
+  .nbh-place-item:last-child { border-bottom: none; }
+  .nbh-place-num { width: 30px; height: 30px; border: 1px solid var(--jade); border-radius: 50%; color: var(--jade); font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .nbh-place-name { font-family: 'Fraunces', serif; font-size: 17px; font-weight: 600; line-height: 1.2; margin-bottom: 2px; }
+  .nbh-place-name-kr { font-family: 'Noto Sans KR', sans-serif; font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+  .nbh-place-tip { font-size: 13px; line-height: 1.5; color: var(--muted); font-style: italic; }
+  .nbh-place-type { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--crimson); border: 1px solid var(--crimson); padding: 2px 6px; text-align: center; }
+
+  .city-map-section { padding: 0 32px 80px; border-bottom: 1px solid var(--ink); }
+  .city-map-wrap { border: 1px solid var(--ink); background: var(--paper-warm); }
+  .city-map { width: 100%; height: 560px; }
+  .map-legend-bar { background: var(--ink); color: var(--paper); padding: 18px 24px; display: flex; flex-wrap: wrap; gap: 16px 28px; align-items: center; border-top: 1px solid var(--ink); }
+  .map-legend-bar-title { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .city-marker { width: 32px; height: 32px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); border: 2px solid #f4efe6; display: flex; align-items: center; justify-content: center; box-shadow: 2px 2px 6px rgba(0,0,0,0.3); }
+  .city-marker-inner { transform: rotate(45deg); color: #f4efe6; font-family: 'Fraunces', serif; font-style: italic; font-weight: 700; font-size: 13px; }
+  .leaflet-container { font-family: 'JetBrains Mono', monospace; font-size: 12px; background: var(--paper-warm) !important; }
+  .leaflet-popup-content-wrapper { background: #1a1814 !important; color: #f4efe6 !important; border-radius: 0 !important; border: 1px solid #b8924a; box-shadow: 4px 4px 0 #2d5d4f !important; padding: 0 !important; }
+  .leaflet-popup-content { margin: 14px 16px !important; line-height: 1.5; }
+  .leaflet-popup-tip { background: #1a1814 !important; border: 1px solid #b8924a; }
+  .leaflet-popup-close-button { color: #b8924a !important; font-size: 18px !important; }
+  .map-popup-tag { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: #b8924a; margin-bottom: 6px; padding: 2px 6px; border: 1px solid #b8924a; }
+  .map-popup-name { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 600; line-height: 1.2; margin-bottom: 4px; color: #f4efe6; }
+  .map-popup-kr { font-family: 'Noto Sans KR', sans-serif; font-size: 11px; color: rgba(244,239,230,0.7); margin-bottom: 8px; }
+  .map-popup-link { display: inline-flex; background: #2d5d4f; color: #f4efe6; text-decoration: none; padding: 6px 12px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; margin-top: 6px; }
+  .map-popup-link:hover { background: #1a3d33; }
+
+  .itinerary { padding: 0 32px 80px; background: var(--ink); color: var(--paper); border-top: 3px double var(--gold); border-bottom: 3px double var(--gold); }
+  .itinerary .section-header { padding-left: 0; padding-right: 0; }
+  .itinerary .section-num { color: var(--gold); }
+  .itinerary .section-header h3 em { color: var(--gold); }
+  .itinerary .section-header .desc { color: rgba(244,239,230,0.6); border-color: var(--paper); }
+  .day-tabs { display: grid; grid-template-columns: repeat(2, 1fr); border: 1px solid rgba(244,239,230,0.3); }
+  .day-tab { background: transparent; border: none; border-right: 1px solid rgba(244,239,230,0.3); padding: 20px; cursor: pointer; color: rgba(244,239,230,0.6); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; transition: all 0.3s; text-align: center; }
+  .day-tab:last-child { border-right: none; }
+  .day-tab .day-num { font-family: 'Fraunces', serif; font-style: italic; font-size: 28px; display: block; margin-bottom: 4px; color: var(--paper); }
+  .day-tab.active { background: var(--gold); color: var(--ink); }
+  .day-tab.active .day-num { color: var(--ink); }
+  .day-panel { display: none; border: 1px solid rgba(244,239,230,0.3); border-top: none; padding: 36px; }
+  .day-panel.active { display: block; }
+  .day-title { font-family: 'Fraunces', serif; font-size: 32px; font-weight: 400; margin-bottom: 6px; letter-spacing: -0.02em; }
+  .day-title em { font-style: italic; color: var(--gold); font-weight: 600; }
+  .day-subtitle { font-family: 'Noto Sans KR', sans-serif; font-size: 13px; color: rgba(244,239,230,0.6); margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid rgba(244,239,230,0.2); }
+  .day-timeline { display: flex; flex-direction: column; gap: 0; }
+  .timeline-item { display: grid; grid-template-columns: 90px 1fr; gap: 24px; padding: 18px 0; border-bottom: 1px dashed rgba(244,239,230,0.3); }
+  .timeline-item:last-child { border-bottom: none; }
+  .timeline-time { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.15em; color: var(--gold); font-weight: 500; padding-top: 4px; }
+  .timeline-content h5 { font-family: 'Fraunces', serif; font-size: 19px; font-weight: 600; margin-bottom: 4px; letter-spacing: -0.01em; }
+  .timeline-content .where { font-family: 'Noto Sans KR', sans-serif; font-size: 12px; color: var(--gold); margin-bottom: 8px; }
+  .timeline-content p { font-size: 13px; line-height: 1.6; color: rgba(244,239,230,0.75); }
+
+  .city-food { padding: 0 32px 80px; border-bottom: 1px solid var(--ink); }
+  .food-grid { display: grid; grid-template-columns: repeat(2, 1fr); border: 1px solid var(--ink); }
+  .food-card { padding: 32px 28px; border-right: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+  .food-card:nth-child(2n) { border-right: none; }
+  .food-card:nth-last-child(-n+2) { border-bottom: none; }
+  .food-tag { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--crimson); color: var(--crimson); margin-bottom: 16px; }
+  .food-name { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 600; line-height: 1.15; margin-bottom: 4px; letter-spacing: -0.01em; }
+  .food-name-kr { font-family: 'Noto Sans KR', sans-serif; font-size: 14px; color: var(--muted); margin-bottom: 14px; }
+  .food-desc { font-size: 14px; line-height: 1.6; color: var(--ink); margin-bottom: 16px; }
+  .food-where { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding-top: 14px; border-top: 1px dashed var(--ink); color: var(--jade); }
+  .food-where strong { display: block; color: var(--ink); font-family: 'Fraunces', serif; font-size: 14px; text-transform: none; letter-spacing: -0.01em; margin-top: 4px; font-weight: 600; }
+
+  .city-tips { padding: 0 32px 80px; background: var(--paper-warm); border-bottom: 1px solid var(--ink); }
+  .tips-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 32px; }
+  .tip-card { background: var(--paper); border: 1px solid var(--ink); padding: 24px; display: grid; grid-template-columns: 36px 1fr; gap: 16px; align-items: start; }
+  .tip-icon { width: 32px; height: 32px; border-radius: 50%; background: var(--jade); color: var(--paper); display: flex; align-items: center; justify-content: center; font-family: 'Fraunces', serif; font-style: italic; font-weight: 700; flex-shrink: 0; }
+  .tip-content h6 { font-family: 'Fraunces', serif; font-size: 17px; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .tip-content p { font-size: 13px; line-height: 1.6; color: var(--muted); }
+
+  .city-cta { padding: 80px 32px; text-align: center; background: var(--ink); color: var(--paper); }
+  .city-cta-tag { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); border: 1px solid var(--gold); padding: 6px 14px; margin-bottom: 24px; }
+  .city-cta h3 { font-family: 'Fraunces', serif; font-size: clamp(36px, 5vw, 56px); line-height: 1.05; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 16px; max-width: 800px; margin-left: auto; margin-right: auto; }
+  .city-cta h3 em { font-style: italic; color: var(--gold); font-weight: 600; }
+  .city-cta p { font-size: 16px; line-height: 1.7; color: rgba(244,239,230,0.7); max-width: 540px; margin: 0 auto 32px; }
+  .city-cta-btn { display: inline-flex; align-items: center; gap: 12px; background: var(--jade); color: var(--paper); text-decoration: none; padding: 18px 32px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 700; transition: all 0.2s; border: 1px solid var(--jade); }
+  .city-cta-btn:hover { background: var(--paper); color: var(--ink); border-color: var(--paper); transform: translateY(-2px); }
+
+  footer { padding: 40px 32px 28px; background: var(--paper); border-top: 1px solid var(--ink); text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.15em; color: var(--muted); }
+  footer a { color: var(--ink); text-decoration: none; margin: 0 12px; }
+  footer a:hover { color: var(--crimson); }
+
+  @media (max-width: 900px) {
+    .city-hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .essence-grid { grid-template-columns: 1fr; }
+    .essence-card { border-right: none; border-bottom: 1px solid var(--ink); }
+    .essence-card:last-child { border-bottom: none; }
+    .nbh-tabs { grid-template-columns: repeat(2, 1fr); }
+    .nbh-tab { border-bottom: 1px solid var(--ink); }
+    .nbh-panel-grid { grid-template-columns: 1fr; }
+    .nbh-info { border-right: none; border-bottom: 1px solid var(--ink); }
+    .day-tabs { grid-template-columns: 1fr; }
+    .day-tab { border-right: none; border-bottom: 1px solid rgba(244,239,230,0.3); }
+    .food-grid, .tips-grid { grid-template-columns: 1fr; }
+    .food-card { border-right: none; }
+    .timeline-item { grid-template-columns: 1fr; gap: 4px; }
+    .section-header { flex-direction: column; align-items: flex-start; padding: 60px 20px 24px; }
+    .section-header .desc { text-align: left; }
+    .city-hero, .essence, .neighborhoods, .city-map-section, .itinerary, .city-food, .city-tips { padding-left: 20px; padding-right: 20px; }
+    .city-map { height: 400px; }
+    .topbar { padding: 12px 20px; flex-wrap: wrap; gap: 12px; }
+    .topbar a { margin-left: 0; margin-right: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-back"><a href="index.html">← Safe·Korea</a></div>
+  <div>
+    <span><span class="live-dot"></span>Busan · 19°C</span>
+    <a href="#neighborhoods">Areas</a>
+    <a href="#map">Map</a>
+    <a href="#itinerary">Itinerary</a>
+    <a href="#food">Food</a>
+    <a href="#tips">Tips</a>
+  </div>
+</div>
+
+<header class="city-hero">
+  <div class="city-hero-meta">
+    <span>City Guide · Vol. 02</span>
+    <span>South Korea's Coastal Capital</span>
+    <span>Population 3.3M</span>
+  </div>
+  <div class="city-hero-grid">
+    <div>
+      <div class="city-hero-tag">— A Complete Guide</div>
+      <h1 class="city-name">Bus<span class="accent">·</span><em>an</em></h1>
+      <div class="city-name-kr">부산 · 釜山 · プサン</div>
+      <p class="city-hero-intro">A port city where mountains meet ocean, where seafood is religion and dialect is a badge of pride. Busan moves slower than Seoul, smiles wider, and rewards travelers who venture beyond the capital with beaches, temples on cliffs, and the country's freshest sashimi.</p>
+    </div>
+    <div class="city-hero-stats">
+      <div class="stat-item">
+        <div class="stat-label">Best Time</div>
+        <div class="stat-value">May–June, Sep–Oct<span class="stat-sub">Mild beach weather</span></div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Min Stay</div>
+        <div class="stat-value">2 Days<span class="stat-sub">3–4 ideal</span></div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">From Seoul</div>
+        <div class="stat-value">2.5h by KTX<span class="stat-sub">~₩60k one-way</span></div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Daily Budget</div>
+        <div class="stat-value">$60–250 USD<span class="stat-sub">Cheaper than Seoul</span></div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Famous For</div>
+        <div class="stat-value">Beaches, seafood, BIFF<span class="stat-sub">해변·해산물·영화제</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="section-header">
+  <div>
+    <div class="section-num">— 01 / What Makes Busan</div>
+    <h3>Three things you'll <em>fall</em> for.</h3>
+  </div>
+  <div class="desc">The qualities that make Busan a perfect contrast to Seoul — relaxed where Seoul is hurried, salty where Seoul is sleek.</div>
+</div>
+
+<section class="essence">
+  <div class="essence-grid">
+    <div class="essence-card">
+      <div class="essence-num">01</div>
+      <h4 class="essence-title">Mountains, sea, and city — all in one frame</h4>
+      <p class="essence-desc">Few cities offer this geography. From a beach café you can see forested ridges. From a mountain temple you can see container ships at port. Busan's skyline isn't built around itself — it's built around the water.</p>
+    </div>
+    <div class="essence-card">
+      <div class="essence-num">02</div>
+      <h4 class="essence-title">Korea's most distinctive food culture</h4>
+      <p class="essence-desc">If Seoul does refinement, Busan does abundance. Live octopus at Jagalchi. Pork soup that simmers for 12 hours. Wheat noodles unique to this region. The seafood is so fresh it's still moving — and it's everywhere.</p>
+    </div>
+    <div class="essence-card">
+      <div class="essence-num">03</div>
+      <h4 class="essence-title">A city that doesn't perform for tourists</h4>
+      <p class="essence-desc">Locals speak satoori (Busan dialect) loudly and unapologetically. Shopkeepers bargain. Old men play go on the sidewalk. Even Haeundae Beach feels lived-in rather than curated. The authenticity is the attraction.</p>
+    </div>
+  </div>
+</section>
+
+<div class="section-header" id="neighborhoods">
+  <div>
+    <div class="section-num">— 02 / Districts</div>
+    <h3>Five sides of <em>Busan</em>.</h3>
+  </div>
+  <div class="desc">Each district has its own personality — some beachy, some traditional, some surprisingly artsy.</div>
+</div>
+
+<section class="neighborhoods">
+  <div class="nbh-tabs">
+    <button class="nbh-tab active" data-nbh="haeundae"><span class="nbh-tab-name">Haeundae</span>Beach Life</button>
+    <button class="nbh-tab" data-nbh="seomyeon"><span class="nbh-tab-name">Seomyeon</span>City Center</button>
+    <button class="nbh-tab" data-nbh="nampo"><span class="nbh-tab-name">Nampo</span>Old Town</button>
+    <button class="nbh-tab" data-nbh="gamcheon"><span class="nbh-tab-name">Gamcheon</span>Art Village</button>
+    <button class="nbh-tab" data-nbh="gwangalli"><span class="nbh-tab-name">Gwangalli</span>Beach & Bridge</button>
+  </div>
+
+  <!-- HAEUNDAE -->
+  <div class="nbh-panel active" data-nbh="haeundae">
+    <div class="nbh-panel-grid">
+      <div class="nbh-info">
+        <div class="nbh-vibe">★ Beach & Resort</div>
+        <h4 class="nbh-headline">Korea's most <em>famous</em> beach.</h4>
+        <div class="nbh-headline-kr">해운대 · The crown jewel of Busan</div>
+        <p class="nbh-desc">A 1.5km crescent of golden sand backed by skyscrapers. Crowded in summer, peaceful in shoulder seasons. Premium hotels, seafood restaurants, and a coastal walking trail that leads to dramatic cliffs and a 200-year-old lighthouse.</p>
+        <div class="nbh-meta">
+          <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Beach lovers, families<span class="value-kr">해변·가족</span></div></div>
+          <div class="nbh-meta-item"><div class="label">Subway</div><div class="value">Line 2 · Haeundae Stn</div></div>
+          <div class="nbh-meta-item"><div class="label">Best Time</div><div class="value">May, Sep early morning</div></div>
+          <div class="nbh-meta-item"><div class="label">Avoid</div><div class="value">August (peak crowds)</div></div>
+        </div>
+      </div>
+      <div class="nbh-places">
+        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">1</div>
+          <div>
+            <div class="nbh-place-name">Haeundae Beach</div>
+            <div class="nbh-place-name-kr">해운대해수욕장 · Korea's most popular beach</div>
+            <div class="nbh-place-tip">Sunrise here is iconic. Avoid weekends in July–August unless you love crowds.</div>
+          </div>
+          <div class="nbh-place-type">Beach</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">2</div>
+          <div>
+            <div class="nbh-place-name">Dongbaek Island</div>
+            <div class="nbh-place-name-kr">동백섬 · Coastal walking park</div>
+            <div class="nbh-place-tip">A 1-hour loop with sea views, mermaid statue, and APEC house. Free.</div>
+          </div>
+          <div class="nbh-place-type">Park</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">3</div>
+          <div>
+            <div class="nbh-place-name">Haeundae Blueline Park</div>
+            <div class="nbh-place-name-kr">해운대 블루라인파크 · Sea train</div>
+            <div class="nbh-place-tip">A small train along the coast — book online for the sky capsule view.</div>
+          </div>
+          <div class="nbh-place-type">Activity</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">4</div>
+          <div>
+            <div class="nbh-place-name">Haeundae Market</div>
+            <div class="nbh-place-name-kr">해운대시장 · Local food market</div>
+            <div class="nbh-place-tip">Try ssiat hotteok (seed-stuffed pancake) — Busan's signature street food.</div>
+          </div>
+          <div class="nbh-place-type">Food</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">5</div>
+          <div>
+            <div class="nbh-place-name">Sea Life Aquarium</div>
+            <div class="nbh-place-name-kr">씨라이프 부산아쿠아리움</div>
+            <div class="nbh-place-tip">Right on the beach, perfect rainy-day backup. ₩30k for adults.</div>
+          </div>
+          <div class="nbh-place-type">Indoor</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEOMYEON -->
+  <div class="nbh-panel" data-nbh="seomyeon">
+    <div class="nbh-panel-grid">
+      <div class="nbh-info">
+        <div class="nbh-vibe">★ City Center</div>
+        <h4 class="nbh-headline">Busan's <em>downtown</em> heart.</h4>
+        <div class="nbh-headline-kr">서면 · Where two subway lines cross</div>
+        <p class="nbh-desc">The commercial center of Busan — and where Lines 1 and 2 intersect. Underground shopping arcades stretch for blocks. Late-night food alleys come alive after 10pm. This is where locals shop, eat, and meet friends. Less polished than Haeundae, more authentic.</p>
+        <div class="nbh-meta">
+          <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Shopping, late-night food<span class="value-kr">쇼핑·야식</span></div></div>
+          <div class="nbh-meta-item"><div class="label">Subway</div><div class="value">Lines 1 & 2 · Seomyeon Stn</div></div>
+          <div class="nbh-meta-item"><div class="label">Best Time</div><div class="value">Evening, 7pm onwards</div></div>
+          <div class="nbh-meta-item"><div class="label">Underground</div><div class="value">서면지하상가 · Huge mall</div></div>
+        </div>
+      </div>
+      <div class="nbh-places">
+        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">1</div>
+          <div>
+            <div class="nbh-place-name">Seomyeon Underground Mall</div>
+            <div class="nbh-place-name-kr">서면지하상가 · 1km of shops</div>
+            <div class="nbh-place-tip">Hundreds of small clothing and accessory stores. Bargain-friendly.</div>
+          </div>
+          <div class="nbh-place-type">Shopping</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">2</div>
+          <div>
+            <div class="nbh-place-name">Seomyeon Food Alley</div>
+            <div class="nbh-place-name-kr">서면 먹자골목 · Late-night food</div>
+            <div class="nbh-place-tip">Open until 3am. Order soju with grilled meats. Locals' favorite.</div>
+          </div>
+          <div class="nbh-place-type">Food</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">3</div>
+          <div>
+            <div class="nbh-place-name">Jeonpo Café Street</div>
+            <div class="nbh-place-name-kr">전포카페거리 · Indie cafés</div>
+            <div class="nbh-place-tip">A 5-min walk from Seomyeon. Voted by NYT as one of Asia's best café streets.</div>
+          </div>
+          <div class="nbh-place-type">Cafés</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">4</div>
+          <div>
+            <div class="nbh-place-name">Lotte Department Store</div>
+            <div class="nbh-place-name-kr">롯데백화점 서면점</div>
+            <div class="nbh-place-tip">Tax-free shopping, premium brands. Top-floor food court is excellent.</div>
+          </div>
+          <div class="nbh-place-type">Shopping</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">5</div>
+          <div>
+            <div class="nbh-place-name">Hwangnyeongsan Mountain</div>
+            <div class="nbh-place-name-kr">황령산 · Night view spot</div>
+            <div class="nbh-place-tip">Best night view of Busan. Take a taxi to the top — driving up is easy.</div>
+          </div>
+          <div class="nbh-place-type">View</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAMPO -->
+  <div class="nbh-panel" data-nbh="nampo">
+    <div class="nbh-panel-grid">
+      <div class="nbh-info">
+        <div class="nbh-vibe">★ Old Town</div>
+        <h4 class="nbh-headline">Busan's <em>original</em> downtown.</h4>
+        <div class="nbh-headline-kr">남포동 · The historic port heart</div>
+        <p class="nbh-desc">Before Haeundae was developed, this was Busan. The port, the markets, the cinema district — all here. Today Nampo is a walkable old-town with the country's largest fish market, an iconic cinema street, and Yongdusan Park's famous tower.</p>
+        <div class="nbh-meta">
+          <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Markets, walking tours<span class="value-kr">시장·산책</span></div></div>
+          <div class="nbh-meta-item"><div class="label">Subway</div><div class="value">Line 1 · Nampo Stn</div></div>
+          <div class="nbh-meta-item"><div class="label">Best Time</div><div class="value">Morning to sunset</div></div>
+          <div class="nbh-meta-item"><div class="label">Highlight</div><div class="value">Jagalchi at sunrise</div></div>
+        </div>
+      </div>
+      <div class="nbh-places">
+        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">1</div>
+          <div>
+            <div class="nbh-place-name">Jagalchi Fish Market</div>
+            <div class="nbh-place-name-kr">자갈치시장 · Korea's largest fish market</div>
+            <div class="nbh-place-tip">Pick fresh seafood downstairs, eat upstairs. Look for blue "Trusted Vendor" stickers.</div>
+          </div>
+          <div class="nbh-place-type">Market</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">2</div>
+          <div>
+            <div class="nbh-place-name">BIFF Square</div>
+            <div class="nbh-place-name-kr">BIFF광장 · Cinema district</div>
+            <div class="nbh-place-tip">Home to the Busan International Film Festival. Look for handprints of stars on the ground.</div>
+          </div>
+          <div class="nbh-place-type">Culture</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">3</div>
+          <div>
+            <div class="nbh-place-name">Gukje Market</div>
+            <div class="nbh-place-name-kr">국제시장 · Traditional market</div>
+            <div class="nbh-place-tip">The setting of the famous Korean film "Ode to My Father". Try bibim dangmyeon.</div>
+          </div>
+          <div class="nbh-place-type">Market</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">4</div>
+          <div>
+            <div class="nbh-place-name">Yongdusan Park</div>
+            <div class="nbh-place-name-kr">용두산공원 · With Busan Tower</div>
+            <div class="nbh-place-tip">Free park, ₩12k tower. 360° views of port and city. Best at dusk.</div>
+          </div>
+          <div class="nbh-place-type">View</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">5</div>
+          <div>
+            <div class="nbh-place-name">Bupyeong Kkangtong Market</div>
+            <div class="nbh-place-name-kr">부평깡통시장 · Night food market</div>
+            <div class="nbh-place-tip">Opens at 7pm. Famous yubu jeongol (tofu hotpot) and street snacks.</div>
+          </div>
+          <div class="nbh-place-type">Food</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GAMCHEON -->
+  <div class="nbh-panel" data-nbh="gamcheon">
+    <div class="nbh-panel-grid">
+      <div class="nbh-info">
+        <div class="nbh-vibe">★ Art & Culture</div>
+        <h4 class="nbh-headline">A village built on a <em>hillside</em>.</h4>
+        <div class="nbh-headline-kr">감천문화마을 · Korea's "Machu Picchu"</div>
+        <p class="nbh-desc">In the 1950s, Korean War refugees settled this steep hillside, building tiny pastel-colored houses. In 2009, the city turned it into an art village — adding murals, galleries, and walking trails. Today it's one of Busan's most photographed places, but real residents still live here.</p>
+        <div class="nbh-meta">
+          <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Photography, art lovers<span class="value-kr">사진·예술</span></div></div>
+          <div class="nbh-meta-item"><div class="label">How to get</div><div class="value">Bus 2-2 from Toseong Stn</div></div>
+          <div class="nbh-meta-item"><div class="label">Best Time</div><div class="value">10am or late afternoon</div></div>
+          <div class="nbh-meta-item"><div class="label">Time Needed</div><div class="value">2–3 hours</div></div>
+        </div>
+      </div>
+      <div class="nbh-places">
+        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">1</div>
+          <div>
+            <div class="nbh-place-name">Little Prince Statue</div>
+            <div class="nbh-place-name-kr">어린왕자 동상 · Iconic photo spot</div>
+            <div class="nbh-place-tip">Most-photographed bench in Korea. Expect a 10-min wait for your photo.</div>
+          </div>
+          <div class="nbh-place-type">Photo</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">2</div>
+          <div>
+            <div class="nbh-place-name">Stamp Tour</div>
+            <div class="nbh-place-name-kr">스탬프투어 · Self-guided</div>
+            <div class="nbh-place-tip">Buy a map at the visitor center (₩2k). Collect 8 stamps for a small gift.</div>
+          </div>
+          <div class="nbh-place-type">Activity</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">3</div>
+          <div>
+            <div class="nbh-place-name">Sky Lookout Point</div>
+            <div class="nbh-place-name-kr">전망대 · Top of village</div>
+            <div class="nbh-place-tip">A short hike up. Panoramic view of the entire pastel village.</div>
+          </div>
+          <div class="nbh-place-type">View</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">4</div>
+          <div>
+            <div class="nbh-place-name">Art Galleries</div>
+            <div class="nbh-place-name-kr">감천문화마을 갤러리</div>
+            <div class="nbh-place-tip">Multiple small galleries scattered through alleys. Free entry, local artists.</div>
+          </div>
+          <div class="nbh-place-type">Culture</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">5</div>
+          <div>
+            <div class="nbh-place-name">Cafe Sunset</div>
+            <div class="nbh-place-name-kr">감천 카페 · Hillside views</div>
+            <div class="nbh-place-tip">Several rooftop cafés with sea views. Order café latte and stay an hour.</div>
+          </div>
+          <div class="nbh-place-type">Café</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GWANGALLI -->
+  <div class="nbh-panel" data-nbh="gwangalli">
+    <div class="nbh-panel-grid">
+      <div class="nbh-info">
+        <div class="nbh-vibe">★ Beach + Bridge</div>
+        <h4 class="nbh-headline">The <em>second</em> beach, with the better view.</h4>
+        <div class="nbh-headline-kr">광안리 · Locals' favorite beach</div>
+        <p class="nbh-desc">Less crowded than Haeundae, but with the iconic Gwangan Bridge as backdrop. The bridge lights up at night with rotating colors. The promenade has a younger, hipper vibe — surf shops, craft beer bars, and design-forward cafés. Drone shows happen monthly.</p>
+        <div class="nbh-meta">
+          <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Beach + nightlife combo<span class="value-kr">해변·야경</span></div></div>
+          <div class="nbh-meta-item"><div class="label">Subway</div><div class="value">Line 2 · Gwangan Stn</div></div>
+          <div class="nbh-meta-item"><div class="label">Best Time</div><div class="value">Sunset to 11pm</div></div>
+          <div class="nbh-meta-item"><div class="label">Drone Shows</div><div class="value">Monthly · Sat 8pm</div></div>
+        </div>
+      </div>
+      <div class="nbh-places">
+        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">1</div>
+          <div>
+            <div class="nbh-place-name">Gwangalli Beach</div>
+            <div class="nbh-place-name-kr">광안리해수욕장 · Beach with bridge view</div>
+            <div class="nbh-place-tip">Sunset over the bridge is unmissable. Free, less crowded than Haeundae.</div>
+          </div>
+          <div class="nbh-place-type">Beach</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">2</div>
+          <div>
+            <div class="nbh-place-name">Gwangan Bridge</div>
+            <div class="nbh-place-name-kr">광안대교 · Lit-up bridge</div>
+            <div class="nbh-place-tip">Color-rotating lights from sunset to midnight. Best photo from the beach.</div>
+          </div>
+          <div class="nbh-place-type">View</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">3</div>
+          <div>
+            <div class="nbh-place-name">Millak Raw Fish Center</div>
+            <div class="nbh-place-name-kr">민락활어회센터 · Sashimi market</div>
+            <div class="nbh-place-tip">Pick live fish, eat upstairs with bridge view. ₩40–60k feeds two.</div>
+          </div>
+          <div class="nbh-place-type">Food</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">4</div>
+          <div>
+            <div class="nbh-place-name">Gwangalli Café Street</div>
+            <div class="nbh-place-name-kr">광안리 카페거리</div>
+            <div class="nbh-place-tip">Beachfront cafés with second-floor views. Try Gallery Onyeon or Café Pero.</div>
+          </div>
+          <div class="nbh-place-type">Café</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">5</div>
+          <div>
+            <div class="nbh-place-name">Suyeong River Park</div>
+            <div class="nbh-place-name-kr">수영강공원 · Riverside walk</div>
+            <div class="nbh-place-tip">15 min walk from Gwangalli. Quiet, locals-only feel, good for jogging.</div>
+          </div>
+          <div class="nbh-place-type">Park</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-header" id="map">
+  <div>
+    <div class="section-num">— 03 / Busan on the Map</div>
+    <h3>All <em>25 places</em>, one view.</h3>
+  </div>
+  <div class="desc">Color-coded by district. The geography matters here — Busan is wider than Seoul. Plan with the map.</div>
+</div>
+
+<section class="city-map-section">
+  <div class="city-map-wrap">
+    <div class="city-map" id="busanMap"></div>
+    <div class="map-legend-bar">
+      <span class="map-legend-bar-title">— Districts</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#c8362d"></span>Haeundae</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#b8924a"></span>Seomyeon</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#2d5d4f"></span>Nampo</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#8b1e18"></span>Gamcheon</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#6b5544"></span>Gwangalli</span>
+    </div>
+  </div>
+</section>
+
+<section class="itinerary" id="itinerary">
+  <div class="section-header">
+    <div>
+      <div class="section-num">— 04 / Suggested Itinerary</div>
+      <h3>2 perfect days in <em>Busan</em>.</h3>
+    </div>
+    <div class="desc">Most travelers come from Seoul for a weekend — these two days hit the essentials with breathing room.</div>
+  </div>
+
+  <div class="day-tabs">
+    <button class="day-tab active" data-day="1"><span class="day-num">01</span>Coast & Color</button>
+    <button class="day-tab" data-day="2"><span class="day-num">02</span>Markets & Beach</button>
+  </div>
+
+  <div class="day-panel active" data-day="1">
+    <h4 class="day-title">Day One — <em>The Postcard Day</em></h4>
+    <div class="day-subtitle">하루 일정 · Gamcheon, Nampo, Gwangalli</div>
+    <div class="day-timeline">
+      <div class="timeline-item">
+        <div class="timeline-time">9:30 AM</div>
+        <div class="timeline-content">
+          <h5>Take bus to Gamcheon Culture Village</h5>
+          <div class="where">감천문화마을 · From Toseong Stn (Line 1)</div>
+          <p>Take Line 1 to Toseong Station, then bus 2-2 up the mountain. Buy a stamp tour map at the visitor center.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">10:30 AM</div>
+        <div class="timeline-content">
+          <h5>Wander Gamcheon's pastel alleys</h5>
+          <div class="where">감천 골목길 · Self-guided exploration</div>
+          <p>Don't rush. Climb to the lookout, photograph the Little Prince, browse galleries. Real people live here, so be respectful.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">12:30 PM</div>
+        <div class="timeline-content">
+          <h5>Lunch back in Nampo</h5>
+          <div class="where">남포동 식당 · Korean BBQ or jokbal</div>
+          <p>Take a taxi back down (₩6k). Try jokbal (braised pork hocks) at any local spot.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">2:00 PM</div>
+        <div class="timeline-content">
+          <h5>Walk Jagalchi & BIFF Square</h5>
+          <div class="where">자갈치시장·BIFF광장</div>
+          <p>Even if you don't eat seafood, walking through the market is unforgettable. BIFF Square is 5 min away.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">4:00 PM</div>
+        <div class="timeline-content">
+          <h5>Sunset at Yongdusan Park</h5>
+          <div class="where">용두산공원 · Busan Tower</div>
+          <p>A short walk uphill. Tower entry ₩12k, but the park itself is free and has great views at golden hour.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">7:00 PM</div>
+        <div class="timeline-content">
+          <h5>Dinner at Gwangalli with bridge view</h5>
+          <div class="where">광안리 회센터 · Sashimi by the sea</div>
+          <p>Take subway to Gwangan Stn. Pick a beach-front sashimi restaurant on the second floor for the bridge view.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">9:00 PM</div>
+        <div class="timeline-content">
+          <h5>Beach walk under the lit bridge</h5>
+          <div class="where">광안리해수욕장 야경</div>
+          <p>The bridge lights rotate colors from 7pm. Walk the promenade, grab craft beer at any beachfront bar.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-panel" data-day="2">
+    <h4 class="day-title">Day Two — <em>Beach & City</em></h4>
+    <div class="day-subtitle">바다 일정 · Haeundae and Seomyeon</div>
+    <div class="day-timeline">
+      <div class="timeline-item">
+        <div class="timeline-time">8:00 AM</div>
+        <div class="timeline-content">
+          <h5>Sunrise at Haeundae Beach</h5>
+          <div class="where">해운대 일출</div>
+          <p>Worth the early wake-up. Korean tradition to watch sunrise here. Coffee shops nearby open at 7am.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">10:00 AM</div>
+        <div class="timeline-content">
+          <h5>Walk Dongbaek Island loop</h5>
+          <div class="where">동백섬 · 1-hour coastal walk</div>
+          <p>Pine forest, mermaid statue, lighthouse, and APEC house. The whole loop takes about an hour with stops.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">12:00 PM</div>
+        <div class="timeline-content">
+          <h5>Lunch — Haeundae market</h5>
+          <div class="where">해운대시장 · Local food</div>
+          <p>Try ssiat hotteok, mil myeon (Busan-style noodles), or any sashimi stall. Cash recommended.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">2:00 PM</div>
+        <div class="timeline-content">
+          <h5>Take subway to Seomyeon</h5>
+          <div class="where">서면역 · Line 2</div>
+          <p>About 30 minutes. Browse Seomyeon Underground Mall — it's massive and bargain-friendly.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">4:00 PM</div>
+        <div class="timeline-content">
+          <h5>Coffee at Jeonpo Café Street</h5>
+          <div class="where">전포카페거리 · Indie coffee</div>
+          <p>5-min walk from Seomyeon Stn. Each café has its own vibe — pick one that draws you in.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">6:30 PM</div>
+        <div class="timeline-content">
+          <h5>Dwaeji gukbap dinner</h5>
+          <div class="where">서면 돼지국밥 골목 · Pork soup alley</div>
+          <p>Busan's signature dish — pork soup served with rice. Try Sinchang Gukbap or Yeongnam Sigol.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">8:30 PM</div>
+        <div class="timeline-content">
+          <h5>Hwangnyeongsan night view</h5>
+          <div class="where">황령산 야경 · Night city panorama</div>
+          <p>Take a taxi (₩10k) up to the summit. The view of Busan at night is one of Korea's best — and free.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-header" id="food">
+  <div>
+    <div class="section-num">— 05 / Busan Food</div>
+    <h3>Six dishes that <em>define</em> Busan.</h3>
+  </div>
+  <div class="desc">Each one is unique to this city — you won't find them done as well anywhere else in Korea.</div>
+</div>
+
+<section class="city-food">
+  <div class="food-grid">
+    <div class="food-card">
+      <div class="food-tag">◉ Soup</div>
+      <div class="food-name">Dwaeji Gukbap</div>
+      <div class="food-name-kr">돼지국밥 · Pork & rice soup</div>
+      <p class="food-desc">Pork bones simmered for 12+ hours into a rich, milky broth, served with rice and pork slices. Customize with chives, salted shrimp, and red pepper paste. Soul food during Korean War, now Busan's most defining dish.</p>
+      <div class="food-where">Best at <strong>Sinchang Gukbap (신창국밥)</strong>, Seomyeon</div>
+    </div>
+    <div class="food-card">
+      <div class="food-tag">◉ Noodles</div>
+      <div class="food-name">Mil Myeon</div>
+      <div class="food-name-kr">밀면 · Wheat cold noodles</div>
+      <p class="food-desc">Created by North Korean refugees who couldn't find buckwheat — they used wheat instead. The result is chewier than naengmyeon, served in icy beef broth. Uniquely Busan.</p>
+      <div class="food-where">Best at <strong>Gaegeum Halmae Mil Myeon</strong></div>
+    </div>
+    <div class="food-card">
+      <div class="food-tag">◉ Seafood</div>
+      <div class="food-name">Hwe (Sashimi)</div>
+      <div class="food-name-kr">회 · Korean-style sashimi</div>
+      <p class="food-desc">Cut thicker than Japanese sashimi, eaten with chogochujang (vinegar red pepper paste) wrapped in lettuce or sesame leaves. Pick your fish live at the market.</p>
+      <div class="food-where">Best at <strong>Jagalchi Market 2nd floor</strong></div>
+    </div>
+    <div class="food-card">
+      <div class="food-tag">◉ Street Food</div>
+      <div class="food-name">Ssiat Hotteok</div>
+      <div class="food-name-kr">씨앗호떡 · Seed-stuffed pancake</div>
+      <p class="food-desc">A Busan twist on the classic Korean street pancake — fried, then split open and stuffed with sunflower seeds, peanuts, and cinnamon. Crunchy, sweet, addictive.</p>
+      <div class="food-where">Best at <strong>BIFF Square Hotteok stalls</strong></div>
+    </div>
+    <div class="food-card">
+      <div class="food-tag">◉ Fish Stew</div>
+      <div class="food-name">Maeuntang</div>
+      <div class="food-name-kr">매운탕 · Spicy fish stew</div>
+      <p class="food-desc">Made with the fish bones and head left after sashimi, simmered with tofu, mushrooms, and red pepper. The deepest flavor in Korean seafood cooking. Order after eating sashimi.</p>
+      <div class="food-where">Free with most sashimi orders at fish markets</div>
+    </div>
+    <div class="food-card">
+      <div class="food-tag">◉ Late Night</div>
+      <div class="food-name">Bibim Dangmyeon</div>
+      <div class="food-name-kr">비빔당면 · Cold glass noodles</div>
+      <p class="food-desc">Sweet potato glass noodles tossed with red pepper sauce, vegetables, and sometimes pig's blood sausage. Cheap, addictive, deeply Korean. Sold mostly in markets.</p>
+      <div class="food-where">Best at <strong>Gukje Market food alley</strong></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-header" id="tips">
+  <div>
+    <div class="section-num">— 06 / Busan-Specific Tips</div>
+    <h3>Things <em>only</em> Busan locals know.</h3>
+  </div>
+  <div class="desc">Practical advice from regulars and seasoned travelers — what to do, what to skip.</div>
+</div>
+
+<section class="city-tips">
+  <div class="tips-grid">
+    <div class="tip-card">
+      <div class="tip-icon">!</div>
+      <div class="tip-content">
+        <h6>KTX is the only way from Seoul</h6>
+        <p>2.5 hours, ₩60k one-way. Book through Korail or LetsKorail.com. Buses are cheaper but take 5 hours.</p>
+      </div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">★</div>
+      <div class="tip-content">
+        <h6>Subway covers most attractions</h6>
+        <p>5 lines, color-coded. Get a T-Money card. Gamcheon and Hwangnyeongsan need bus or taxi.</p>
+      </div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">✓</div>
+      <div class="tip-content">
+        <h6>Avoid August beach crowds</h6>
+        <p>Korean summer vacation makes Haeundae unwalkable. May–June or September are perfect.</p>
+      </div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">◉</div>
+      <div class="tip-content">
+        <h6>Sunrise at Haeundae is real</h6>
+        <p>Korean New Year tradition — locals come at 5am. Even on regular days, the sunrise is genuinely worth waking up for.</p>
+      </div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">!</div>
+      <div class="tip-content">
+        <h6>Cash for markets</h6>
+        <p>Jagalchi, Gukje, Bupyeong markets prefer cash. Most other places accept cards — Korea is mostly cashless.</p>
+      </div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">★</div>
+      <div class="tip-content">
+        <h6>BIFF in October</h6>
+        <p>Busan International Film Festival, early October. Even non-cinephiles will love the energy. Book accommodation 2 months ahead.</p>
+      </div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">✓</div>
+      <div class="tip-content">
+        <h6>Satoori is a charm, not a barrier</h6>
+        <p>Busan dialect is famously different. Locals will switch to standard Korean for visitors, but their satoori is part of the experience.</p>
+      </div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">◉</div>
+      <div class="tip-content">
+        <h6>Day trip to Tongyeong</h6>
+        <p>1.5 hours by bus. Often called "Naples of Korea" — small fishing port with gorgeous islands. Great if you have an extra day.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="city-cta">
+  <div class="city-cta-tag">★ More Korea Awaits</div>
+  <h3>Find your <em>perfect</em> Korea trip with our quiz.</h3>
+  <p>Take our 5-question quiz to get personalized recommendations beyond Busan — the right cities, neighborhoods, and budget for your travel style.</p>
+  <a href="index.html#quiz" class="city-cta-btn">
+    <span>Take the Quiz</span>
+    <span>→</span>
+  </a>
+</section>
+
+<footer>
+  <div style="font-family:'Fraunces',serif;font-style:italic;font-size:24px;margin-bottom:16px;color:var(--ink);">Safe<span style="color:var(--crimson);font-weight:800;font-style:normal;">·</span><em>Korea</em></div>
+  <div>
+    <a href="index.html">← Back to Main Guide</a>
+    <a href="seoul.html">Seoul Guide</a>
+    <a href="jeju.html">Jeju Guide</a>
+    <a href="index.html#emergency">Emergency Numbers</a>
+  </div>
+  <div style="margin-top:16px;font-size:10px;">© 2026 Safe Korea Guide · Busan City Guide · Made with care</div>
+</footer>
+
+<script>
+  document.querySelectorAll('.nbh-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const nbh = tab.dataset.nbh;
+      document.querySelectorAll('.nbh-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.nbh-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelector(`.nbh-panel[data-nbh="${nbh}"]`).classList.add('active');
+    });
+  });
+
+  document.querySelectorAll('.day-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const day = tab.dataset.day;
+      document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.day-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelector(`.day-panel[data-day="${day}"]`).classList.add('active');
+    });
+  });
+
+  const busanPlaces = [
+    // Haeundae (red)
+    { area: 'Haeundae', color: '#c8362d', name: 'Haeundae Beach', kr: '해운대해수욕장', lat: 35.1587, lng: 129.1604, num: 1 },
+    { area: 'Haeundae', color: '#c8362d', name: 'Dongbaek Island', kr: '동백섬', lat: 35.1559, lng: 129.1495, num: 2 },
+    { area: 'Haeundae', color: '#c8362d', name: 'Haeundae Blueline Park', kr: '해운대 블루라인파크', lat: 35.1496, lng: 129.1242, num: 3 },
+    { area: 'Haeundae', color: '#c8362d', name: 'Haeundae Market', kr: '해운대시장', lat: 35.1631, lng: 129.1631, num: 4 },
+    { area: 'Haeundae', color: '#c8362d', name: 'Sea Life Aquarium', kr: '씨라이프 부산아쿠아리움', lat: 35.1581, lng: 129.1607, num: 5 },
+
+    // Seomyeon (gold)
+    { area: 'Seomyeon', color: '#b8924a', name: 'Seomyeon Underground Mall', kr: '서면지하상가', lat: 35.1577, lng: 129.0594, num: 1 },
+    { area: 'Seomyeon', color: '#b8924a', name: 'Seomyeon Food Alley', kr: '서면 먹자골목', lat: 35.1582, lng: 129.0608, num: 2 },
+    { area: 'Seomyeon', color: '#b8924a', name: 'Jeonpo Café Street', kr: '전포카페거리', lat: 35.1569, lng: 129.0653, num: 3 },
+    { area: 'Seomyeon', color: '#b8924a', name: 'Lotte Department Store Seomyeon', kr: '롯데백화점 서면점', lat: 35.1572, lng: 129.0596, num: 4 },
+    { area: 'Seomyeon', color: '#b8924a', name: 'Hwangnyeongsan Mountain', kr: '황령산', lat: 35.1372, lng: 129.0844, num: 5 },
+
+    // Nampo (jade)
+    { area: 'Nampo', color: '#2d5d4f', name: 'Jagalchi Fish Market', kr: '자갈치시장', lat: 35.0966, lng: 129.0306, num: 1 },
+    { area: 'Nampo', color: '#2d5d4f', name: 'BIFF Square', kr: 'BIFF광장', lat: 35.0985, lng: 129.0282, num: 2 },
+    { area: 'Nampo', color: '#2d5d4f', name: 'Gukje Market', kr: '국제시장', lat: 35.1013, lng: 129.0270, num: 3 },
+    { area: 'Nampo', color: '#2d5d4f', name: 'Yongdusan Park', kr: '용두산공원', lat: 35.1011, lng: 129.0329, num: 4 },
+    { area: 'Nampo', color: '#2d5d4f', name: 'Bupyeong Kkangtong Market', kr: '부평깡통시장', lat: 35.1016, lng: 129.0260, num: 5 },
+
+    // Gamcheon (deep crimson)
+    { area: 'Gamcheon', color: '#8b1e18', name: 'Little Prince Statue', kr: '어린왕자 동상', lat: 35.0975, lng: 129.0103, num: 1 },
+    { area: 'Gamcheon', color: '#8b1e18', name: 'Gamcheon Stamp Tour', kr: '감천 스탬프투어', lat: 35.0973, lng: 129.0099, num: 2 },
+    { area: 'Gamcheon', color: '#8b1e18', name: 'Sky Lookout', kr: '감천 전망대', lat: 35.0980, lng: 129.0095, num: 3 },
+    { area: 'Gamcheon', color: '#8b1e18', name: 'Gamcheon Galleries', kr: '감천 갤러리', lat: 35.0972, lng: 129.0107, num: 4 },
+    { area: 'Gamcheon', color: '#8b1e18', name: 'Gamcheon Cafés', kr: '감천 카페', lat: 35.0968, lng: 129.0110, num: 5 },
+
+    // Gwangalli (brown)
+    { area: 'Gwangalli', color: '#6b5544', name: 'Gwangalli Beach', kr: '광안리해수욕장', lat: 35.1532, lng: 129.1185, num: 1 },
+    { area: 'Gwangalli', color: '#6b5544', name: 'Gwangan Bridge', kr: '광안대교', lat: 35.1466, lng: 129.1170, num: 2 },
+    { area: 'Gwangalli', color: '#6b5544', name: 'Millak Raw Fish Center', kr: '민락활어회센터', lat: 35.1467, lng: 129.1268, num: 3 },
+    { area: 'Gwangalli', color: '#6b5544', name: 'Gwangalli Café Street', kr: '광안리 카페거리', lat: 35.1526, lng: 129.1189, num: 4 },
+    { area: 'Gwangalli', color: '#6b5544', name: 'Suyeong River Park', kr: '수영강공원', lat: 35.1690, lng: 129.1242, num: 5 }
+  ];
+
+  if (typeof L !== 'undefined') {
+    const map = L.map('busanMap', { scrollWheelZoom: false }).setView([35.1380, 129.0825], 11);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      attribution: '© OpenStreetMap, © CARTO',
+      maxZoom: 19
+    }).addTo(map);
+
+    busanPlaces.forEach(place => {
+      const customIcon = L.divIcon({
+        className: 'city-marker-wrapper',
+        html: `<div class="city-marker" style="background:${place.color}"><div class="city-marker-inner">${place.num}</div></div>`,
+        iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -32]
+      });
+      const marker = L.marker([place.lat, place.lng], { icon: customIcon }).addTo(map);
+      const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}&destination_place_id=${encodeURIComponent(place.name + ' Busan')}`;
+      marker.bindPopup(`
+        <span class="map-popup-tag">${place.area}</span>
+        <div class="map-popup-name">${place.name}</div>
+        <div class="map-popup-kr">${place.kr}</div>
+        <a href="${mapsUrl}" target="_blank" rel="noopener" class="map-popup-link">Open in Maps →</a>
+      `, { maxWidth: 260, minWidth: 220 });
+    });
+  }
+</script>
+
+</body>
+</html>

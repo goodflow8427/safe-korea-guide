@@ -1,0 +1,2156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAFE KOREA — A Verified Travel Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1814;
+    --paper: #f4efe6;
+    --paper-warm: #ebe3d3;
+    --crimson: #c8362d;
+    --crimson-deep: #8b1e18;
+    --jade: #2d5d4f;
+    --gold: #b8924a;
+    --line: #1a1814;
+    --muted: #6b6356;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Fraunces', serif;
+    line-height: 1.5;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(26,24,20,0.06) 1px, transparent 0);
+    background-size: 28px 28px;
+  }
+
+  /* ============ TOP BAR ============ */
+  .topbar {
+    border-bottom: 1px solid var(--ink);
+    padding: 14px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--paper);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+  }
+
+  .topbar-left { display: flex; gap: 32px; align-items: center; }
+  .topbar-right { display: flex; gap: 24px; align-items: center; }
+  .topbar a { color: var(--ink); text-decoration: none; transition: color 0.2s; }
+  .topbar a:hover { color: var(--crimson); }
+
+  .live-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--crimson);
+    border-radius: 50%;
+    margin-right: 6px;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.4); }
+  }
+
+  /* ============ MASTHEAD ============ */
+  .masthead {
+    padding: 60px 32px 40px;
+    border-bottom: 3px double var(--ink);
+    text-align: center;
+    position: relative;
+  }
+
+  .masthead-meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    color: var(--muted);
+  }
+
+  .masthead h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: clamp(60px, 12vw, 180px);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+    font-style: italic;
+  }
+
+  .masthead h1 .accent {
+    color: var(--crimson);
+    font-style: normal;
+    font-weight: 300;
+  }
+
+  .masthead-tagline {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-top: 28px;
+    color: var(--muted);
+  }
+
+  .stamp {
+    position: absolute;
+    top: 80px;
+    right: 60px;
+    width: 110px;
+    height: 110px;
+    border: 2px solid var(--crimson);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(-12deg);
+    color: var(--crimson);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    text-align: center;
+    letter-spacing: 0.1em;
+    line-height: 1.4;
+    font-weight: 500;
+    opacity: 0.85;
+  }
+
+  .stamp::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 1px solid var(--crimson);
+    border-radius: 50%;
+  }
+
+  /* ============ ALERT TICKER ============ */
+  .ticker {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 14px 0;
+    overflow: hidden;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .ticker-track {
+    display: flex;
+    gap: 60px;
+    white-space: nowrap;
+    animation: scroll 40s linear infinite;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .ticker-track span { display: flex; align-items: center; gap: 12px; }
+  .ticker-track span::before {
+    content: '◆';
+    color: var(--crimson);
+  }
+
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    padding: 80px 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    border-bottom: 1px solid var(--ink);
+    align-items: end;
+  }
+
+  .hero-left .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--crimson);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-left .label::before {
+    content: '';
+    width: 30px;
+    height: 1px;
+    background: var(--crimson);
+  }
+
+  .hero-left h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(36px, 5vw, 56px);
+    line-height: 1.05;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 28px;
+  }
+
+  .hero-left h2 em {
+    font-style: italic;
+    color: var(--crimson);
+    font-weight: 600;
+  }
+
+  .hero-left p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 480px;
+    margin-bottom: 32px;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 16px 28px;
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    border: 1px solid var(--ink);
+  }
+
+  .hero-cta:hover {
+    background: var(--crimson);
+    border-color: var(--crimson);
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+
+  .hero-cta .arrow {
+    transition: transform 0.3s;
+  }
+
+  .hero-cta:hover .arrow { transform: translateX(4px); }
+
+  /* Hero right - Stats card */
+  .hero-right {
+    border: 1px solid var(--ink);
+    background: var(--paper-warm);
+    padding: 36px;
+    position: relative;
+  }
+
+  .hero-right::before {
+    content: 'NO. 01';
+    position: absolute;
+    top: -10px;
+    left: 24px;
+    background: var(--paper);
+    padding: 0 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+  }
+
+  .stat-title {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .stat-item {
+    border-left: 2px solid var(--crimson);
+    padding-left: 14px;
+  }
+
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 6px;
+    letter-spacing: -0.03em;
+  }
+
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ============ SECTION HEADER ============ */
+  .section-header {
+    padding: 80px 32px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 40px;
+  }
+
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--crimson);
+    margin-bottom: 12px;
+  }
+
+  .section-header h3 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(40px, 6vw, 80px);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    max-width: 700px;
+  }
+
+  .section-header h3 em {
+    font-style: italic;
+    color: var(--crimson);
+    font-weight: 600;
+  }
+
+  .section-header .desc {
+    max-width: 320px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--muted);
+    text-align: right;
+    border-top: 1px solid var(--ink);
+    padding-top: 16px;
+  }
+
+  /* ============ VERIFIED PLACES ============ */
+  .places-grid {
+    padding: 0 32px 80px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .place-card {
+    border-right: 1px solid var(--ink);
+    padding: 32px 28px;
+    background: var(--paper);
+    position: relative;
+    transition: background 0.3s;
+    cursor: pointer;
+  }
+
+  .place-card:last-child { border-right: none; }
+  .place-card:hover { background: var(--paper-warm); }
+
+  .place-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid var(--jade);
+    color: var(--jade);
+    margin-bottom: 24px;
+  }
+
+  .place-illustration {
+    width: 100%;
+    height: 220px;
+    margin-bottom: 24px;
+    background: var(--paper-warm);
+    border: 1px solid var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .place-name {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.1;
+    margin-bottom: 6px;
+    letter-spacing: -0.02em;
+  }
+
+  .place-name-kr {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .place-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .place-meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding-top: 16px;
+    border-top: 1px dashed var(--ink);
+  }
+
+  .verified-mark {
+    color: var(--jade);
+    font-weight: 500;
+  }
+
+  .verified-mark::before {
+    content: '✓ ';
+  }
+
+  /* ============ TRENDS ============ */
+  .trends {
+    padding: 0 32px 80px;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .trend-feature {
+    border: 1px solid var(--ink);
+    overflow: hidden;
+    background: var(--ink);
+    color: var(--paper);
+    position: relative;
+  }
+
+  .trend-feature-img {
+    width: 100%;
+    height: 360px;
+    background: linear-gradient(135deg, #2d5d4f 0%, #1a1814 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .trend-feature-content {
+    padding: 36px;
+  }
+
+  .trend-feature-content .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .trend-feature-content h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 38px;
+    line-height: 1.1;
+    font-weight: 400;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+
+  .trend-feature-content h4 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .trend-feature-content p {
+    font-size: 15px;
+    line-height: 1.7;
+    opacity: 0.8;
+  }
+
+  .trend-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .trend-item {
+    border-bottom: 1px solid var(--ink);
+    padding: 24px 0;
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    gap: 20px;
+    align-items: start;
+    cursor: pointer;
+    transition: padding 0.3s;
+  }
+
+  .trend-item:first-child { border-top: 1px solid var(--ink); }
+  .trend-item:hover { padding-left: 12px; }
+
+  .trend-num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 32px;
+    color: var(--crimson);
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .trend-content h5 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+
+  .trend-content p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .trend-arrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    color: var(--ink);
+    transition: transform 0.3s;
+  }
+
+  .trend-item:hover .trend-arrow { transform: translateX(6px); color: var(--crimson); }
+
+  /* ============ FESTIVALS ============ */
+  .festivals {
+    padding: 0 32px 80px;
+    border-top: 1px solid var(--ink);
+  }
+
+  .season-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--ink);
+    margin-bottom: 0;
+    background: var(--paper);
+  }
+
+  .season-tab {
+    flex: 1;
+    padding: 24px 20px;
+    border-right: 1px solid var(--ink);
+    background: transparent;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: all 0.3s;
+    text-align: left;
+    border-top: none;
+    border-bottom: none;
+    border-left: none;
+    position: relative;
+  }
+
+  .season-tab:last-child { border-right: none; }
+
+  .season-tab .season-icon {
+    font-family: 'Fraunces', serif;
+    font-size: 36px;
+    font-style: italic;
+    display: block;
+    margin-bottom: 12px;
+    color: var(--ink);
+    font-weight: 400;
+    transition: color 0.3s;
+  }
+
+  .season-tab .season-kr {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 9px;
+    margin-top: 4px;
+    opacity: 0.6;
+  }
+
+  .season-tab.active {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .season-tab.active .season-icon { color: var(--gold); }
+
+  .season-tab:hover:not(.active) {
+    background: var(--paper-warm);
+    color: var(--ink);
+  }
+
+  .season-tab:hover:not(.active) .season-icon { color: var(--crimson); }
+
+  /* Festival panels */
+  .festival-panel {
+    display: none;
+    border-bottom: 1px solid var(--ink);
+    border-left: 1px solid var(--ink);
+    border-right: 1px solid var(--ink);
+  }
+
+  .festival-panel.active {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+  }
+
+  .festival-feature {
+    padding: 48px 40px;
+    border-right: 1px solid var(--ink);
+    background: var(--paper-warm);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .festival-feature .featured-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    background: var(--crimson);
+    color: var(--paper);
+    margin-bottom: 24px;
+  }
+
+  .festival-feature h4 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(36px, 4vw, 52px);
+    line-height: 1.05;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+
+  .festival-feature h4 em {
+    font-style: italic;
+    color: var(--crimson);
+    font-weight: 600;
+  }
+
+  .festival-feature .festival-kr {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .festival-feature .festival-illust {
+    width: 100%;
+    height: 240px;
+    margin: 24px 0 32px;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+    overflow: hidden;
+  }
+
+  .festival-feature .festival-desc {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink);
+    margin-bottom: 32px;
+    max-width: 540px;
+  }
+
+  .festival-info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--ink);
+    padding-top: 20px;
+  }
+
+  .festival-info-item {
+    border-right: 1px dashed var(--ink);
+    padding-right: 16px;
+  }
+
+  .festival-info-item:last-child { border-right: none; padding-left: 16px; }
+  .festival-info-item:not(:first-child):not(:last-child) { padding-left: 16px; }
+
+  .festival-info-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--crimson);
+    margin-bottom: 6px;
+  }
+
+  .festival-info-value {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .festival-info-value .ko {
+    display: block;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 400;
+    margin-top: 2px;
+  }
+
+  /* Festival side list */
+  .festival-side {
+    padding: 32px;
+    background: var(--paper);
+  }
+
+  .festival-side-title {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .festival-side-item {
+    padding: 20px 0;
+    border-bottom: 1px dashed var(--ink);
+    cursor: pointer;
+    transition: padding 0.3s;
+  }
+
+  .festival-side-item:last-child { border-bottom: none; }
+  .festival-side-item:hover { padding-left: 8px; }
+
+  .festival-side-region {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--crimson);
+    margin-bottom: 6px;
+  }
+
+  .festival-side-name {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+
+  .festival-side-name-kr {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .festival-side-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .festival-side-meta .verified {
+    color: var(--jade);
+  }
+
+  .festival-side-meta .verified::before {
+    content: '✓ ';
+  }
+
+  /* Festival map dots */
+  .festival-map-section {
+    padding: 60px 32px;
+    background: var(--paper-warm);
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .festival-map-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .festival-map-text h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 36px;
+    line-height: 1.1;
+    font-weight: 400;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+
+  .festival-map-text h4 em {
+    font-style: italic;
+    color: var(--crimson);
+    font-weight: 600;
+  }
+
+  .festival-map-text p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 24px;
+    max-width: 440px;
+  }
+
+  .region-legend {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .region-legend-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .region-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .festival-map-illust {
+    border: 1px solid var(--ink);
+    background: var(--paper);
+    aspect-ratio: 1 / 1.1;
+  }
+
+  /* ============ TRANSPORT ============ */
+  .transport {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 80px 32px;
+    border-top: 3px double var(--crimson);
+    border-bottom: 3px double var(--crimson);
+  }
+
+  .transport .section-num { color: var(--gold); }
+  .transport .section-header h3 em { color: var(--gold); }
+  .transport .section-header .desc { color: rgba(244,239,230,0.6); border-color: var(--paper); }
+  .transport .section-header { padding-top: 0; padding-left: 0; padding-right: 0; }
+
+  .transport-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-top: 40px;
+  }
+
+  .transport-card {
+    border: 1px solid rgba(244,239,230,0.3);
+    padding: 28px 24px;
+    transition: all 0.3s;
+    cursor: pointer;
+    background: rgba(244,239,230,0.02);
+  }
+
+  .transport-card:hover {
+    background: var(--paper);
+    color: var(--ink);
+    border-color: var(--paper);
+  }
+
+  .transport-icon {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .transport-icon svg {
+    width: 100%;
+    height: 100%;
+    stroke: var(--gold);
+    fill: none;
+    stroke-width: 1.2;
+    transition: stroke 0.3s;
+  }
+
+  .transport-card:hover .transport-icon svg { stroke: var(--crimson); }
+
+  .transport-card h5 {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .transport-card .ko {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12px;
+    opacity: 0.6;
+    margin-bottom: 16px;
+  }
+
+  .transport-card p {
+    font-size: 13px;
+    line-height: 1.6;
+    opacity: 0.75;
+    margin-bottom: 20px;
+  }
+
+  .transport-tip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding-top: 16px;
+    border-top: 1px dashed rgba(244,239,230,0.3);
+    color: var(--gold);
+  }
+
+  .transport-card:hover .transport-tip {
+    color: var(--crimson);
+    border-color: var(--ink);
+  }
+
+  /* ============ EMERGENCY ============ */
+  .emergency {
+    padding: 80px 32px;
+    background: var(--crimson);
+    color: var(--paper);
+  }
+
+  .emergency-inner {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .emergency-left .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    opacity: 0.8;
+  }
+
+  .emergency-left h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 56px;
+    line-height: 0.95;
+    font-weight: 400;
+    letter-spacing: -0.03em;
+  }
+
+  .emergency-left h3 em {
+    font-style: italic;
+    font-weight: 800;
+  }
+
+  .emergency-numbers {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: rgba(244,239,230,0.3);
+    border: 1px solid var(--paper);
+  }
+
+  .emergency-num {
+    background: var(--crimson);
+    padding: 24px;
+    transition: background 0.3s;
+    cursor: pointer;
+  }
+
+  .emergency-num:hover { background: var(--crimson-deep); }
+
+  .emergency-num .digits {
+    font-family: 'Fraunces', serif;
+    font-size: 56px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin-bottom: 8px;
+  }
+
+  .emergency-num .name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    padding: 60px 32px 32px;
+    background: var(--paper);
+    border-top: 3px double var(--ink);
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 60px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .footer-brand h4 {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 36px;
+    margin-bottom: 12px;
+    font-weight: 400;
+  }
+
+  .footer-brand h4 .accent { color: var(--crimson); font-weight: 800; font-style: normal; }
+
+  .footer-brand p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 320px;
+  }
+
+  .footer-col h6 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    color: var(--crimson);
+  }
+
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 8px; }
+  .footer-col a {
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--crimson); }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 900px) {
+    .hero, .trends, .emergency-inner { grid-template-columns: 1fr; }
+    .places-grid, .transport-grid { grid-template-columns: 1fr; }
+    .place-card { border-right: none; border-bottom: 1px solid var(--ink); }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .stamp { display: none; }
+    .section-header { flex-direction: column; align-items: start; }
+    .section-header .desc { text-align: left; }
+    .topbar { padding: 12px 20px; flex-wrap: wrap; gap: 12px; }
+    .topbar-left { gap: 16px; }
+    .emergency-left h3 { font-size: 36px; }
+    .festival-panel.active { grid-template-columns: 1fr; }
+    .festival-feature { border-right: none; border-bottom: 1px solid var(--ink); padding: 32px 24px; }
+    .season-tabs { flex-wrap: wrap; }
+    .season-tab { flex: 1 1 50%; border-bottom: 1px solid var(--ink); }
+    .festival-info-grid { grid-template-columns: 1fr; gap: 16px; }
+    .festival-info-item { border-right: none; border-bottom: 1px dashed var(--ink); padding: 0 0 12px 0 !important; }
+    .festival-info-item:last-child { border-bottom: none; }
+    .festival-map-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <span><span class="live-dot"></span>Live · Seoul 23°C</span>
+    <span>한국 시각 · 14:32 KST</span>
+  </div>
+  <div class="topbar-right">
+    <a href="#places">Places</a>
+    <a href="#festivals">Festivals</a>
+    <a href="#trends">Trends</a>
+    <a href="#transport">Transport</a>
+    <a href="#emergency">SOS</a>
+    <span>EN · 한 · 日 · 中</span>
+  </div>
+</div>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-meta">
+    <span>Vol. 01 — Issue 04</span>
+    <span>Est. 2026</span>
+    <span>The Verified Edition</span>
+  </div>
+  <h1>Safe<span class="accent">·</span><em>Korea</em></h1>
+  <div class="masthead-tagline">A Trusted Companion for the Curious Traveler · 신뢰할 수 있는 여행 동반자</div>
+  <div class="stamp">VERIFIED<br>BY KTO<br>2026</div>
+</header>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span>Tourist Police 1330 — 24/7 multilingual</span>
+    <span>Subway runs 05:30 to 24:00</span>
+    <span>T-Money card works on every bus</span>
+    <span>Tap water is safe in all major cities</span>
+    <span>Tipping is not customary</span>
+    <span>Tourist Police 1330 — 24/7 multilingual</span>
+    <span>Subway runs 05:30 to 24:00</span>
+    <span>T-Money card works on every bus</span>
+    <span>Tap water is safe in all major cities</span>
+    <span>Tipping is not customary</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="label">Welcome — 환영합니다</div>
+    <h2>Travel Korea with <em>certainty</em>, not guesswork.</h2>
+    <p>Every place, route, and recommendation on this site is verified by the Korea Tourism Organization and reviewed by local residents. No tourist traps. No outdated maps. Just honest guidance.</p>
+    <a href="#places" class="hero-cta">
+      <span>Begin Your Journey</span>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+  <div class="hero-right">
+    <div class="stat-title">By the numbers, this season</div>
+    <div class="stat-grid">
+      <div class="stat-item">
+        <div class="stat-num">2,847</div>
+        <div class="stat-label">Verified Spots</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">98<span style="font-size:24px">%</span></div>
+        <div class="stat-label">Safety Rating</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">17</div>
+        <div class="stat-label">Cities Covered</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">24/7</div>
+        <div class="stat-label">Help in 4 Langs</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VERIFIED PLACES -->
+<div class="section-header" id="places">
+  <div>
+    <div class="section-num">— 01 / Verified Destinations</div>
+    <h3>Places that <em>earned</em> their reputation.</h3>
+  </div>
+  <div class="desc">Curated by locals, audited for safety, hygiene, and authenticity. Updated monthly.</div>
+</div>
+
+<section class="places-grid">
+  <article class="place-card">
+    <div class="place-tag">★ Heritage · Seoul</div>
+    <div class="place-illustration">
+      <svg viewBox="0 0 280 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <rect width="280" height="220" fill="#ebe3d3"/>
+        <!-- Mountains -->
+        <path d="M 0 160 L 60 100 L 110 130 L 160 80 L 220 120 L 280 100 L 280 220 L 0 220 Z" fill="#2d5d4f" opacity="0.3"/>
+        <!-- Palace roof -->
+        <path d="M 60 130 L 140 90 L 220 130 L 220 140 L 60 140 Z" fill="#8b1e18"/>
+        <path d="M 50 140 L 230 140 L 230 150 L 50 150 Z" fill="#1a1814"/>
+        <!-- Pillars -->
+        <rect x="70" y="150" width="6" height="40" fill="#1a1814"/>
+        <rect x="100" y="150" width="6" height="40" fill="#1a1814"/>
+        <rect x="130" y="150" width="6" height="40" fill="#1a1814"/>
+        <rect x="160" y="150" width="6" height="40" fill="#1a1814"/>
+        <rect x="190" y="150" width="6" height="40" fill="#1a1814"/>
+        <rect x="220" y="150" width="6" height="40" fill="#1a1814"/>
+        <!-- Ground -->
+        <rect x="40" y="190" width="200" height="4" fill="#1a1814"/>
+        <!-- Sun -->
+        <circle cx="220" cy="50" r="18" fill="#c8362d" opacity="0.7"/>
+      </svg>
+    </div>
+    <div class="place-name">Gyeongbokgung Palace</div>
+    <div class="place-name-kr">경복궁 · The Northern Palace</div>
+    <div class="place-desc">The grandest of Seoul's five royal palaces. Free entry on the last Wednesday of each month, and free for visitors wearing hanbok.</div>
+    <div class="place-meta">
+      <span class="verified-mark">KTO Verified</span>
+      <span>Line 3 · Gyeongbokgung Stn</span>
+    </div>
+  </article>
+
+  <article class="place-card">
+    <div class="place-tag">◉ Food · Busan</div>
+    <div class="place-illustration">
+      <svg viewBox="0 0 280 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <rect width="280" height="220" fill="#ebe3d3"/>
+        <!-- Bowl -->
+        <ellipse cx="140" cy="150" rx="90" ry="20" fill="#1a1814"/>
+        <path d="M 50 150 Q 50 110 90 100 L 190 100 Q 230 110 230 150 Z" fill="#c8362d"/>
+        <ellipse cx="140" cy="105" rx="50" ry="10" fill="#8b1e18"/>
+        <!-- Chopsticks -->
+        <line x1="180" y1="40" x2="240" y2="120" stroke="#1a1814" stroke-width="3"/>
+        <line x1="195" y1="35" x2="255" y2="115" stroke="#1a1814" stroke-width="3"/>
+        <!-- Steam -->
+        <path d="M 110 90 Q 105 75 115 65 Q 105 55 115 40" stroke="#1a1814" stroke-width="1.5" fill="none" opacity="0.4"/>
+        <path d="M 140 85 Q 135 70 145 60 Q 135 50 145 35" stroke="#1a1814" stroke-width="1.5" fill="none" opacity="0.4"/>
+        <path d="M 170 90 Q 165 75 175 65 Q 165 55 175 40" stroke="#1a1814" stroke-width="1.5" fill="none" opacity="0.4"/>
+      </svg>
+    </div>
+    <div class="place-name">Jagalchi Market</div>
+    <div class="place-name-kr">자갈치시장 · Korea's largest fish market</div>
+    <div class="place-desc">Pick fresh seafood downstairs, have it prepared upstairs. Look for the blue "Trusted Vendor" stickers on stalls — these have transparent pricing.</div>
+    <div class="place-meta">
+      <span class="verified-mark">KTO Verified</span>
+      <span>Line 1 · Jagalchi Stn</span>
+    </div>
+  </article>
+
+  <article class="place-card">
+    <div class="place-tag">✦ Nature · Jeju</div>
+    <div class="place-illustration">
+      <svg viewBox="0 0 280 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <rect width="280" height="220" fill="#ebe3d3"/>
+        <!-- Sky gradient -->
+        <rect width="280" height="120" fill="#2d5d4f" opacity="0.15"/>
+        <!-- Sea -->
+        <rect y="160" width="280" height="60" fill="#2d5d4f" opacity="0.5"/>
+        <!-- Volcano -->
+        <path d="M 60 160 L 140 60 L 220 160 Z" fill="#1a1814"/>
+        <path d="M 110 100 L 140 60 L 170 100 L 160 110 L 140 95 L 120 110 Z" fill="#c8362d" opacity="0.7"/>
+        <!-- Clouds -->
+        <ellipse cx="50" cy="50" rx="20" ry="6" fill="#f4efe6"/>
+        <ellipse cx="220" cy="40" rx="25" ry="7" fill="#f4efe6"/>
+        <!-- Waves -->
+        <path d="M 0 175 Q 30 170 60 175 T 120 175 T 180 175 T 240 175 T 280 175" stroke="#1a1814" stroke-width="1" fill="none"/>
+        <path d="M 0 195 Q 30 190 60 195 T 120 195 T 180 195 T 240 195 T 280 195" stroke="#1a1814" stroke-width="1" fill="none"/>
+      </svg>
+    </div>
+    <div class="place-name">Hallasan National Park</div>
+    <div class="place-name-kr">한라산 · South Korea's highest peak</div>
+    <div class="place-desc">Reservation required for summit trails. The Yeongsil and Eorimok routes are beginner-friendly and don't need permits. Bring layers — weather changes fast.</div>
+    <div class="place-meta">
+      <span class="verified-mark">KTO Verified</span>
+      <span>Bus 240 · Visitor Center</span>
+    </div>
+  </article>
+</section>
+
+<!-- TRENDS -->
+<div class="section-header" id="trends">
+  <div>
+    <div class="section-num">— 02 / This Season's Trends</div>
+    <h3>What travelers are <em>actually</em> doing now.</h3>
+  </div>
+  <div class="desc">Real-time signals from local communities, social platforms, and on-the-ground reporters.</div>
+</div>
+
+<section class="trends">
+  <article class="trend-feature">
+    <div class="trend-feature-img">
+      <svg viewBox="0 0 500 360" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <rect width="500" height="360" fill="#1a1814"/>
+        <!-- City skyline -->
+        <rect x="20" y="180" width="40" height="180" fill="#2d5d4f" opacity="0.5"/>
+        <rect x="70" y="140" width="50" height="220" fill="#2d5d4f" opacity="0.7"/>
+        <rect x="130" y="200" width="35" height="160" fill="#2d5d4f" opacity="0.4"/>
+        <rect x="175" y="120" width="60" height="240" fill="#2d5d4f"/>
+        <rect x="245" y="160" width="45" height="200" fill="#2d5d4f" opacity="0.8"/>
+        <rect x="300" y="190" width="40" height="170" fill="#2d5d4f" opacity="0.5"/>
+        <rect x="350" y="130" width="55" height="230" fill="#2d5d4f" opacity="0.7"/>
+        <rect x="415" y="170" width="50" height="190" fill="#2d5d4f" opacity="0.6"/>
+        <!-- Windows -->
+        <g fill="#b8924a">
+          <rect x="80" y="155" width="4" height="6"/>
+          <rect x="92" y="155" width="4" height="6"/>
+          <rect x="104" y="155" width="4" height="6"/>
+          <rect x="80" y="175" width="4" height="6"/>
+          <rect x="104" y="175" width="4" height="6"/>
+          <rect x="185" y="135" width="5" height="8"/>
+          <rect x="200" y="135" width="5" height="8"/>
+          <rect x="215" y="135" width="5" height="8"/>
+          <rect x="185" y="155" width="5" height="8"/>
+          <rect x="215" y="155" width="5" height="8"/>
+          <rect x="185" y="175" width="5" height="8"/>
+          <rect x="200" y="175" width="5" height="8"/>
+          <rect x="360" y="145" width="5" height="7"/>
+          <rect x="375" y="145" width="5" height="7"/>
+          <rect x="390" y="145" width="5" height="7"/>
+        </g>
+        <!-- Moon -->
+        <circle cx="420" cy="80" r="35" fill="#b8924a" opacity="0.3"/>
+        <circle cx="425" cy="75" r="30" fill="#b8924a"/>
+        <!-- Foreground neon sign -->
+        <rect x="60" y="280" width="120" height="40" fill="none" stroke="#c8362d" stroke-width="2"/>
+        <text x="120" y="307" text-anchor="middle" font-family="Fraunces" font-size="20" fill="#c8362d" font-style="italic">Seongsu</text>
+      </svg>
+    </div>
+    <div class="trend-feature-content">
+      <div class="label">— Editor's Pick · Spring 2026</div>
+      <h4>Seongsu-dong: <em>Brooklyn</em> of Seoul</h4>
+      <p>Once an industrial district, now Seoul's coolest neighborhood for café-hopping, indie boutiques, and pop-up galleries. Safer at night than most areas — well-lit, well-policed, and packed with locals until late.</p>
+    </div>
+  </article>
+
+  <div class="trend-list">
+    <div class="trend-item">
+      <div class="trend-num">01</div>
+      <div class="trend-content">
+        <h5>Hanbok rentals beyond palaces</h5>
+        <p>Travelers now wear hanbok to cafés in Bukchon and Ikseon-dong, not just for palace entry.</p>
+      </div>
+      <div class="trend-arrow">→</div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-num">02</div>
+      <div class="trend-content">
+        <h5>Late-night bookstore cafés</h5>
+        <p>Arc.n.Book and Starfield Library stay open past midnight — a quiet, safe alternative to bars.</p>
+      </div>
+      <div class="trend-arrow">→</div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-num">03</div>
+      <div class="trend-content">
+        <h5>Day trips to Gangneung by KTX</h5>
+        <p>Ocean, coffee street, and Olympic venues — all reachable in under 2 hours from Seoul.</p>
+      </div>
+      <div class="trend-arrow">→</div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-num">04</div>
+      <div class="trend-content">
+        <h5>Temple stays near major cities</h5>
+        <p>Golgulsa and Magoksa offer English-language programs with genuine monastic experience.</p>
+      </div>
+      <div class="trend-arrow">→</div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-num">05</div>
+      <div class="trend-content">
+        <h5>Traditional markets, modernized</h5>
+        <p>Gwangjang and Tongin markets now have English menus and verified-vendor programs.</p>
+      </div>
+      <div class="trend-arrow">→</div>
+    </div>
+  </div>
+</section>
+
+<!-- FESTIVALS -->
+<div class="section-header" id="festivals">
+  <div>
+    <div class="section-num">— 03 / Festivals & Celebrations</div>
+    <h3>The country in <em>celebration</em>, all year long.</h3>
+  </div>
+  <div class="desc">From cherry blossoms to ice fishing, every season has its signature festival. All listed events are officially recognized by the Korea Tourism Organization.</div>
+</div>
+
+<section class="festivals">
+  <div class="season-tabs">
+    <button class="season-tab active" data-season="spring">
+      <span class="season-icon">Spring</span>
+      Mar — May
+      <div class="season-kr">봄 · 春</div>
+    </button>
+    <button class="season-tab" data-season="summer">
+      <span class="season-icon">Summer</span>
+      Jun — Aug
+      <div class="season-kr">여름 · 夏</div>
+    </button>
+    <button class="season-tab" data-season="autumn">
+      <span class="season-icon">Autumn</span>
+      Sep — Nov
+      <div class="season-kr">가을 · 秋</div>
+    </button>
+    <button class="season-tab" data-season="winter">
+      <span class="season-icon">Winter</span>
+      Dec — Feb
+      <div class="season-kr">겨울 · 冬</div>
+    </button>
+  </div>
+
+  <!-- SPRING PANEL -->
+  <div class="festival-panel active" data-season="spring">
+    <div class="festival-feature">
+      <div class="featured-tag">Editor's Pick · April</div>
+      <h4>Jinhae Cherry <em>Blossom</em> Festival</h4>
+      <div class="festival-kr">진해 군항제 · The largest cherry blossom festival in Korea</div>
+      <div class="festival-illust">
+        <svg viewBox="0 0 600 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+          <rect width="600" height="240" fill="#f4efe6"/>
+          <!-- Sky -->
+          <rect width="600" height="160" fill="#ebe3d3"/>
+          <!-- Distant hills -->
+          <path d="M 0 140 Q 100 110 200 130 T 400 120 T 600 135 L 600 160 L 0 160 Z" fill="#2d5d4f" opacity="0.2"/>
+          <!-- Tree trunks -->
+          <path d="M 80 240 L 80 160 Q 78 150 72 145 Q 68 138 70 130" stroke="#1a1814" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <path d="M 200 240 L 200 150 Q 198 140 192 135 Q 188 125 192 115" stroke="#1a1814" stroke-width="7" fill="none" stroke-linecap="round"/>
+          <path d="M 350 240 L 350 155 Q 348 145 342 140 Q 338 130 342 120" stroke="#1a1814" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <path d="M 500 240 L 500 145 Q 498 135 492 130 Q 488 120 492 110" stroke="#1a1814" stroke-width="7" fill="none" stroke-linecap="round"/>
+          <!-- Cherry blossom canopies -->
+          <g fill="#e8a5b8" opacity="0.85">
+            <ellipse cx="75" cy="115" rx="45" ry="35"/>
+            <ellipse cx="195" cy="100" rx="55" ry="42"/>
+            <ellipse cx="345" cy="105" rx="50" ry="38"/>
+            <ellipse cx="495" cy="95" rx="55" ry="42"/>
+          </g>
+          <g fill="#f4c5d4">
+            <ellipse cx="60" cy="100" rx="20" ry="15"/>
+            <ellipse cx="100" cy="120" rx="22" ry="16"/>
+            <ellipse cx="180" cy="85" rx="25" ry="18"/>
+            <ellipse cx="220" cy="115" rx="22" ry="16"/>
+            <ellipse cx="330" cy="90" rx="22" ry="16"/>
+            <ellipse cx="365" cy="120" rx="20" ry="15"/>
+            <ellipse cx="480" cy="80" rx="25" ry="18"/>
+            <ellipse cx="515" cy="110" rx="22" ry="16"/>
+          </g>
+          <!-- Falling petals -->
+          <g fill="#e8a5b8">
+            <circle cx="140" cy="60" r="3"/>
+            <circle cx="280" cy="40" r="2.5"/>
+            <circle cx="265" cy="170" r="3"/>
+            <circle cx="420" cy="60" r="2.5"/>
+            <circle cx="430" cy="180" r="3"/>
+            <circle cx="560" cy="50" r="2.5"/>
+            <circle cx="155" cy="200" r="2.5"/>
+            <circle cx="310" cy="195" r="3"/>
+            <circle cx="395" cy="210" r="2.5"/>
+          </g>
+          <!-- Ground -->
+          <rect y="220" width="600" height="20" fill="#c8362d" opacity="0.15"/>
+          <!-- Path -->
+          <path d="M 0 230 Q 200 225 400 230 T 600 232" stroke="#1a1814" stroke-width="1" fill="none" opacity="0.4"/>
+        </svg>
+      </div>
+      <div class="festival-desc">
+        Over 340,000 cherry trees bloom across this naval port city, lining streets, train tracks, and the famous Yeojwacheon stream. The 10-day festival features parades, military band performances, and night illuminations. Arrive by KTX to Jinyeong Station, then transfer by bus.
+      </div>
+      <div class="festival-info-grid">
+        <div class="festival-info-item">
+          <div class="festival-info-label">When</div>
+          <div class="festival-info-value">Late March — Early April<span class="ko">3월 말 — 4월 초</span></div>
+        </div>
+        <div class="festival-info-item">
+          <div class="festival-info-label">Where</div>
+          <div class="festival-info-value">Jinhae, Changwon<span class="ko">경남 창원시 진해구</span></div>
+        </div>
+        <div class="festival-info-item">
+          <div class="festival-info-label">Entry</div>
+          <div class="festival-info-value">Free<span class="ko">무료 입장</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="festival-side">
+      <div class="festival-side-title">More this season</div>
+      <div class="festival-side-item">
+        <div class="festival-side-region">◉ Goyang · Gyeonggi</div>
+        <div class="festival-side-name">Goyang International Flower Festival</div>
+        <div class="festival-side-name-kr">고양국제꽃박람회 · Late April — Mid May</div>
+        <div class="festival-side-meta"><span class="verified">KTO Verified</span> · 30 min from Seoul</div>
+      </div>
+      <div class="festival-side-item">
+        <div class="festival-side-region">◉ Yeongdeungpo · Seoul</div>
+        <div class="festival-side-name">Yeouido Spring Flower Festival</div>
+        <div class="festival-side-name-kr">영등포 여의도 봄꽃축제 · Early April</div>
+        <div class="festival-side-meta"><span class="verified">KTO Verified</span> · Subway Line 5</div>
+      </div>
+      <div class="festival-side-item">
+        <div class="festival-side-region">◉ Boseong · Jeollanam</div>
+        <div class="festival-side-name">Boseong Green Tea Festival</div>
+        <div class="festival-side-name-kr">보성다향대축제 · Early May</div>
+        <div class="festival-side-meta"><span class="verified">KTO Verified</span> · Tea picking experience</div>
+      </div>
+      <div class="festival-side-item">
+        <div class="festival-side-region">◉ Damyang · Jeollanam</div>
+        <div class="festival-side-name">Damyang Bamboo Festival</div>
+        <div class="festival-side-name-kr">담양대나무축제 · Early May</div>
+        <div class="festival-side-meta"><span class="verified">KTO Verified</span> · Bamboo crafts & food</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUMMER PANEL -->
+  <div class="festival-panel" data-season="summer">
+    <div class="festival-feature">
+      <div class="featured-tag">Editor's Pick · July</div>
+      <h4>Boryeong <em>Mud</em> Festival</h4>
+      <div class="festival-kr">보령머드축제 · Korea's most famous summer party</div>
+      <div class="festival-illust">
+        <svg viewBox="0 0 600 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+          <rect width="600" height="240" fill="#f4efe6"/>
+          <!-- Sky -->
+          <rect width="600" height="130" fill="#d4e4dc"/>
+          <!-- Sun -->
+          <circle cx="500" cy="60" r="35" fill="#b8924a" opacity="0.7"/>
+          <circle cx="500" cy="60" r="25" fill="#b8924a"/>
+          <!-- Beach -->
+          <rect y="130" width="600" height="50" fill="#b8924a" opacity="0.4"/>
+          <!-- Mud pool -->
+          <ellipse cx="300" cy="200" rx="280" ry="40" fill="#6b5544"/>
+          <ellipse cx="300" cy="195" rx="260" ry="32" fill="#5a4636"/>
+          <!-- Mud splashes -->
+          <g fill="#5a4636">
+            <ellipse cx="120" cy="160" rx="8" ry="3"/>
+            <ellipse cx="180" cy="150" rx="6" ry="3"/>
+            <ellipse cx="450" cy="155" rx="10" ry="4"/>
+            <ellipse cx="520" cy="165" rx="7" ry="3"/>
+            <circle cx="100" cy="140" r="3"/>
+            <circle cx="200" cy="130" r="2.5"/>
+            <circle cx="430" cy="130" r="3"/>
+            <circle cx="490" cy="140" r="2.5"/>
+          </g>
+          <!-- People silhouettes -->
+          <g fill="#5a4636">
+            <circle cx="180" cy="170" r="10"/>
+            <rect x="173" y="178" width="14" height="20" rx="2"/>
+            <circle cx="280" cy="165" r="11"/>
+            <rect x="272" y="174" width="16" height="22" rx="2"/>
+            <circle cx="370" cy="172" r="10"/>
+            <rect x="363" y="180" width="14" height="20" rx="2"/>
+            <circle cx="450" cy="168" r="10"/>
+            <rect x="443" y="176" width="14" height="22" rx="2"/>
+          </g>
+          <!-- Arms up -->
+          <g stroke="#5a4636" stroke-width="3" stroke-linecap="round">
+            <line x1="178" y1="172" x2="170" y2="158"/>
+            <line x1="186" y1="172" x2="195" y2="158"/>
+            <line x1="278" y1="167" x2="268" y2="150"/>
+            <line x1="290" y1="167" x2="298" y2="148"/>
+            <line x1="448" y1="170" x2="440" y2="156"/>
+            <line x1="455" y1="170" x2="465" y2="155"/>
+          </g>
+          <!-- Stage banner -->
+          <rect x="200" y="80" width="200" height="30" fill="#c8362d"/>
+          <text x="300" y="100" text-anchor="middle" font-family="Fraunces" font-size="14" fill="#f4efe6" font-style="italic" font-weight="600">MUD FEST 2026</text>
+          <line x1="220" y1="80" x2="220" y2="135" stroke="#1a1814" stroke-width="2"/>
+          <line x1="380" y1="80" x2="380" y2="135" stroke="#1a1814" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="festival-desc">
+        Two weeks of mud wrestling, mud slides, mud pools, and concerts on Daecheon Beach. Boryeong's mineral-rich mud is genuinely good for your skin — that's how it started. Now it's one of Korea's most international festivals, drawing visitors from over 30 countries.
+      </div>
+      <div class="festival-info-grid">
+        <div class="festival-info-item">
+          <div class="festival-info-label">When</div>
+          <div class="festival-info-value">Mid — Late July<span class="ko">7월 중순 — 말</span></div>
+        </div>
+        <div class="festival-info-item">
+          <div class="festival-info-label">Where</div>
+          <div class="festival-info-value">Daecheon Beach, Boryeong<span class="ko">충남 보령 대천해수욕장</span></div>
+        </div>
+        <div class="festival-info-item">
+          <div class="festival-info-label">Entry</div>
+          <div class="festival-info-value">~₩10,000<span class="ko">유료 구역 있음</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="festival-side">
+      <div class="festival-side-title">More this season</div>
+      <div class="festival-side-item">
+        <div class="festival-side-region">◉ Hwacheon · Gangwon</div>
+        <div class="festival-side-name">Tomato Festival</div>
+        <div class="festival-side-name-kr">화천 토마토축제 · Late August</div>
+        <div class="festival-side-meta"><span class="verified">KTO Verified</span> · Tomato pool & games</div>
+      </div>
+      <div class="festival-side-item">
+        <div class="festival-side-region">◉ Busan</div>
+        <div class="festival-side-name">Busan Sea Festival</div>
+        <div class="festival-side-name-kr">부산바다축제 · Early August</div>
+        <div class="festival-side-meta"><span class="verified">KTO Verified</span> · 5 beaches, 7 days</div>
+      </div>
+      <div class="festival-side-item">
+        <div class="festival-side-region">◉ Incheon</div>
+        <div class="festival-side-name">Incheon Pentaport Rock Festival</div>
+        <div class="festival-side-name-kr">인천 펜타포트 록 페스티벌 · Early August</div>
+        <div class="festival-side-meta"><span class="verified">KTO Verified</span> · K-rock & global acts</div>
+      </div>
+      <div class="festival-side-item">
+        <div class="festival-side-region">◉ Bongha · Gyeongsangnam</div>
+        <div class="festival-side-name">Jinju Namgang Lantern Festival prep</div>
+        <div class="festival-side-name-kr">진주남강유등축제 사전행사 · Late August</div>
+        <div class="festival-side-meta"><span class="verified">KTO Verified</span> · Riverside lantern walk</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTUMN PANEL -->
+  <div class="festival-panel" data-season="autumn">
+    <div class="festival-feature">
+      <div class="featured-tag">Editor's Pick · October</div>
+      <h4>Andong Mask <em>Dance</em> Festival</h4>
+      <div class="festival-kr">안동국제탈춤페스티벌 · Where tradition meets the world</div>
+      <div class="festival-illust">
+        <svg viewBox="0 0 600 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+          <rect width="600" height="240" fill="#f4efe6"/>
+          <!-- Autumn sky -->
+          <rect width="600" height="240" fill="#f0e0c5"/>
+          <!-- Autumn leaves background -->
+          <g fill="#c8362d" opacity="0.4">
+            <ellipse cx="50" cy="40" rx="8" ry="12" transform="rotate(30 50 40)"/>
+            <ellipse cx="120" cy="60" rx="7" ry="11" transform="rotate(-20 120 60)"/>
+            <ellipse cx="500" cy="50" rx="8" ry="12" transform="rotate(45 500 50)"/>
+            <ellipse cx="560" cy="80" rx="7" ry="10" transform="rotate(-30 560 80)"/>
+          </g>
+          <g fill="#b8924a" opacity="0.4">
+            <ellipse cx="80" cy="200" rx="9" ry="13" transform="rotate(-15 80 200)"/>
+            <ellipse cx="540" cy="210" rx="8" ry="12" transform="rotate(40 540 210)"/>
+            <ellipse cx="160" cy="220" rx="7" ry="10" transform="rotate(20 160 220)"/>
+          </g>
+          <!-- Center hahoetal mask -->
+          <g transform="translate(300, 130)">
+            <!-- Mask base (hahoetal style) -->
+            <ellipse cx="0" cy="0" rx="75" ry="90" fill="#e8c89a"/>
+            <ellipse cx="0" cy="0" rx="75" ry="90" fill="none" stroke="#1a1814" stroke-width="2"/>
+            <!-- Forehead lines -->
+            <path d="M -30 -55 Q 0 -50 30 -55" stroke="#1a1814" stroke-width="1.5" fill="none"/>
+            <!-- Eyebrows -->
+            <path d="M -40 -25 Q -25 -35 -10 -25" stroke="#1a1814" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M 10 -25 Q 25 -35 40 -25" stroke="#1a1814" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <!-- Eyes (slits) -->
+            <path d="M -38 -10 Q -25 -5 -12 -10" stroke="#1a1814" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M 12 -10 Q 25 -5 38 -10" stroke="#1a1814" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- Nose -->
+            <path d="M 0 -8 Q -8 15 -3 25 Q 0 28 3 25 Q 8 15 0 -8" fill="#d4a878" stroke="#1a1814" stroke-width="1.5"/>
+            <!-- Cheek dots -->
+            <circle cx="-45" cy="20" r="8" fill="#c8362d" opacity="0.6"/>
+            <circle cx="45" cy="20" r="8" fill="#c8362d" opacity="0.6"/>
+            <!-- Big smile -->
+            <path d="M -35 35 Q 0 65 35 35 Q 25 55 0 58 Q -25 55 -35 35 Z" fill="#1a1814"/>
+            <path d="M -25 42 Q 0 55 25 42" stroke="#f4efe6" stroke-width="2" fill="none"/>
+            <!-- Hat/hair line -->
+            <path d="M -75 -50 Q 0 -95 75 -50" stroke="#1a1814" stroke-width="3" fill="none"/>
+          </g>
+          <!-- Side smaller masks -->
+          <g transform="translate(120, 150) scale(0.5)">
+            <ellipse cx="0" cy="0" rx="60" ry="75" fill="#c8362d" opacity="0.85"/>
+            <circle cx="-20" cy="-15" r="6" fill="#1a1814"/>
+            <circle cx="20" cy="-15" r="6" fill="#1a1814"/>
+            <path d="M -25 25 Q 0 45 25 25" stroke="#1a1814" stroke-width="4" fill="none"/>
+          </g>
+          <g transform="translate(480, 150) scale(0.5)">
+            <ellipse cx="0" cy="0" rx="60" ry="75" fill="#2d5d4f" opacity="0.85"/>
+            <circle cx="-20" cy="-15" r="6" fill="#1a1814"/>
+            <circle cx="20" cy="-15" r="6" fill="#1a1814"/>
+            <path d="M -25 30 Q 0 15 25 30" stroke="#1a1814" stroke-width="4" fill="none"/>
+          </g>
+        </svg>
+      </div>
+      <div class="festival-desc">
+        For ten days, the streets of Andong fill with mask performances from Korea and around the world. The traditional Hahoetal masks date back over 800 years, and visitors can join workshops to make their own. Pair the festival with a stay in Hahoe Folk Village, a UNESCO heritage site.
+      </div>
+      <div class="festival-info-grid">
+        <div class="festival-info-item">
+          <div class="festival-info-label">When</div>
+          <div class="festival-info-value">Late September — Early October<span class="ko">9월 말 — 10월 초</span></div>
+        </div>
+        <div class="festival-info-item">
+          <div class="festival-info-label">Where</div>
+          <div class="festival-info-value">Andong, Gyeongsangbuk<span class="ko">경북 안동시</span></div>
+        </div>
+        <div class="festival-info-item">
+          <div class="festival-info-label">Entry</div>
+          <div class="festival-info-value">Mostly Free<span class="ko">일부 유료 공연</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="festival-side">
+      <div class="festival-side-title">More this season</div>
+      <div class="festival-side-item">
+        <div class="festival-side-region">◉ Jinju · Gyeongsangnam</div>
+        <div class="festival-side-name">Jinju Namgang Lantern Festival</div>
+        <div class="festival-side-name-kr">진주남강유등축제 · Early October</div>
+        <div class="festival-side-meta"><span class="verified">KTO Verified</span> · Floating lanterns at night</div>
+      </div>
+      <div class="festival-side-item">
+        <div class="festival-side-region">◉ Busan</div>
+        <div class="festival-side-name">Busan International Film Festival</div>
+        <div class="festival-side-name-kr">부산국제영화제 · Early October</div>
+        <div class="festival-side-meta"><span class="verified">KTO Verified</span> · Asia's largest film fest</div>
+      </div>
+      <div class="festival-side-item">
+        <div class="festival-side-region">◉ Suwon · Gyeonggi</div>
+        <div class="festival-side-name">Suwon Hwaseong Cultural Festival</div>
+        <div class="festival-side-name-kr">수원화성문화제 · Early October</div>
+        <div class="festival-side-meta"><span class="verified">KTO Verified</span> · Royal procession reenactment</div>
+      </div>
+      <div class="festival-side-item">
+        <div class="festival-side-region">◉ Icheon · Gyeonggi</div>
+        <div class="festival-side-name">Icheon Rice Cultural Festival</div>
+        <div class="festival-side-name-kr">이천쌀문화축제 · Late October</div>
+        <div class="festival-side-meta"><span class="verified">KTO Verified</span> · Giant rice cooking pot</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WINTER PANEL -->
+  <div class="festival-panel" data-season="winter">
+    <div class="festival-feature">
+      <div class="featured-tag">Editor's Pick · January</div>
+      <h4>Hwacheon <em>Sancheoneo</em> Ice Festival</h4>
+      <div class="festival-kr">화천산천어축제 · CNN's "7 Wonders of Winter"</div>
+      <div class="festival-illust">
+        <svg viewBox="0 0 600 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+          <rect width="600" height="240" fill="#e8eef0"/>
+          <!-- Sky -->
+          <rect width="600" height="120" fill="#d4dde1"/>
+          <!-- Distant mountains -->
+          <path d="M 0 130 L 80 70 L 160 100 L 240 60 L 320 95 L 400 65 L 480 100 L 560 75 L 600 100 L 600 130 Z" fill="#2d5d4f" opacity="0.5"/>
+          <!-- Snow caps -->
+          <path d="M 70 80 L 80 70 L 90 80 L 85 85 L 75 85 Z" fill="#f4efe6"/>
+          <path d="M 230 70 L 240 60 L 250 70 L 245 78 L 235 78 Z" fill="#f4efe6"/>
+          <path d="M 390 75 L 400 65 L 410 75 L 405 82 L 395 82 Z" fill="#f4efe6"/>
+          <!-- Ice surface -->
+          <rect y="130" width="600" height="110" fill="#bfd3da"/>
+          <!-- Ice cracks -->
+          <g stroke="#8aa5ad" stroke-width="0.8" fill="none" opacity="0.6">
+            <path d="M 50 160 L 120 150 L 180 165"/>
+            <path d="M 250 145 L 320 155 L 380 145"/>
+            <path d="M 420 165 L 500 155 L 570 170"/>
+            <path d="M 100 200 L 200 195 L 280 205"/>
+            <path d="M 350 200 L 450 195 L 540 205"/>
+          </g>
+          <!-- Ice fishing holes -->
+          <g>
+            <ellipse cx="150" cy="180" rx="14" ry="6" fill="#1a3540"/>
+            <ellipse cx="150" cy="180" rx="14" ry="6" fill="none" stroke="#1a1814" stroke-width="1"/>
+            <ellipse cx="320" cy="195" rx="14" ry="6" fill="#1a3540"/>
+            <ellipse cx="320" cy="195" rx="14" ry="6" fill="none" stroke="#1a1814" stroke-width="1"/>
+            <ellipse cx="470" cy="180" rx="14" ry="6" fill="#1a3540"/>
+            <ellipse cx="470" cy="180" rx="14" ry="6" fill="none" stroke="#1a1814" stroke-width="1"/>
+          </g>
+          <!-- Fishing rods (people) -->
+          <g stroke="#1a1814" stroke-width="2" fill="#1a1814">
+            <!-- Person 1 -->
+            <circle cx="150" cy="135" r="6"/>
+            <rect x="144" y="141" width="12" height="20" rx="2"/>
+            <line x1="156" y1="148" x2="170" y2="170"/>
+            <line x1="170" y1="170" x2="160" y2="180" stroke-dasharray="2,2"/>
+            <!-- Person 2 -->
+            <circle cx="320" cy="148" r="6"/>
+            <rect x="314" y="154" width="12" height="22" rx="2"/>
+            <line x1="326" y1="162" x2="340" y2="185"/>
+            <line x1="340" y1="185" x2="328" y2="195" stroke-dasharray="2,2"/>
+            <!-- Person 3 -->
+            <circle cx="470" cy="135" r="6"/>
+            <rect x="464" y="141" width="12" height="20" rx="2"/>
+            <line x1="476" y1="148" x2="490" y2="170"/>
+            <line x1="490" y1="170" x2="478" y2="180" stroke-dasharray="2,2"/>
+          </g>
+          <!-- Fish jumping -->
+          <g fill="#c8362d">
+            <path d="M 230 140 Q 240 130 250 140 L 245 145 L 235 145 Z"/>
+            <circle cx="240" cy="138" r="1.5" fill="#1a1814"/>
+          </g>
+          <!-- Snowflakes -->
+          <g fill="#f4efe6">
+            <circle cx="60" cy="40" r="2"/>
+            <circle cx="180" cy="30" r="1.5"/>
+            <circle cx="290" cy="45" r="2"/>
+            <circle cx="380" cy="25" r="1.5"/>
+            <circle cx="510" cy="40" r="2"/>
+            <circle cx="100" cy="80" r="1.5"/>
+            <circle cx="240" cy="90" r="1.5"/>
+            <circle cx="430" cy="85" r="1.5"/>
+            <circle cx="550" cy="95" r="2"/>
+          </g>
+        </svg>
+      </div>
+      <div class="festival-desc">
+        Drill a hole through 40cm of ice and try to catch a sancheoneo (mountain trout) with your bare hands or a rod. Over 1 million visitors come each January for ice fishing, sledding, and ice soccer. Whatever you catch, the on-site restaurants will grill or sashimi-style it for you.
+      </div>
+      <div class="festival-info-grid">
+        <div class="festival-info-item">
+          <div class="festival-info-label">When</div>
+          <div class="festival-info-value">Early — Late January<span class="ko">1월 초 — 말</span></div>
+        </div>
+        <div class="festival-info-item">
+          <div class="festival-info-label">Where</div>
+          <div class="festival-info-value">Hwacheon, Gangwon<span class="ko">강원 화천군</span></div>
+        </div>
+        <div class="festival-info-item">
+          <div class="festival-info-label">Entry</div>
+          <div class="festival-info-value">~₩13,000<span class="ko">체험권 포함</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="festival-side">
+      <div class="festival-side-title">More this season</div>
+      <div class="festival-side-item">
+        <div class="festival-side-region">◉ Taebaek · Gangwon</div>
+        <div class="festival-side-name">Taebaeksan Snow Festival</div>
+        <div class="festival-side-name-kr">태백산눈축제 · Late January</div>
+        <div class="festival-side-meta"><span class="verified">KTO Verified</span> · Giant snow sculptures</div>
+      </div>
+      <div class="festival-side-item">
+        <div class="festival-side-region">◉ Pyeongchang · Gangwon</div>
+        <div class="festival-side-name">Pyeongchang Trout Festival</div>
+        <div class="festival-side-name-kr">평창송어축제 · December — January</div>
+        <div class="festival-side-meta"><span class="verified">KTO Verified</span> · Olympic city setting</div>
+      </div>
+      <div class="festival-side-item">
+        <div class="festival-side-region">◉ Seoul</div>
+        <div class="festival-side-name">Seoul Lantern Festival</div>
+        <div class="festival-side-name-kr">서울빛초롱축제 · Mid-Dec — Early Jan</div>
+        <div class="festival-side-meta"><span class="verified">KTO Verified</span> · Cheonggyecheon stream</div>
+      </div>
+      <div class="festival-side-item">
+        <div class="festival-side-region">◉ Jeju</div>
+        <div class="festival-side-name">Jeju Fire Festival</div>
+        <div class="festival-side-name-kr">제주들불축제 · Early March</div>
+        <div class="festival-side-meta"><span class="verified">KTO Verified</span> · Hillside fire ritual</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FESTIVAL MAP -->
+<section class="festival-map-section">
+  <div class="festival-map-grid">
+    <div class="festival-map-text">
+      <div class="section-num" style="margin-bottom: 16px;">— By Region</div>
+      <h4>Festivals across <em>every</em> province.</h4>
+      <p>Korea's festivals aren't concentrated in Seoul. The country's most distinctive celebrations happen in smaller cities — and KTX or intercity buses make them all reachable as day or weekend trips.</p>
+      <div class="region-legend">
+        <div class="region-legend-item"><span class="region-dot" style="background: #c8362d"></span>Capital Region</div>
+        <div class="region-legend-item"><span class="region-dot" style="background: #b8924a"></span>Gangwon · East</div>
+        <div class="region-legend-item"><span class="region-dot" style="background: #2d5d4f"></span>Jeolla · Southwest</div>
+        <div class="region-legend-item"><span class="region-dot" style="background: #8b1e18"></span>Gyeongsang · Southeast</div>
+        <div class="region-legend-item"><span class="region-dot" style="background: #6b6356"></span>Chungcheong · Central</div>
+        <div class="region-legend-item"><span class="region-dot" style="background: #1a3540"></span>Jeju Island</div>
+      </div>
+    </div>
+    <div class="festival-map-illust">
+      <svg viewBox="0 0 400 440" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <rect width="400" height="440" fill="#f4efe6"/>
+        <!-- Korean peninsula simplified -->
+        <path d="M 200 50
+                 Q 230 55 245 75
+                 Q 260 95 255 120
+                 Q 265 130 280 135
+                 Q 295 145 295 165
+                 Q 300 180 290 195
+                 Q 285 210 295 225
+                 Q 305 240 295 260
+                 Q 285 280 265 295
+                 Q 255 315 245 335
+                 Q 230 355 215 360
+                 Q 200 365 185 360
+                 Q 170 350 165 330
+                 Q 155 310 145 295
+                 Q 130 280 125 265
+                 Q 115 245 120 225
+                 Q 110 210 115 195
+                 Q 105 180 110 165
+                 Q 100 150 110 135
+                 Q 125 120 135 105
+                 Q 145 85 165 70
+                 Q 180 55 200 50 Z"
+              fill="#ebe3d3" stroke="#1a1814" stroke-width="2"/>
+        <!-- Jeju island -->
+        <ellipse cx="170" cy="395" rx="35" ry="18" fill="#ebe3d3" stroke="#1a1814" stroke-width="2"/>
+
+        <!-- Region dots with labels -->
+        <!-- Seoul/Capital - Red -->
+        <circle cx="190" cy="135" r="8" fill="#c8362d"/>
+        <circle cx="190" cy="135" r="14" fill="none" stroke="#c8362d" stroke-width="1" opacity="0.5"/>
+        <text x="210" y="138" font-family="JetBrains Mono" font-size="10" fill="#1a1814">Seoul</text>
+
+        <!-- Gangwon - Gold -->
+        <circle cx="245" cy="130" r="7" fill="#b8924a"/>
+        <text x="262" y="133" font-family="JetBrains Mono" font-size="10" fill="#1a1814">Hwacheon</text>
+
+        <!-- Suwon - Red -->
+        <circle cx="195" cy="155" r="6" fill="#c8362d"/>
+        <text x="210" y="158" font-family="JetBrains Mono" font-size="9" fill="#1a1814">Suwon</text>
+
+        <!-- Boryeong - Gray -->
+        <circle cx="160" cy="200" r="7" fill="#6b6356"/>
+        <text x="80" y="203" font-family="JetBrains Mono" font-size="10" fill="#1a1814">Boryeong</text>
+
+        <!-- Andong - Maroon -->
+        <circle cx="240" cy="220" r="7" fill="#8b1e18"/>
+        <text x="258" y="223" font-family="JetBrains Mono" font-size="10" fill="#1a1814">Andong</text>
+
+        <!-- Jeonju - Green -->
+        <circle cx="175" cy="250" r="7" fill="#2d5d4f"/>
+        <text x="100" y="253" font-family="JetBrains Mono" font-size="10" fill="#1a1814">Jeonju</text>
+
+        <!-- Boseong - Green -->
+        <circle cx="170" cy="305" r="6" fill="#2d5d4f"/>
+        <text x="90" y="308" font-family="JetBrains Mono" font-size="9" fill="#1a1814">Boseong</text>
+
+        <!-- Jinju - Maroon -->
+        <circle cx="225" cy="290" r="6" fill="#8b1e18"/>
+        <text x="240" y="293" font-family="JetBrains Mono" font-size="9" fill="#1a1814">Jinju</text>
+
+        <!-- Busan - Maroon -->
+        <circle cx="255" cy="315" r="8" fill="#8b1e18"/>
+        <text x="270" y="318" font-family="JetBrains Mono" font-size="10" fill="#1a1814">Busan</text>
+
+        <!-- Jinhae - Maroon -->
+        <circle cx="240" cy="320" r="6" fill="#8b1e18"/>
+        <text x="160" y="338" font-family="JetBrains Mono" font-size="9" fill="#1a1814">Jinhae</text>
+
+        <!-- Jeju - Dark blue -->
+        <circle cx="170" cy="395" r="7" fill="#1a3540"/>
+        <text x="220" y="398" font-family="JetBrains Mono" font-size="10" fill="#1a1814">Jeju</text>
+
+        <!-- Compass -->
+        <g transform="translate(50, 80)">
+          <circle r="20" fill="none" stroke="#1a1814" stroke-width="1"/>
+          <path d="M 0 -16 L 4 0 L 0 16 L -4 0 Z" fill="#c8362d"/>
+          <path d="M -16 0 L 0 4 L 16 0 L 0 -4 Z" fill="#1a1814" opacity="0.6"/>
+          <text y="-25" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#1a1814">N</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- TRANSPORT -->
+<section class="transport" id="transport">
+  <div class="section-header">
+    <div>
+      <div class="section-num">— 04 / Getting Around</div>
+      <h3>Transport, <em>simplified</em>.</h3>
+    </div>
+    <div class="desc">Korea has one of the world's most efficient public transport networks. Here's what you actually need to know.</div>
+  </div>
+
+  <div class="transport-grid">
+    <div class="transport-card">
+      <div class="transport-icon">
+        <svg viewBox="0 0 64 64">
+          <rect x="12" y="14" width="40" height="36" rx="6"/>
+          <line x1="12" y1="36" x2="52" y2="36"/>
+          <circle cx="22" cy="44" r="3" fill="currentColor" stroke="none"/>
+          <circle cx="42" cy="44" r="3" fill="currentColor" stroke="none"/>
+          <line x1="20" y1="22" x2="44" y2="22"/>
+          <line x1="20" y1="28" x2="36" y2="28"/>
+          <line x1="18" y1="54" x2="22" y2="58"/>
+          <line x1="46" y1="54" x2="42" y2="58"/>
+        </svg>
+      </div>
+      <h5>Subway</h5>
+      <div class="ko">지하철 · The backbone of city travel</div>
+      <p>Color-coded lines, English signage, and announcements. The Seoul Metro app is essential — works offline.</p>
+      <div class="transport-tip">Tip · Avoid 8–9am rush hour</div>
+    </div>
+
+    <div class="transport-card">
+      <div class="transport-icon">
+        <svg viewBox="0 0 64 64">
+          <rect x="8" y="18" width="48" height="28" rx="3"/>
+          <circle cx="20" cy="50" r="4"/>
+          <circle cx="44" cy="50" r="4"/>
+          <line x1="14" y1="26" x2="50" y2="26"/>
+          <rect x="14" y="32" width="8" height="6"/>
+          <rect x="26" y="32" width="8" height="6"/>
+          <rect x="38" y="32" width="8" height="6"/>
+        </svg>
+      </div>
+      <h5>City Bus</h5>
+      <div class="ko">시내버스 · Reaches where subway doesn't</div>
+      <p>Tap T-Money card on entry and exit. Blue buses run main routes, green buses are local, red buses are express.</p>
+      <div class="transport-tip">Tip · KakaoMap shows live arrivals</div>
+    </div>
+
+    <div class="transport-card">
+      <div class="transport-icon">
+        <svg viewBox="0 0 64 64">
+          <path d="M 8 32 L 32 16 L 56 32 L 56 48 L 8 48 Z"/>
+          <line x1="14" y1="32" x2="50" y2="32"/>
+          <rect x="20" y="36" width="8" height="8"/>
+          <rect x="36" y="36" width="8" height="8"/>
+          <line x1="32" y1="16" x2="32" y2="8"/>
+          <line x1="2" y1="48" x2="62" y2="48"/>
+        </svg>
+      </div>
+      <h5>KTX Bullet Train</h5>
+      <div class="ko">고속철도 · Cross-country in hours</div>
+      <p>Seoul to Busan in 2.5 hours. Book through Korail or LetsKorail.com. Discounts available with the Korea Rail Pass.</p>
+      <div class="transport-tip">Tip · Reserve seats on weekends</div>
+    </div>
+
+    <div class="transport-card">
+      <div class="transport-icon">
+        <svg viewBox="0 0 64 64">
+          <rect x="14" y="20" width="36" height="24" rx="3"/>
+          <circle cx="22" cy="48" r="4"/>
+          <circle cx="42" cy="48" r="4"/>
+          <rect x="20" y="14" width="24" height="6" rx="2"/>
+          <text x="32" y="36" text-anchor="middle" font-size="10" font-family="JetBrains Mono" fill="currentColor" stroke="none">TAXI</text>
+        </svg>
+      </div>
+      <h5>Taxi</h5>
+      <div class="ko">택시 · Use Kakao T to avoid scams</div>
+      <p>Always use the Kakao T or Uber app — never accept "free" rides from strangers near tourist areas. Orange/silver are regular, black are deluxe.</p>
+      <div class="transport-tip">Tip · Show address in Korean</div>
+    </div>
+  </div>
+</section>
+
+<!-- EMERGENCY -->
+<section class="emergency" id="emergency">
+  <div class="emergency-inner">
+    <div class="emergency-left">
+      <div class="label">— 05 / In Case of Need</div>
+      <h3>Save these numbers <em>before</em> you need them.</h3>
+    </div>
+    <div class="emergency-numbers">
+      <div class="emergency-num">
+        <div class="digits">112</div>
+        <div class="name">Police · Crime, Theft</div>
+      </div>
+      <div class="emergency-num">
+        <div class="digits">119</div>
+        <div class="name">Fire & Medical</div>
+      </div>
+      <div class="emergency-num">
+        <div class="digits">1330</div>
+        <div class="name">Tourist Hotline 24/7</div>
+      </div>
+      <div class="emergency-num">
+        <div class="digits">120</div>
+        <div class="name">Seoul Help · Dasan</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <h4>Safe<span class="accent">·</span><em>Korea</em></h4>
+      <p>An independent travel guide built in collaboration with the Korea Tourism Organization, local residents, and verified guides. No paid placements. No hidden agendas.</p>
+    </div>
+    <div class="footer-col">
+      <h6>Explore</h6>
+      <ul>
+        <li><a href="#">Seoul</a></li>
+        <li><a href="#">Busan</a></li>
+        <li><a href="#">Jeju</a></li>
+        <li><a href="#">Gyeongju</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h6>Practical</h6>
+      <ul>
+        <li><a href="#">Visa & Entry</a></li>
+        <li><a href="#">Currency · KRW</a></li>
+        <li><a href="#">Etiquette</a></li>
+        <li><a href="#">Phrases</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h6>Connect</h6>
+      <ul>
+        <li><a href="#">Newsletter</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Submit a Tip</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Safe Korea Guide</span>
+    <span>Made with care in Seoul · 서울에서</span>
+    <span>Privacy · Terms · Sitemap</span>
+  </div>
+</footer>
+
+<script>
+  // Festival season tab switching
+  const seasonTabs = document.querySelectorAll('.season-tab');
+  const festivalPanels = document.querySelectorAll('.festival-panel');
+
+  seasonTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const season = tab.dataset.season;
+
+      seasonTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+
+      festivalPanels.forEach(panel => {
+        if (panel.dataset.season === season) {
+          panel.classList.add('active');
+        } else {
+          panel.classList.remove('active');
+        }
+      });
+    });
+  });
+
+  // Auto-select current season on load
+  const month = new Date().getMonth();
+  let currentSeason = 'spring';
+  if (month >= 5 && month <= 7) currentSeason = 'summer';
+  else if (month >= 8 && month <= 10) currentSeason = 'autumn';
+  else if (month === 11 || month <= 1) currentSeason = 'winter';
+
+  const currentTab = document.querySelector(`.season-tab[data-season="${currentSeason}"]`);
+  if (currentTab) currentTab.click();
+</script>
+
+</body>
+</html>

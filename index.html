@@ -5040,6 +5040,13 @@
     // Scroll back
     document.querySelector('.quiz-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+
+  // Expose quiz functions globally so onclick handlers can find them
+  window.startQuiz = startQuiz;
+  window.nextStep = nextStep;
+  window.prevStep = prevStep;
+  window.showResults = showResults;
+  window.restartQuiz = restartQuiz;
 </script>
 
 </body>

@@ -2986,6 +2986,7 @@
     .quiz-start { padding: 40px 24px; }
     .style-bar { grid-template-columns: 100px 1fr 40px; gap: 10px; }
     .results-header, .style-match, .recommended-section, .budget-section, .tips-section, .quiz-restart, .results-map-section, .stay-section, .share-section { padding: 28px 24px; }
+    .city-banner { grid-template-columns: 1fr !important; padding: 32px !important; }
     .results-map { height: 360px; }
     .map-legend { padding: 14px 16px; gap: 10px 16px; }
     .stay-types-grid { grid-template-columns: 1fr; }
@@ -3007,6 +3008,7 @@
   </div>
   <div class="topbar-right">
     <a href="#places">Places</a>
+    <a href="seoul.html">Cities</a>
     <a href="#quiz">Quiz</a>
     <a href="#festivals">Festivals</a>
     <a href="#transport">Transport</a>
@@ -3176,6 +3178,31 @@
       <span>Bus 240 · Visitor Center</span>
     </div>
   </article>
+</section>
+
+<!-- CITY GUIDES BANNER -->
+<section style="padding: 0 32px 80px; border-bottom: 1px solid var(--ink);">
+  <div style="border: 1px solid var(--ink); background: var(--ink); color: var(--paper); padding: 48px; display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center;" class="city-banner">
+    <div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px;">— Deep-Dive City Guides</div>
+      <h3 style="font-family: 'Fraunces', serif; font-size: clamp(28px, 4vw, 44px); line-height: 1.05; letter-spacing: -0.02em; font-weight: 400; margin-bottom: 14px; max-width: 600px;">Want to <em style="font-style: italic; color: var(--gold); font-weight: 600;">go deeper</em> into a single city?</h3>
+      <p style="font-size: 15px; line-height: 1.7; color: rgba(244,239,230,0.7); max-width: 540px;">Each city has its own complete guide — neighborhoods, food, day-by-day itineraries, and an interactive map of every must-see spot.</p>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 12px; min-width: 200px;">
+      <a href="seoul.html" style="display: inline-flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--crimson); color: var(--paper); text-decoration: none; padding: 18px 24px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; border: 1px solid var(--crimson); transition: all 0.2s;" onmouseover="this.style.background='var(--paper)';this.style.color='var(--ink)'" onmouseout="this.style.background='var(--crimson)';this.style.color='var(--paper)'">
+        <span>Seoul</span>
+        <span>→</span>
+      </a>
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; background: transparent; color: rgba(244,239,230,0.4); padding: 18px 24px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; border: 1px dashed rgba(244,239,230,0.3);">
+        <span>Busan</span>
+        <span style="font-size: 9px; letter-spacing: 0.2em;">Coming Soon</span>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; background: transparent; color: rgba(244,239,230,0.4); padding: 18px 24px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; border: 1px dashed rgba(244,239,230,0.3);">
+        <span>Jeju</span>
+        <span style="font-size: 9px; letter-spacing: 0.2em;">Coming Soon</span>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- TRENDS -->

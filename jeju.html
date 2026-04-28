@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jeju · Safe Korea Travel Guide</title>
+<meta name="description" content="A complete zone-by-zone guide to Jeju Island for international travelers — beaches, volcanic landscapes, hidden waterfalls, and local cuisine.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<style>
+  :root {
+    --ink: #1a1814;
+    --paper: #f4efe6;
+    --paper-warm: #ebe3d3;
+    --crimson: #c8362d;
+    --crimson-deep: #8b1e18;
+    --jade: #2d5d4f;
+    --gold: #b8924a;
+    --muted: #6b6356;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Fraunces', serif;
+    line-height: 1.5;
+    overflow-x: hidden;
+    background-image: radial-gradient(circle at 1px 1px, rgba(26,24,20,0.06) 1px, transparent 0);
+    background-size: 28px 28px;
+  }
+
+  .topbar { border-bottom: 1px solid var(--ink); padding: 14px 32px; display: flex; justify-content: space-between; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; background: var(--paper); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(8px); }
+  .topbar a { color: var(--ink); text-decoration: none; transition: color 0.2s; margin-left: 24px; }
+  .topbar a:hover { color: var(--gold); }
+  .topbar-back { display: flex; align-items: center; gap: 8px; }
+  .topbar-back a { margin-left: 0; }
+  .live-dot { display: inline-block; width: 6px; height: 6px; background: var(--gold); border-radius: 50%; margin-right: 6px; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.4); } }
+
+  .city-hero { border-bottom: 3px double var(--ink); padding: 60px 32px 48px; position: relative; }
+  .city-hero-meta { display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--ink); }
+  .city-hero-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 60px; align-items: end; }
+  .city-hero-tag { display: inline-flex; align-items: center; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; }
+  .city-hero-tag::before { content: ''; width: 32px; height: 1px; background: var(--gold); }
+  .city-name { font-family: 'Fraunces', serif; font-size: clamp(80px, 14vw, 200px); line-height: 0.85; letter-spacing: -0.04em; font-weight: 800; font-style: italic; margin-bottom: 8px; }
+  .city-name .accent { color: var(--gold); font-style: normal; font-weight: 300; }
+  .city-name-kr { font-family: 'Noto Sans KR', sans-serif; font-size: 24px; color: var(--muted); margin-bottom: 24px; letter-spacing: 0.1em; }
+  .city-hero-intro { font-family: 'Fraunces', serif; font-size: 18px; line-height: 1.7; color: var(--ink); max-width: 540px; }
+  .city-hero-stats { border: 1px solid var(--ink); background: var(--paper-warm); padding: 32px; position: relative; }
+  .city-hero-stats::before { content: 'AT A GLANCE'; position: absolute; top: -10px; left: 24px; background: var(--paper); padding: 0 12px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.25em; color: var(--muted); }
+  .stat-item { padding: 14px 0; border-bottom: 1px dashed var(--ink); display: grid; grid-template-columns: 130px 1fr; gap: 16px; align-items: baseline; }
+  .stat-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .stat-item:first-child { padding-top: 0; }
+  .stat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
+  .stat-value { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 600; line-height: 1.3; }
+  .stat-sub { display: block; font-family: 'Noto Sans KR', sans-serif; font-size: 11px; color: var(--muted); font-weight: 400; margin-top: 2px; }
+
+  .section-header { padding: 80px 32px 32px; display: flex; justify-content: space-between; align-items: end; gap: 40px; }
+  .section-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+  .section-header h3 { font-family: 'Fraunces', serif; font-size: clamp(36px, 5vw, 64px); line-height: 0.95; letter-spacing: -0.03em; font-weight: 400; max-width: 640px; }
+  .section-header h3 em { font-style: italic; color: var(--gold); font-weight: 600; }
+  .section-header .desc { max-width: 320px; font-size: 14px; line-height: 1.7; color: var(--muted); text-align: right; border-top: 1px solid var(--ink); padding-top: 16px; }
+
+  .essence { padding: 0 32px 80px; border-bottom: 1px solid var(--ink); }
+  .essence-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--ink); }
+  .essence-card { padding: 36px 28px; border-right: 1px solid var(--ink); transition: background 0.3s; }
+  .essence-card:last-child { border-right: none; }
+  .essence-card:hover { background: var(--paper-warm); }
+  .essence-num { font-family: 'Fraunces', serif; font-style: italic; font-size: 48px; color: var(--gold); line-height: 1; margin-bottom: 24px; font-weight: 400; }
+  .essence-title { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 600; margin-bottom: 16px; letter-spacing: -0.01em; line-height: 1.15; }
+  .essence-desc { font-size: 15px; line-height: 1.7; color: var(--muted); }
+
+  .neighborhoods { padding: 0 32px 80px; border-bottom: 1px solid var(--ink); }
+  .nbh-tabs { display: grid; grid-template-columns: repeat(5, 1fr); border: 1px solid var(--ink); }
+  .nbh-tab { background: var(--paper); border: none; border-right: 1px solid var(--ink); padding: 20px 14px; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); transition: all 0.3s; text-align: center; line-height: 1.4; }
+  .nbh-tab:last-child { border-right: none; }
+  .nbh-tab .nbh-tab-name { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 600; color: var(--ink); text-transform: none; letter-spacing: -0.01em; display: block; margin-bottom: 4px; }
+  .nbh-tab.active { background: var(--ink); color: var(--paper); }
+  .nbh-tab.active .nbh-tab-name { color: var(--gold); font-style: italic; }
+  .nbh-tab:hover:not(.active) { background: var(--paper-warm); }
+
+  .nbh-panel { display: none; border: 1px solid var(--ink); border-top: none; background: var(--paper); }
+  .nbh-panel.active { display: block; }
+  .nbh-panel-grid { display: grid; grid-template-columns: 1fr 1.2fr; }
+  .nbh-info { padding: 40px 36px; border-right: 1px solid var(--ink); background: var(--paper-warm); }
+  .nbh-vibe { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+  .nbh-headline { font-family: 'Fraunces', serif; font-size: 36px; line-height: 1.1; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 8px; }
+  .nbh-headline em { font-style: italic; color: var(--gold); font-weight: 600; }
+  .nbh-headline-kr { font-family: 'Noto Sans KR', sans-serif; font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+  .nbh-desc { font-size: 15px; line-height: 1.7; color: var(--ink); margin-bottom: 24px; }
+  .nbh-meta { border-top: 1px solid var(--ink); padding-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .nbh-meta-item .label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+  .nbh-meta-item .value { font-family: 'Fraunces', serif; font-size: 14px; font-weight: 600; line-height: 1.3; }
+  .nbh-meta-item .value-kr { display: block; font-family: 'Noto Sans KR', sans-serif; font-size: 11px; color: var(--muted); font-weight: 400; margin-top: 2px; }
+
+  .nbh-places { padding: 40px 36px; }
+  .nbh-places-title { font-family: 'Fraunces', serif; font-style: italic; font-size: 22px; margin-bottom: 24px; padding-bottom: 14px; border-bottom: 1px solid var(--ink); }
+  .nbh-place-item { padding: 18px 0; border-bottom: 1px dashed var(--ink); display: grid; grid-template-columns: 36px 1fr auto; gap: 16px; align-items: start; }
+  .nbh-place-item:last-child { border-bottom: none; }
+  .nbh-place-num { width: 30px; height: 30px; border: 1px solid var(--gold); border-radius: 50%; color: var(--gold); font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .nbh-place-name { font-family: 'Fraunces', serif; font-size: 17px; font-weight: 600; line-height: 1.2; margin-bottom: 2px; }
+  .nbh-place-name-kr { font-family: 'Noto Sans KR', sans-serif; font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+  .nbh-place-tip { font-size: 13px; line-height: 1.5; color: var(--muted); font-style: italic; }
+  .nbh-place-type { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--jade); border: 1px solid var(--jade); padding: 2px 6px; text-align: center; }
+
+  .city-map-section { padding: 0 32px 80px; border-bottom: 1px solid var(--ink); }
+  .city-map-wrap { border: 1px solid var(--ink); background: var(--paper-warm); }
+  .city-map { width: 100%; height: 560px; }
+  .map-legend-bar { background: var(--ink); color: var(--paper); padding: 18px 24px; display: flex; flex-wrap: wrap; gap: 16px 28px; align-items: center; border-top: 1px solid var(--ink); }
+  .map-legend-bar-title { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .city-marker { width: 32px; height: 32px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); border: 2px solid #f4efe6; display: flex; align-items: center; justify-content: center; box-shadow: 2px 2px 6px rgba(0,0,0,0.3); }
+  .city-marker-inner { transform: rotate(45deg); color: #f4efe6; font-family: 'Fraunces', serif; font-style: italic; font-weight: 700; font-size: 13px; }
+  .leaflet-container { font-family: 'JetBrains Mono', monospace; font-size: 12px; background: var(--paper-warm) !important; }
+  .leaflet-popup-content-wrapper { background: #1a1814 !important; color: #f4efe6 !important; border-radius: 0 !important; border: 1px solid #b8924a; box-shadow: 4px 4px 0 #b8924a !important; padding: 0 !important; }
+  .leaflet-popup-content { margin: 14px 16px !important; line-height: 1.5; }
+  .leaflet-popup-tip { background: #1a1814 !important; border: 1px solid #b8924a; }
+  .leaflet-popup-close-button { color: #b8924a !important; font-size: 18px !important; }
+  .map-popup-tag { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: #b8924a; margin-bottom: 6px; padding: 2px 6px; border: 1px solid #b8924a; }
+  .map-popup-name { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 600; line-height: 1.2; margin-bottom: 4px; color: #f4efe6; }
+  .map-popup-kr { font-family: 'Noto Sans KR', sans-serif; font-size: 11px; color: rgba(244,239,230,0.7); margin-bottom: 8px; }
+  .map-popup-link { display: inline-flex; background: #b8924a; color: #1a1814; text-decoration: none; padding: 6px 12px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; margin-top: 6px; font-weight: 700; }
+  .map-popup-link:hover { background: #f4efe6; }
+
+  .itinerary { padding: 0 32px 80px; background: var(--ink); color: var(--paper); border-top: 3px double var(--gold); border-bottom: 3px double var(--gold); }
+  .itinerary .section-header { padding-left: 0; padding-right: 0; }
+  .itinerary .section-num { color: var(--gold); }
+  .itinerary .section-header h3 em { color: var(--gold); }
+  .itinerary .section-header .desc { color: rgba(244,239,230,0.6); border-color: var(--paper); }
+  .day-tabs { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid rgba(244,239,230,0.3); }
+  .day-tab { background: transparent; border: none; border-right: 1px solid rgba(244,239,230,0.3); padding: 20px; cursor: pointer; color: rgba(244,239,230,0.6); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; transition: all 0.3s; text-align: center; }
+  .day-tab:last-child { border-right: none; }
+  .day-tab .day-num { font-family: 'Fraunces', serif; font-style: italic; font-size: 28px; display: block; margin-bottom: 4px; color: var(--paper); }
+  .day-tab.active { background: var(--gold); color: var(--ink); }
+  .day-tab.active .day-num { color: var(--ink); }
+  .day-panel { display: none; border: 1px solid rgba(244,239,230,0.3); border-top: none; padding: 36px; }
+  .day-panel.active { display: block; }
+  .day-title { font-family: 'Fraunces', serif; font-size: 32px; font-weight: 400; margin-bottom: 6px; letter-spacing: -0.02em; }
+  .day-title em { font-style: italic; color: var(--gold); font-weight: 600; }
+  .day-subtitle { font-family: 'Noto Sans KR', sans-serif; font-size: 13px; color: rgba(244,239,230,0.6); margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid rgba(244,239,230,0.2); }
+  .day-timeline { display: flex; flex-direction: column; gap: 0; }
+  .timeline-item { display: grid; grid-template-columns: 90px 1fr; gap: 24px; padding: 18px 0; border-bottom: 1px dashed rgba(244,239,230,0.3); }
+  .timeline-item:last-child { border-bottom: none; }
+  .timeline-time { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.15em; color: var(--gold); font-weight: 500; padding-top: 4px; }
+  .timeline-content h5 { font-family: 'Fraunces', serif; font-size: 19px; font-weight: 600; margin-bottom: 4px; letter-spacing: -0.01em; }
+  .timeline-content .where { font-family: 'Noto Sans KR', sans-serif; font-size: 12px; color: var(--gold); margin-bottom: 8px; }
+  .timeline-content p { font-size: 13px; line-height: 1.6; color: rgba(244,239,230,0.75); }
+
+  .city-food { padding: 0 32px 80px; border-bottom: 1px solid var(--ink); }
+  .food-grid { display: grid; grid-template-columns: repeat(2, 1fr); border: 1px solid var(--ink); }
+  .food-card { padding: 32px 28px; border-right: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+  .food-card:nth-child(2n) { border-right: none; }
+  .food-card:nth-last-child(-n+2) { border-bottom: none; }
+  .food-tag { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--gold); color: var(--gold); margin-bottom: 16px; }
+  .food-name { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 600; line-height: 1.15; margin-bottom: 4px; letter-spacing: -0.01em; }
+  .food-name-kr { font-family: 'Noto Sans KR', sans-serif; font-size: 14px; color: var(--muted); margin-bottom: 14px; }
+  .food-desc { font-size: 14px; line-height: 1.6; color: var(--ink); margin-bottom: 16px; }
+  .food-where { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding-top: 14px; border-top: 1px dashed var(--ink); color: var(--gold); }
+  .food-where strong { display: block; color: var(--ink); font-family: 'Fraunces', serif; font-size: 14px; text-transform: none; letter-spacing: -0.01em; margin-top: 4px; font-weight: 600; }
+
+  .city-tips { padding: 0 32px 80px; background: var(--paper-warm); border-bottom: 1px solid var(--ink); }
+  .tips-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 32px; }
+  .tip-card { background: var(--paper); border: 1px solid var(--ink); padding: 24px; display: grid; grid-template-columns: 36px 1fr; gap: 16px; align-items: start; }
+  .tip-icon { width: 32px; height: 32px; border-radius: 50%; background: var(--gold); color: var(--ink); display: flex; align-items: center; justify-content: center; font-family: 'Fraunces', serif; font-style: italic; font-weight: 700; flex-shrink: 0; }
+  .tip-content h6 { font-family: 'Fraunces', serif; font-size: 17px; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .tip-content p { font-size: 13px; line-height: 1.6; color: var(--muted); }
+
+  .city-cta { padding: 80px 32px; text-align: center; background: var(--ink); color: var(--paper); }
+  .city-cta-tag { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); border: 1px solid var(--gold); padding: 6px 14px; margin-bottom: 24px; }
+  .city-cta h3 { font-family: 'Fraunces', serif; font-size: clamp(36px, 5vw, 56px); line-height: 1.05; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 16px; max-width: 800px; margin-left: auto; margin-right: auto; }
+  .city-cta h3 em { font-style: italic; color: var(--gold); font-weight: 600; }
+  .city-cta p { font-size: 16px; line-height: 1.7; color: rgba(244,239,230,0.7); max-width: 540px; margin: 0 auto 32px; }
+  .city-cta-btn { display: inline-flex; align-items: center; gap: 12px; background: var(--gold); color: var(--ink); text-decoration: none; padding: 18px 32px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 700; transition: all 0.2s; border: 1px solid var(--gold); }
+  .city-cta-btn:hover { background: var(--paper); border-color: var(--paper); transform: translateY(-2px); }
+
+  footer { padding: 40px 32px 28px; background: var(--paper); border-top: 1px solid var(--ink); text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.15em; color: var(--muted); }
+  footer a { color: var(--ink); text-decoration: none; margin: 0 12px; }
+  footer a:hover { color: var(--gold); }
+
+  @media (max-width: 900px) {
+    .city-hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .essence-grid { grid-template-columns: 1fr; }
+    .essence-card { border-right: none; border-bottom: 1px solid var(--ink); }
+    .essence-card:last-child { border-bottom: none; }
+    .nbh-tabs { grid-template-columns: repeat(2, 1fr); }
+    .nbh-tab { border-bottom: 1px solid var(--ink); }
+    .nbh-panel-grid { grid-template-columns: 1fr; }
+    .nbh-info { border-right: none; border-bottom: 1px solid var(--ink); }
+    .day-tabs { grid-template-columns: 1fr; }
+    .day-tab { border-right: none; border-bottom: 1px solid rgba(244,239,230,0.3); }
+    .food-grid, .tips-grid { grid-template-columns: 1fr; }
+    .food-card { border-right: none; }
+    .timeline-item { grid-template-columns: 1fr; gap: 4px; }
+    .section-header { flex-direction: column; align-items: flex-start; padding: 60px 20px 24px; }
+    .section-header .desc { text-align: left; }
+    .city-hero, .essence, .neighborhoods, .city-map-section, .itinerary, .city-food, .city-tips { padding-left: 20px; padding-right: 20px; }
+    .city-map { height: 400px; }
+    .topbar { padding: 12px 20px; flex-wrap: wrap; gap: 12px; }
+    .topbar a { margin-left: 0; margin-right: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-back"><a href="index.html">← Safe·Korea</a></div>
+  <div>
+    <span><span class="live-dot"></span>Jeju · 17°C</span>
+    <a href="#zones">Zones</a>
+    <a href="#map">Map</a>
+    <a href="#itinerary">Itinerary</a>
+    <a href="#food">Food</a>
+    <a href="#tips">Tips</a>
+  </div>
+</div>
+
+<header class="city-hero">
+  <div class="city-hero-meta">
+    <span>City Guide · Vol. 03</span>
+    <span>UNESCO World Natural Heritage</span>
+    <span>Population 0.7M · Volcanic Island</span>
+  </div>
+  <div class="city-hero-grid">
+    <div>
+      <div class="city-hero-tag">— A Complete Guide</div>
+      <h1 class="city-name">Je<span class="accent">·</span><em>ju</em></h1>
+      <div class="city-name-kr">제주도 · 濟州島 · チェジュ島</div>
+      <p class="city-hero-intro">A volcanic island shaped by an eruption two million years ago, Jeju is Korea's Hawaii — but with hanok villages, Buddhist temples carved into cliffs, and lava tubes you can walk through. The pace is slower, the air is salty, and somehow every road ends at a view that takes your breath away.</p>
+    </div>
+    <div class="city-hero-stats">
+      <div class="stat-item">
+        <div class="stat-label">Best Time</div>
+        <div class="stat-value">April–June, Sep–Oct<span class="stat-sub">Mild, wildflowers, no typhoons</span></div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Min Stay</div>
+        <div class="stat-value">3 Days<span class="stat-sub">5+ ideal</span></div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">From Seoul</div>
+        <div class="stat-value">1h flight<span class="stat-sub">~₩50–120k each way</span></div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Daily Budget</div>
+        <div class="stat-value">$80–300 USD<span class="stat-sub">Car rental adds ~$40/day</span></div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Famous For</div>
+        <div class="stat-value">Volcano, beaches, olle<span class="stat-sub">한라산·해변·올레길</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="section-header">
+  <div>
+    <div class="section-num">— 01 / What Makes Jeju</div>
+    <h3>Three things you'll <em>never</em> find on the mainland.</h3>
+  </div>
+  <div class="desc">Jeju isn't just another Korean destination — it's a different culture, climate, and landscape, all packed into a 73km-wide island.</div>
+</div>
+
+<section class="essence">
+  <div class="essence-grid">
+    <div class="essence-card">
+      <div class="essence-num">01</div>
+      <h4 class="essence-title">A volcanic island, geologically alien</h4>
+      <p class="essence-desc">Lava tubes you can walk through. Black sand beaches next to white. A 1,950-meter volcano at the center. Hexagonal columns of basalt rising from the sea. Jeju formed in eruptions and never lost the drama.</p>
+    </div>
+    <div class="essence-card">
+      <div class="essence-num">02</div>
+      <h4 class="essence-title">A culture older than mainland Korea</h4>
+      <p class="essence-desc">Until 1948, Jeju was its own kingdom. The dialect is so distinct mainland Koreans need subtitles. The haenyeo — female free divers in their 70s and 80s — still harvest seafood the way their grandmothers did.</p>
+    </div>
+    <div class="essence-card">
+      <div class="essence-num">03</div>
+      <h4 class="essence-title">A pace that forces you to slow down</h4>
+      <p class="essence-desc">No rush hour. No crowded subways. Even peak Jeju moves at half-Seoul speed. The island has 26 walking trails (the famous Olle), endless coastal cafés, and locals who genuinely have time to chat.</p>
+    </div>
+  </div>
+</section>
+
+<div class="section-header" id="zones">
+  <div>
+    <div class="section-num">— 02 / Zones</div>
+    <h3>The island, by <em>direction</em>.</h3>
+  </div>
+  <div class="desc">Jeju is too big to wander randomly. Organize by zone: each has its own character, beaches, and hidden corners.</div>
+</div>
+
+<section class="neighborhoods">
+  <div class="nbh-tabs">
+    <button class="nbh-tab active" data-nbh="north"><span class="nbh-tab-name">North</span>Jeju City</button>
+    <button class="nbh-tab" data-nbh="east"><span class="nbh-tab-name">East</span>Sunrise Coast</button>
+    <button class="nbh-tab" data-nbh="south"><span class="nbh-tab-name">South</span>Seogwipo</button>
+    <button class="nbh-tab" data-nbh="west"><span class="nbh-tab-name">West</span>Sunset Coast</button>
+    <button class="nbh-tab" data-nbh="center"><span class="nbh-tab-name">Center</span>Hallasan</button>
+  </div>
+
+  <!-- NORTH -->
+  <div class="nbh-panel active" data-nbh="north">
+    <div class="nbh-panel-grid">
+      <div class="nbh-info">
+        <div class="nbh-vibe">★ Where you arrive</div>
+        <h4 class="nbh-headline">The <em>gateway</em> city.</h4>
+        <div class="nbh-headline-kr">제주시 · Most flights land here</div>
+        <p class="nbh-desc">Jeju's largest city and your first impression. Most travelers rent cars here and head out, but the city itself has working markets, traditional black-stone houses, and a famous beach within walking distance. A perfect first day before exploring deeper.</p>
+        <div class="nbh-meta">
+          <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Day 1 base, urban Jeju<span class="value-kr">도착·시내</span></div></div>
+          <div class="nbh-meta-item"><div class="label">Get there</div><div class="value">Direct from airport</div></div>
+          <div class="nbh-meta-item"><div class="label">Best Time</div><div class="value">Anytime, weather flexible</div></div>
+          <div class="nbh-meta-item"><div class="label">Stay</div><div class="value">Hotels, hostels available</div></div>
+        </div>
+      </div>
+      <div class="nbh-places">
+        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">1</div>
+          <div>
+            <div class="nbh-place-name">Dongmun Traditional Market</div>
+            <div class="nbh-place-name-kr">동문시장 · Heart of Jeju</div>
+            <div class="nbh-place-tip">Try heuk-dwaeji (black pig) skewers and hallabong oranges. Best at lunch.</div>
+          </div>
+          <div class="nbh-place-type">Market</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">2</div>
+          <div>
+            <div class="nbh-place-name">Iho Tewoo Beach</div>
+            <div class="nbh-place-name-kr">이호테우 해수욕장 · Red & white horses</div>
+            <div class="nbh-place-tip">Famous for the lighthouse pair shaped like horses. Great sunset spot, 20 min from airport.</div>
+          </div>
+          <div class="nbh-place-type">Beach</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">3</div>
+          <div>
+            <div class="nbh-place-name">Yongduam Rock</div>
+            <div class="nbh-place-name-kr">용두암 · Dragon head rock</div>
+            <div class="nbh-place-tip">Volcanic rock formation shaped like a dragon. Free, brief but iconic.</div>
+          </div>
+          <div class="nbh-place-type">Nature</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">4</div>
+          <div>
+            <div class="nbh-place-name">Samseonghyeol Shrine</div>
+            <div class="nbh-place-name-kr">삼성혈 · Jeju's founding myth</div>
+            <div class="nbh-place-tip">Three holes where the founders of Jeju supposedly emerged. Quiet park, ₩2.5k.</div>
+          </div>
+          <div class="nbh-place-type">Historic</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">5</div>
+          <div>
+            <div class="nbh-place-name">Tapdong Promenade</div>
+            <div class="nbh-place-name-kr">탑동 산책로 · Coastal walk</div>
+            <div class="nbh-place-tip">Late afternoon walk along the harbor. Great cafés and ocean views.</div>
+          </div>
+          <div class="nbh-place-type">Walk</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EAST -->
+  <div class="nbh-panel" data-nbh="east">
+    <div class="nbh-panel-grid">
+      <div class="nbh-info">
+        <div class="nbh-vibe">★ Sunrise & cliffs</div>
+        <h4 class="nbh-headline">Where Korea greets the <em>sun</em>.</h4>
+        <div class="nbh-headline-kr">동부 · The dramatic coast</div>
+        <p class="nbh-desc">Jeju's east is volcanic geography at its most theatrical — Sunrise Peak rising from the sea, lava tubes you can walk through, and beaches where black sand meets turquoise water. This is the side most photographed, and for good reason.</p>
+        <div class="nbh-meta">
+          <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Sunrise, dramatic landscapes<span class="value-kr">일출·자연</span></div></div>
+          <div class="nbh-meta-item"><div class="label">Get there</div><div class="value">1hr drive from Jeju City</div></div>
+          <div class="nbh-meta-item"><div class="label">Best Time</div><div class="value">Sunrise (6am)</div></div>
+          <div class="nbh-meta-item"><div class="label">Highlight</div><div class="value">Seongsan Sunrise Peak</div></div>
+        </div>
+      </div>
+      <div class="nbh-places">
+        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">1</div>
+          <div>
+            <div class="nbh-place-name">Seongsan Sunrise Peak</div>
+            <div class="nbh-place-name-kr">성산일출봉 · UNESCO heritage</div>
+            <div class="nbh-place-tip">A 30-min hike up. Catch the sunrise from the rim. ₩5k entry.</div>
+          </div>
+          <div class="nbh-place-type">Volcano</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">2</div>
+          <div>
+            <div class="nbh-place-name">Manjanggul Lava Tube</div>
+            <div class="nbh-place-name-kr">만장굴 · World's longest lava tube</div>
+            <div class="nbh-place-tip">A walkable cave formed by ancient lava. ₩4k. Bring a light jacket — it's cold inside.</div>
+          </div>
+          <div class="nbh-place-type">Cave</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">3</div>
+          <div>
+            <div class="nbh-place-name">Woljeongri Beach</div>
+            <div class="nbh-place-name-kr">월정리 해변 · Café beach</div>
+            <div class="nbh-place-tip">Turquoise water, white sand, lined with cafés. Most Instagrammed beach.</div>
+          </div>
+          <div class="nbh-place-type">Beach</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">4</div>
+          <div>
+            <div class="nbh-place-name">Bijarim Forest</div>
+            <div class="nbh-place-name-kr">비자림 · 800-year nutmeg trees</div>
+            <div class="nbh-place-tip">Easy 1-hour forest walk among ancient trees. Cooler in summer. ₩3k.</div>
+          </div>
+          <div class="nbh-place-type">Forest</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">5</div>
+          <div>
+            <div class="nbh-place-name">Hyeopjae Beach</div>
+            <div class="nbh-place-name-kr">협재해수욕장 · Crystal clear water</div>
+            <div class="nbh-place-tip">Considered Jeju's most beautiful beach. Visible Biyangdo Island offshore.</div>
+          </div>
+          <div class="nbh-place-type">Beach</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOUTH -->
+  <div class="nbh-panel" data-nbh="south">
+    <div class="nbh-panel-grid">
+      <div class="nbh-info">
+        <div class="nbh-vibe">★ Waterfalls & resorts</div>
+        <h4 class="nbh-headline">The <em>luxe</em> side of Jeju.</h4>
+        <div class="nbh-headline-kr">서귀포 · Resort capital</div>
+        <p class="nbh-desc">Jeju's southern coast is warmer, lusher, and home to the island's resort hotels and three famous waterfalls. The temperature here stays mild even in winter. Tangerine groves cover the hills. Most all-inclusive Jeju trips are based here for good reason.</p>
+        <div class="nbh-meta">
+          <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Resort stays, waterfalls<span class="value-kr">리조트·폭포</span></div></div>
+          <div class="nbh-meta-item"><div class="label">Get there</div><div class="value">1hr drive from Jeju City</div></div>
+          <div class="nbh-meta-item"><div class="label">Best Time</div><div class="value">Year-round, mild</div></div>
+          <div class="nbh-meta-item"><div class="label">Microclimate</div><div class="value">Warmest part of Korea</div></div>
+        </div>
+      </div>
+      <div class="nbh-places">
+        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">1</div>
+          <div>
+            <div class="nbh-place-name">Cheonjiyeon Waterfall</div>
+            <div class="nbh-place-name-kr">천지연폭포 · Sky-meets-earth waterfall</div>
+            <div class="nbh-place-tip">22m drop into a clear pool. Easy 15-min walk from parking. ₩2k.</div>
+          </div>
+          <div class="nbh-place-type">Waterfall</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">2</div>
+          <div>
+            <div class="nbh-place-name">Jeongbang Waterfall</div>
+            <div class="nbh-place-name-kr">정방폭포 · Falls into the sea</div>
+            <div class="nbh-place-tip">Asia's only waterfall that drops directly into the ocean. Iconic photo spot.</div>
+          </div>
+          <div class="nbh-place-type">Waterfall</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">3</div>
+          <div>
+            <div class="nbh-place-name">Jusangjeolli Cliff</div>
+            <div class="nbh-place-name-kr">주상절리 · Hexagonal lava columns</div>
+            <div class="nbh-place-tip">Perfect basalt columns formed by cooling lava. Walk along the viewing deck.</div>
+          </div>
+          <div class="nbh-place-type">Cliff</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">4</div>
+          <div>
+            <div class="nbh-place-name">Olle Market</div>
+            <div class="nbh-place-name-kr">서귀포 매일올레시장 · Local market</div>
+            <div class="nbh-place-tip">Try the famous Jeju black pork, hallabong drinks, fresh sashimi.</div>
+          </div>
+          <div class="nbh-place-type">Market</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">5</div>
+          <div>
+            <div class="nbh-place-name">Jungmun Beach</div>
+            <div class="nbh-place-name-kr">중문해수욕장 · Resort beach</div>
+            <div class="nbh-place-tip">Surfing in winter, swimming in summer. Surrounded by luxury hotels.</div>
+          </div>
+          <div class="nbh-place-type">Beach</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEST -->
+  <div class="nbh-panel" data-nbh="west">
+    <div class="nbh-panel-grid">
+      <div class="nbh-info">
+        <div class="nbh-vibe">★ Sunset & art</div>
+        <h4 class="nbh-headline">The <em>quieter</em> coast.</h4>
+        <div class="nbh-headline-kr">서부 · Sunset side</div>
+        <p class="nbh-desc">Jeju's west is the calmer, less-touristed counterpart to the east. Gentle white-sand beaches, museums tucked into pine forests, and Sanbangsan — a striking dome-shaped mountain. This is where locals go for sunsets and where quieter travelers find their favorite spots.</p>
+        <div class="nbh-meta">
+          <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Sunsets, art, peace<span class="value-kr">석양·예술</span></div></div>
+          <div class="nbh-meta-item"><div class="label">Get there</div><div class="value">45min drive from Jeju City</div></div>
+          <div class="nbh-meta-item"><div class="label">Best Time</div><div class="value">Late afternoon</div></div>
+          <div class="nbh-meta-item"><div class="label">Vibe</div><div class="value">Slower, less crowded</div></div>
+        </div>
+      </div>
+      <div class="nbh-places">
+        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">1</div>
+          <div>
+            <div class="nbh-place-name">Hyeopjae & Geumneung Beaches</div>
+            <div class="nbh-place-name-kr">협재·금능 해변 · Twin beaches</div>
+            <div class="nbh-place-tip">Connected by a path. Geumneung is quieter. Both have shallow turquoise water.</div>
+          </div>
+          <div class="nbh-place-type">Beach</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">2</div>
+          <div>
+            <div class="nbh-place-name">Sanbangsan Mountain</div>
+            <div class="nbh-place-name-kr">산방산 · Dome-shaped peak</div>
+            <div class="nbh-place-tip">A volcanic dome with cave temple. Climb partway for sea views. ₩2.5k.</div>
+          </div>
+          <div class="nbh-place-type">Mountain</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">3</div>
+          <div>
+            <div class="nbh-place-name">Camellia Hill</div>
+            <div class="nbh-place-name-kr">카멜리아힐 · Flower garden</div>
+            <div class="nbh-place-tip">6,000 camellia trees, peak bloom Dec-Feb. Other seasons also beautiful. ₩9k.</div>
+          </div>
+          <div class="nbh-place-type">Garden</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">4</div>
+          <div>
+            <div class="nbh-place-name">O'sulloc Tea Museum</div>
+            <div class="nbh-place-name-kr">오설록 티뮤지엄 · Green tea fields</div>
+            <div class="nbh-place-tip">Free entry. Endless tea fields, museum, and the famous green tea ice cream.</div>
+          </div>
+          <div class="nbh-place-type">Museum</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">5</div>
+          <div>
+            <div class="nbh-place-name">Hangmori Coastal Trail</div>
+            <div class="nbh-place-name-kr">송악산 둘레길 · Sunset cliff walk</div>
+            <div class="nbh-place-tip">Easy 1-hour walk along volcanic cliffs. Best at sunset.</div>
+          </div>
+          <div class="nbh-place-type">Walk</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CENTER -->
+  <div class="nbh-panel" data-nbh="center">
+    <div class="nbh-panel-grid">
+      <div class="nbh-info">
+        <div class="nbh-vibe">★ Volcano & forests</div>
+        <h4 class="nbh-headline">The <em>volcano</em> at the heart.</h4>
+        <div class="nbh-headline-kr">한라산 · The center of the island</div>
+        <p class="nbh-desc">Hallasan rises 1,950 meters from sea level — South Korea's highest peak and the dormant volcano that built the island. Climbing isn't optional for many travelers; it's a pilgrimage. Around the mountain are forest trails, oreum (mini-volcanos), and surprisingly accessible day-hike options.</p>
+        <div class="nbh-meta">
+          <div class="nbh-meta-item"><div class="label">Best For</div><div class="value">Hikers, nature seekers<span class="value-kr">등산·자연</span></div></div>
+          <div class="nbh-meta-item"><div class="label">Reservation</div><div class="value">Required for summit trails</div></div>
+          <div class="nbh-meta-item"><div class="label">Best Time</div><div class="value">May, Sep–Oct</div></div>
+          <div class="nbh-meta-item"><div class="label">Easier option</div><div class="value">Yeongsil trail (3hr round)</div></div>
+        </div>
+      </div>
+      <div class="nbh-places">
+        <div class="nbh-places-title">Must-see places</div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">1</div>
+          <div>
+            <div class="nbh-place-name">Hallasan Summit Trail</div>
+            <div class="nbh-place-name-kr">한라산 정상 · 8-9 hours round trip</div>
+            <div class="nbh-place-tip">Reservation required. Seongpanak or Gwaneumsa courses only reach summit.</div>
+          </div>
+          <div class="nbh-place-type">Hike</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">2</div>
+          <div>
+            <div class="nbh-place-name">Yeongsil Trail</div>
+            <div class="nbh-place-name-kr">영실 코스 · 3.7km, 3 hours</div>
+            <div class="nbh-place-tip">Beginner-friendly. Doesn't reach summit but has stunning views. No reservation.</div>
+          </div>
+          <div class="nbh-place-type">Hike</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">3</div>
+          <div>
+            <div class="nbh-place-name">Saryeoni Forest Path</div>
+            <div class="nbh-place-name-kr">사려니숲길 · Cedar forest walk</div>
+            <div class="nbh-place-tip">A 15km flat trail through ancient cedars. Walk just a section, like 1-2 hours.</div>
+          </div>
+          <div class="nbh-place-type">Walk</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">4</div>
+          <div>
+            <div class="nbh-place-name">Jeoji Oreum</div>
+            <div class="nbh-place-name-kr">저지오름 · Mini-volcano</div>
+            <div class="nbh-place-tip">Easy 30-min walk to the rim of a small volcanic crater. Good Hallasan alternative.</div>
+          </div>
+          <div class="nbh-place-type">Oreum</div>
+        </div>
+        <div class="nbh-place-item">
+          <div class="nbh-place-num">5</div>
+          <div>
+            <div class="nbh-place-name">Eorimok Trail</div>
+            <div class="nbh-place-name-kr">어리목 코스 · Fall foliage best</div>
+            <div class="nbh-place-tip">6.8km round trip, takes 4 hours. October has Korea's most beautiful foliage.</div>
+          </div>
+          <div class="nbh-place-type">Hike</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-header" id="map">
+  <div>
+    <div class="section-num">— 03 / Jeju on the Map</div>
+    <h3>The <em>whole island</em>, mapped.</h3>
+  </div>
+  <div class="desc">Color-coded by zone. Jeju is roughly 73km wide — pin distances matter when planning. Best explored by rental car.</div>
+</div>
+
+<section class="city-map-section">
+  <div class="city-map-wrap">
+    <div class="city-map" id="jejuMap"></div>
+    <div class="map-legend-bar">
+      <span class="map-legend-bar-title">— Zones</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#c8362d"></span>North</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#b8924a"></span>East</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#2d5d4f"></span>South</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#8b1e18"></span>West</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#6b5544"></span>Center</span>
+    </div>
+  </div>
+</section>
+
+<section class="itinerary" id="itinerary">
+  <div class="section-header">
+    <div>
+      <div class="section-num">— 04 / Suggested Itinerary</div>
+      <h3>3 perfect days in <em>Jeju</em>.</h3>
+    </div>
+    <div class="desc">A balanced loop hitting east, south, and west. Renting a car is essential — public transport on Jeju is limited.</div>
+  </div>
+
+  <div class="day-tabs">
+    <button class="day-tab active" data-day="1"><span class="day-num">01</span>East Coast</button>
+    <button class="day-tab" data-day="2"><span class="day-num">02</span>South & Center</button>
+    <button class="day-tab" data-day="3"><span class="day-num">03</span>West Coast</button>
+  </div>
+
+  <div class="day-panel active" data-day="1">
+    <h4 class="day-title">Day One — <em>The East Side</em></h4>
+    <div class="day-subtitle">동부 일정 · Sunrise Peak, lava tubes, beach cafés</div>
+    <div class="day-timeline">
+      <div class="timeline-item">
+        <div class="timeline-time">5:30 AM</div>
+        <div class="timeline-content">
+          <h5>Sunrise at Seongsan Peak</h5>
+          <div class="where">성산일출봉 · A 30-min hike</div>
+          <p>Early start, but unforgettable. Hike up before sunrise — the view from the rim looking east is iconic. ₩5k entry.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">9:00 AM</div>
+        <div class="timeline-content">
+          <h5>Breakfast at Seongsan port</h5>
+          <div class="where">성산항 · Seafood breakfast</div>
+          <p>Fresh haemul jeon (seafood pancake) or transparent fish soup. Restaurants open 7am for fishermen.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">11:00 AM</div>
+        <div class="timeline-content">
+          <h5>Manjanggul Lava Tube</h5>
+          <div class="where">만장굴 · World's longest lava tube</div>
+          <p>Walk a kilometer through ancient lava cave. Cool inside (15°C year-round), bring a light jacket. ₩4k.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">1:00 PM</div>
+        <div class="timeline-content">
+          <h5>Lunch & beach time at Woljeongri</h5>
+          <div class="where">월정리 해변 · Beach café row</div>
+          <p>One of Jeju's prettiest beaches, lined with stylish cafés. Pick a beach café for lunch with ocean view.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">3:30 PM</div>
+        <div class="timeline-content">
+          <h5>Bijarim Forest walk</h5>
+          <div class="where">비자림 · 800-year old trees</div>
+          <p>Easy 1-hour walk under ancient nutmeg trees. Cooler than the coast, fragrant, calming.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">6:00 PM</div>
+        <div class="timeline-content">
+          <h5>Dinner at Gimnyeong Village</h5>
+          <div class="where">김녕마을 · Local seafood</div>
+          <p>Try jeonbok-juk (abalone porridge) or okdom-gui (grilled tilefish) — Jeju specialties. Cash sometimes preferred.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-panel" data-day="2">
+    <h4 class="day-title">Day Two — <em>South & Center</em></h4>
+    <div class="day-subtitle">서귀포·한라산 · Waterfalls and a forest hike</div>
+    <div class="day-timeline">
+      <div class="timeline-item">
+        <div class="timeline-time">9:00 AM</div>
+        <div class="timeline-content">
+          <h5>Drive south, stop at Saryeoni Forest</h5>
+          <div class="where">사려니숲길 · Cedar forest walk</div>
+          <p>Cross-island drive takes 1hr, with stops. Walk a section of the 15km cedar forest path — fresh air after city.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">11:30 AM</div>
+        <div class="timeline-content">
+          <h5>Cheonjiyeon Waterfall</h5>
+          <div class="where">천지연폭포 · 22m waterfall</div>
+          <p>Easy 10-min walk from parking. Photogenic from any angle. ₩2k entry.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">12:30 PM</div>
+        <div class="timeline-content">
+          <h5>Lunch at Olle Market</h5>
+          <div class="where">서귀포 매일올레시장 · Local lunch</div>
+          <p>Try heuk-dwaeji (black pork) at any sit-down restaurant near the market. ₩30–40k for two with sides.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">2:30 PM</div>
+        <div class="timeline-content">
+          <h5>Jeongbang Waterfall</h5>
+          <div class="where">정방폭포 · Falls into the sea</div>
+          <p>Asia's only waterfall that drops directly into the ocean. Wear shoes you don't mind getting wet.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">4:00 PM</div>
+        <div class="timeline-content">
+          <h5>Jusangjeolli Cliff</h5>
+          <div class="where">주상절리 · Hexagonal lava columns</div>
+          <p>Walking deck along basalt cliffs. Surreal geological formation. Sunset here is incredible.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">6:30 PM</div>
+        <div class="timeline-content">
+          <h5>Dinner in Jungmun</h5>
+          <div class="where">중문 · Resort area dining</div>
+          <p>Many waterfront restaurants here. Try haemultang (seafood stew) for a special meal. ₩50k for two.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-panel" data-day="3">
+    <h4 class="day-title">Day Three — <em>The Peaceful West</em></h4>
+    <div class="day-subtitle">서부 일정 · Tea fields and sunset</div>
+    <div class="day-timeline">
+      <div class="timeline-item">
+        <div class="timeline-time">10:00 AM</div>
+        <div class="timeline-content">
+          <h5>Hyeopjae Beach morning</h5>
+          <div class="where">협재해수욕장 · White sand & turquoise</div>
+          <p>Walk to neighboring Geumneung Beach (15 min). Crystal-clear water, very few crowds in morning.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">12:00 PM</div>
+        <div class="timeline-content">
+          <h5>Lunch at a beach café</h5>
+          <div class="where">협재 카페거리 · Beachside dining</div>
+          <p>Many design-forward cafés along the coast. Try Bomnal Café or Cafe AGOK for ocean views.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">1:30 PM</div>
+        <div class="timeline-content">
+          <h5>O'sulloc Tea Fields</h5>
+          <div class="where">오설록 티뮤지엄 · Green tea farm</div>
+          <p>Free museum, endless tea fields for photos, and the famous green tea ice cream. Spend 1.5 hours.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">3:30 PM</div>
+        <div class="timeline-content">
+          <h5>Sanbangsan & Yongmeori Coast</h5>
+          <div class="where">산방산·용머리해안</div>
+          <p>Climb halfway up Sanbangsan for sea views. The coastal trail below is worth the walk.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">5:30 PM</div>
+        <div class="timeline-content">
+          <h5>Sunset at Hangmori cliff trail</h5>
+          <div class="where">송악산 둘레길 · Volcanic cliff walk</div>
+          <p>The west's best sunset spot. Easy 1-hour cliff walk, looking out over Marado Island.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">7:30 PM</div>
+        <div class="timeline-content">
+          <h5>Final dinner — black pork BBQ</h5>
+          <div class="where">제주 흑돼지 · Heuk-dwaeji</div>
+          <p>Don't leave Jeju without this. Black-pig pork belly grilled at your table — fattier and more flavorful than mainland pork.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-header" id="food">
+  <div>
+    <div class="section-num">— 05 / Jeju Food</div>
+    <h3>Six things you can <em>only</em> eat here.</h3>
+  </div>
+  <div class="desc">Jeju's cuisine is unique to the island — formed by black volcanic soil, abundant seafood, and isolation from the mainland.</div>
+</div>
+
+<section class="city-food">
+  <div class="food-grid">
+    <div class="food-card">
+      <div class="food-tag">◉ BBQ</div>
+      <div class="food-name">Heuk-dwaeji</div>
+      <div class="food-name-kr">흑돼지 · Jeju black pork</div>
+      <p class="food-desc">A native Jeju pig breed with darker meat and richer fat. Grilled at your table, wrapped in lettuce with garlic and ssamjang. The island's most iconic dish.</p>
+      <div class="food-where">Best at <strong>흑돼지거리 (Black Pig Street), Jeju City</strong></div>
+    </div>
+    <div class="food-card">
+      <div class="food-tag">◉ Seafood</div>
+      <div class="food-name">Jeonbok-juk</div>
+      <div class="food-name-kr">전복죽 · Abalone porridge</div>
+      <p class="food-desc">Made from abalones harvested by haenyeo (female free divers), simmered slowly with rice into a creamy green-tinted porridge. Comforting and luxurious at once.</p>
+      <div class="food-where">Best at <strong>Olle Market or any haenyeo restaurant</strong></div>
+    </div>
+    <div class="food-card">
+      <div class="food-tag">◉ Fish</div>
+      <div class="food-name">Okdom-gui</div>
+      <div class="food-name-kr">옥돔구이 · Grilled tilefish</div>
+      <p class="food-desc">A small, premium fish only caught off Jeju. Salt-grilled until crispy outside, tender inside. A staple at Jeju traditional restaurants and breakfast tables.</p>
+      <div class="food-where">Best in <strong>Seogwipo coastal restaurants</strong></div>
+    </div>
+    <div class="food-card">
+      <div class="food-tag">◉ Citrus</div>
+      <div class="food-name">Hallabong</div>
+      <div class="food-name-kr">한라봉 · Jeju's premium orange</div>
+      <p class="food-desc">A hybrid orange named after Hallasan mountain — sweet, juicy, with a distinctive bump on top. Fresh from December–March, but products (juice, jam, chocolate) all year.</p>
+      <div class="food-where">Buy at <strong>any market or fruit stand</strong></div>
+    </div>
+    <div class="food-card">
+      <div class="food-tag">◉ Noodles</div>
+      <div class="food-name">Gogi Guksu</div>
+      <div class="food-name-kr">고기국수 · Pork noodle soup</div>
+      <p class="food-desc">Wheat noodles in pork bone broth, topped with sliced pork, scallions, and pepper. Cheap (~₩7k), filling, and uniquely Jeju.</p>
+      <div class="food-where">Best at <strong>고기국수거리 (Noodle Street), Jeju City</strong></div>
+    </div>
+    <div class="food-card">
+      <div class="food-tag">◉ Sashimi</div>
+      <div class="food-name">Hwe</div>
+      <div class="food-name-kr">회 · Jeju-style sashimi</div>
+      <p class="food-desc">Cut from fish caught hours before serving. Locals eat it with chogochujang or rolled in seaweed with rice. The freshness is the point.</p>
+      <div class="food-where">Best at <strong>Seongsan or Aewol harbors</strong></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-header" id="tips">
+  <div>
+    <div class="section-num">— 06 / Jeju-Specific Tips</div>
+    <h3>What every <em>first-timer</em> should know.</h3>
+  </div>
+  <div class="desc">Jeju runs differently from mainland Korea. These tips save days of wandering and dollars wasted.</div>
+</div>
+
+<section class="city-tips">
+  <div class="tips-grid">
+    <div class="tip-card">
+      <div class="tip-icon">!</div>
+      <div class="tip-content">
+        <h6>Rent a car — really</h6>
+        <p>Public buses exist but are slow and limited. International driving permit (IDP) accepted. Rentals from ₩40k/day. Roads are easy.</p>
+      </div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">★</div>
+      <div class="tip-content">
+        <h6>Book Hallasan trails 1 month ahead</h6>
+        <p>Summit trails (Seongpanak, Gwaneumsa) require online reservation at visitjeju.net. Free, but limited daily slots.</p>
+      </div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">✓</div>
+      <div class="tip-content">
+        <h6>Avoid July and August typhoons</h6>
+        <p>Late summer brings heavy rain and typhoons. Activities cancel often. April-June and September-October are perfect.</p>
+      </div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">◉</div>
+      <div class="tip-content">
+        <h6>Cheap flights from Seoul daily</h6>
+        <p>30+ flights per day from Gimpo (1hr) and Incheon (1.5hr). Book early for ₩50k tickets. Last minute can hit ₩200k.</p>
+      </div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">!</div>
+      <div class="tip-content">
+        <h6>Stay in different zones</h6>
+        <p>Jeju's east and west are 1.5hr apart by car. Many travelers split — 2 nights east, 1 night west. Avoids long drives daily.</p>
+      </div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">★</div>
+      <div class="tip-content">
+        <h6>Tangerine farms in winter</h6>
+        <p>Dec–Feb you can pick hallabong straight from trees. Many farms charge ~₩10k for all-you-can-eat experience.</p>
+      </div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">✓</div>
+      <div class="tip-content">
+        <h6>Olle Trail walking</h6>
+        <p>26 numbered routes around the island, total 425km. Pick any 1-day section by number. Color-coded ribbons mark the path.</p>
+      </div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">◉</div>
+      <div class="tip-content">
+        <h6>Jeju dialect is real</h6>
+        <p>Older locals may speak Jeju-mal which differs from Korean. Younger people speak standard Korean and basic English.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="city-cta">
+  <div class="city-cta-tag">★ More Korea Awaits</div>
+  <h3>Find your <em>perfect</em> Korea trip with our quiz.</h3>
+  <p>Take our 5-question quiz to get personalized recommendations beyond Jeju — the right cities, neighborhoods, and budget for your travel style.</p>
+  <a href="index.html#quiz" class="city-cta-btn">
+    <span>Take the Quiz</span>
+    <span>→</span>
+  </a>
+</section>
+
+<footer>
+  <div style="font-family:'Fraunces',serif;font-style:italic;font-size:24px;margin-bottom:16px;color:var(--ink);">Safe<span style="color:var(--crimson);font-weight:800;font-style:normal;">·</span><em>Korea</em></div>
+  <div>
+    <a href="index.html">← Back to Main Guide</a>
+    <a href="seoul.html">Seoul Guide</a>
+    <a href="busan.html">Busan Guide</a>
+    <a href="index.html#emergency">Emergency Numbers</a>
+  </div>
+  <div style="margin-top:16px;font-size:10px;">© 2026 Safe Korea Guide · Jeju City Guide · Made with care</div>
+</footer>
+
+<script>
+  document.querySelectorAll('.nbh-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const nbh = tab.dataset.nbh;
+      document.querySelectorAll('.nbh-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.nbh-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelector(`.nbh-panel[data-nbh="${nbh}"]`).classList.add('active');
+    });
+  });
+
+  document.querySelectorAll('.day-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const day = tab.dataset.day;
+      document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.day-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelector(`.day-panel[data-day="${day}"]`).classList.add('active');
+    });
+  });
+
+  const jejuPlaces = [
+    // North (red)
+    { area: 'North', color: '#c8362d', name: 'Dongmun Traditional Market', kr: '동문시장', lat: 33.5128, lng: 126.5267, num: 1 },
+    { area: 'North', color: '#c8362d', name: 'Iho Tewoo Beach', kr: '이호테우 해수욕장', lat: 33.5005, lng: 126.4546, num: 2 },
+    { area: 'North', color: '#c8362d', name: 'Yongduam Rock', kr: '용두암', lat: 33.5159, lng: 126.5125, num: 3 },
+    { area: 'North', color: '#c8362d', name: 'Samseonghyeol Shrine', kr: '삼성혈', lat: 33.5092, lng: 126.5298, num: 4 },
+    { area: 'North', color: '#c8362d', name: 'Tapdong Promenade', kr: '탑동 산책로', lat: 33.5176, lng: 126.5260, num: 5 },
+
+    // East (gold)
+    { area: 'East', color: '#b8924a', name: 'Seongsan Sunrise Peak', kr: '성산일출봉', lat: 33.4583, lng: 126.9425, num: 1 },
+    { area: 'East', color: '#b8924a', name: 'Manjanggul Lava Tube', kr: '만장굴', lat: 33.5286, lng: 126.7711, num: 2 },
+    { area: 'East', color: '#b8924a', name: 'Woljeongri Beach', kr: '월정리 해변', lat: 33.5570, lng: 126.7926, num: 3 },
+    { area: 'East', color: '#b8924a', name: 'Bijarim Forest', kr: '비자림', lat: 33.4909, lng: 126.8157, num: 4 },
+    { area: 'East', color: '#b8924a', name: 'Hyeopjae Beach', kr: '협재해수욕장', lat: 33.3947, lng: 126.2398, num: 5 },
+
+    // South (jade)
+    { area: 'South', color: '#2d5d4f', name: 'Cheonjiyeon Waterfall', kr: '천지연폭포', lat: 33.2454, lng: 126.5602, num: 1 },
+    { area: 'South', color: '#2d5d4f', name: 'Jeongbang Waterfall', kr: '정방폭포', lat: 33.2438, lng: 126.5710, num: 2 },
+    { area: 'South', color: '#2d5d4f', name: 'Jusangjeolli Cliff', kr: '주상절리', lat: 33.2378, lng: 126.4197, num: 3 },
+    { area: 'South', color: '#2d5d4f', name: 'Olle Market', kr: '서귀포 매일올레시장', lat: 33.2494, lng: 126.5631, num: 4 },
+    { area: 'South', color: '#2d5d4f', name: 'Jungmun Beach', kr: '중문해수욕장', lat: 33.2425, lng: 126.4099, num: 5 },
+
+    // West (deep crimson)
+    { area: 'West', color: '#8b1e18', name: 'Hyeopjae & Geumneung Beach', kr: '협재·금능 해변', lat: 33.3947, lng: 126.2398, num: 1 },
+    { area: 'West', color: '#8b1e18', name: 'Sanbangsan Mountain', kr: '산방산', lat: 33.2371, lng: 126.3128, num: 2 },
+    { area: 'West', color: '#8b1e18', name: 'Camellia Hill', kr: '카멜리아힐', lat: 33.2913, lng: 126.3681, num: 3 },
+    { area: 'West', color: '#8b1e18', name: "O'sulloc Tea Museum", kr: '오설록 티뮤지엄', lat: 33.3057, lng: 126.2891, num: 4 },
+    { area: 'West', color: '#8b1e18', name: 'Hangmori Coastal Trail', kr: '송악산 둘레길', lat: 33.2055, lng: 126.2922, num: 5 },
+
+    // Center (brown)
+    { area: 'Center', color: '#6b5544', name: 'Hallasan Summit', kr: '한라산 정상', lat: 33.3617, lng: 126.5292, num: 1 },
+    { area: 'Center', color: '#6b5544', name: 'Yeongsil Trail', kr: '영실 코스', lat: 33.3614, lng: 126.4983, num: 2 },
+    { area: 'Center', color: '#6b5544', name: 'Saryeoni Forest Path', kr: '사려니숲길', lat: 33.4144, lng: 126.6553, num: 3 },
+    { area: 'Center', color: '#6b5544', name: 'Jeoji Oreum', kr: '저지오름', lat: 33.3400, lng: 126.2917, num: 4 },
+    { area: 'Center', color: '#6b5544', name: 'Eorimok Trail', kr: '어리목 코스', lat: 33.3953, lng: 126.4750, num: 5 }
+  ];
+
+  if (typeof L !== 'undefined') {
+    const map = L.map('jejuMap', { scrollWheelZoom: false }).setView([33.4000, 126.5500], 10);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      attribution: '© OpenStreetMap, © CARTO',
+      maxZoom: 19
+    }).addTo(map);
+
+    jejuPlaces.forEach(place => {
+      const customIcon = L.divIcon({
+        className: 'city-marker-wrapper',
+        html: `<div class="city-marker" style="background:${place.color}"><div class="city-marker-inner">${place.num}</div></div>`,
+        iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -32]
+      });
+      const marker = L.marker([place.lat, place.lng], { icon: customIcon }).addTo(map);
+      const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}&destination_place_id=${encodeURIComponent(place.name + ' Jeju')}`;
+      marker.bindPopup(`
+        <span class="map-popup-tag">${place.area}</span>
+        <div class="map-popup-name">${place.name}</div>
+        <div class="map-popup-kr">${place.kr}</div>
+        <a href="${mapsUrl}" target="_blank" rel="noopener" class="map-popup-link">Open in Maps →</a>
+      `, { maxWidth: 260, minWidth: 220 });
+    });
+  }
+</script>
+
+</body>
+</html>

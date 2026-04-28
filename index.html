@@ -554,6 +554,278 @@
 
   .trend-item:hover .trend-arrow { transform: translateX(6px); color: var(--crimson); }
 
+  /* ============ FAQ ============ */
+  .faq-section {
+    padding: 0 32px 80px;
+    border-top: 1px solid var(--ink);
+    background: var(--paper);
+  }
+
+  .faq-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--ink);
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--ink);
+    border-right: 1px solid var(--ink);
+    padding: 0;
+    background: var(--paper);
+    transition: background 0.3s;
+  }
+
+  .faq-item:nth-child(2n) { border-right: none; }
+  .faq-item:hover { background: var(--paper-warm); }
+
+  .faq-question {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 28px 32px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    font-family: inherit;
+    color: inherit;
+  }
+
+  .faq-q-content {
+    flex: 1;
+  }
+
+  .faq-q-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--crimson);
+    margin-bottom: 10px;
+  }
+
+  .faq-q-text {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .faq-toggle {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--ink);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 600;
+    transition: all 0.3s;
+    background: var(--paper);
+  }
+
+  .faq-item.open .faq-toggle {
+    background: var(--crimson);
+    color: var(--paper);
+    border-color: var(--crimson);
+    transform: rotate(45deg);
+  }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
+  }
+
+  .faq-item.open .faq-answer {
+    max-height: 500px;
+  }
+
+  .faq-answer-inner {
+    padding: 0 32px 32px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--muted);
+    border-top: 1px dashed var(--ink);
+    padding-top: 20px;
+    margin-top: 0;
+  }
+
+  .faq-answer-inner strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .faq-answer-inner .ko-note {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 8px 12px;
+    background: var(--paper-warm);
+    border-left: 2px solid var(--crimson);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+  }
+
+  /* ============ KOREAN PHRASES ============ */
+  .phrases-section {
+    padding: 0 32px 80px;
+    background: var(--ink);
+    color: var(--paper);
+    border-top: 3px double var(--gold);
+    border-bottom: 3px double var(--gold);
+  }
+
+  .phrases-section .section-header {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .phrases-section .section-num { color: var(--gold); }
+  .phrases-section .section-header h3 em { color: var(--gold); }
+  .phrases-section .section-header .desc {
+    color: rgba(244,239,230,0.6);
+    border-color: var(--paper);
+  }
+
+  .phrase-categories {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border-top: 1px solid rgba(244,239,230,0.3);
+    border-left: 1px solid rgba(244,239,230,0.3);
+  }
+
+  .phrase-category {
+    border-right: 1px solid rgba(244,239,230,0.3);
+    border-bottom: 1px solid rgba(244,239,230,0.3);
+    padding: 32px;
+  }
+
+  .phrase-category-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+
+  .phrase-category-subtitle {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(244,239,230,0.3);
+  }
+
+  .phrase-list {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .phrase-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: start;
+    cursor: pointer;
+    padding: 6px 0;
+    transition: padding 0.3s;
+  }
+
+  .phrase-item:hover { padding-left: 8px; }
+
+  .phrase-korean {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 6px;
+    color: var(--paper);
+    letter-spacing: -0.01em;
+  }
+
+  .phrase-romanization {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+
+  .phrase-english {
+    font-family: 'Fraunces', serif;
+    font-size: 14px;
+    color: rgba(244,239,230,0.7);
+    line-height: 1.4;
+  }
+
+  .phrase-play {
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(244,239,230,0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-size: 12px;
+    flex-shrink: 0;
+    transition: all 0.3s;
+  }
+
+  .phrase-item:hover .phrase-play {
+    background: var(--gold);
+    color: var(--ink);
+    border-color: var(--gold);
+  }
+
+  .phrases-tip {
+    margin-top: 40px;
+    padding: 24px 28px;
+    border: 1px solid var(--gold);
+    background: rgba(184, 146, 74, 0.08);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 24px;
+    align-items: center;
+  }
+
+  .phrases-tip-icon {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 48px;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .phrases-tip-text h6 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .phrases-tip-text p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(244,239,230,0.85);
+  }
+
   /* ============ FESTIVALS ============ */
   .festivals {
     padding: 0 32px 80px;
@@ -1109,6 +1381,11 @@
     .festival-info-item { border-right: none; border-bottom: 1px dashed var(--ink); padding: 0 0 12px 0 !important; }
     .festival-info-item:last-child { border-bottom: none; }
     .festival-map-grid { grid-template-columns: 1fr; gap: 32px; }
+    .faq-grid { grid-template-columns: 1fr; }
+    .faq-item { border-right: none; }
+    .phrase-categories { grid-template-columns: 1fr; border-left: none; }
+    .phrase-category { border-right: none; padding: 24px; }
+    .phrases-tip { grid-template-columns: 1fr; gap: 12px; }
   }
 </style>
 </head>
@@ -1125,6 +1402,8 @@
     <a href="#festivals">Festivals</a>
     <a href="#trends">Trends</a>
     <a href="#transport">Transport</a>
+    <a href="#phrases">Phrases</a>
+    <a href="#faq">FAQ</a>
     <a href="#emergency">SOS</a>
     <span>EN · 한 · 日 · 中</span>
   </div>
@@ -2049,11 +2328,387 @@
   </div>
 </section>
 
+<!-- KOREAN PHRASES -->
+<section class="phrases-section" id="phrases">
+  <div class="section-header">
+    <div>
+      <div class="section-num">— 05 / Essential Korean</div>
+      <h3>A few words go a <em>long</em> way.</h3>
+    </div>
+    <div class="desc">Locals genuinely appreciate the effort. Even a single word in Korean often turns a transactional moment into a warm one. Tap any phrase to hear it pronounced.</div>
+  </div>
+
+  <div class="phrase-categories">
+    <div class="phrase-category">
+      <div class="phrase-category-title">— 01</div>
+      <div class="phrase-category-subtitle">Greetings & Basics</div>
+      <div class="phrase-list">
+        <div class="phrase-item" data-text="안녕하세요">
+          <div>
+            <div class="phrase-korean">안녕하세요</div>
+            <div class="phrase-romanization">An-nyeong-ha-se-yo</div>
+            <div class="phrase-english">Hello / Hi (polite, all situations)</div>
+          </div>
+          <div class="phrase-play">▶</div>
+        </div>
+        <div class="phrase-item" data-text="감사합니다">
+          <div>
+            <div class="phrase-korean">감사합니다</div>
+            <div class="phrase-romanization">Gam-sa-ham-ni-da</div>
+            <div class="phrase-english">Thank you (formal)</div>
+          </div>
+          <div class="phrase-play">▶</div>
+        </div>
+        <div class="phrase-item" data-text="죄송합니다">
+          <div>
+            <div class="phrase-korean">죄송합니다</div>
+            <div class="phrase-romanization">Joe-song-ham-ni-da</div>
+            <div class="phrase-english">I'm sorry / Excuse me</div>
+          </div>
+          <div class="phrase-play">▶</div>
+        </div>
+        <div class="phrase-item" data-text="네">
+          <div>
+            <div class="phrase-korean">네 / 아니요</div>
+            <div class="phrase-romanization">Ne / A-ni-yo</div>
+            <div class="phrase-english">Yes / No</div>
+          </div>
+          <div class="phrase-play">▶</div>
+        </div>
+        <div class="phrase-item" data-text="안녕히 가세요">
+          <div>
+            <div class="phrase-korean">안녕히 가세요</div>
+            <div class="phrase-romanization">An-nyeong-hi ga-se-yo</div>
+            <div class="phrase-english">Goodbye (to person leaving)</div>
+          </div>
+          <div class="phrase-play">▶</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phrase-category">
+      <div class="phrase-category-title">— 02</div>
+      <div class="phrase-category-subtitle">At a Restaurant</div>
+      <div class="phrase-list">
+        <div class="phrase-item" data-text="메뉴 주세요">
+          <div>
+            <div class="phrase-korean">메뉴 주세요</div>
+            <div class="phrase-romanization">Me-nyu ju-se-yo</div>
+            <div class="phrase-english">Menu, please</div>
+          </div>
+          <div class="phrase-play">▶</div>
+        </div>
+        <div class="phrase-item" data-text="이거 주세요">
+          <div>
+            <div class="phrase-korean">이거 주세요</div>
+            <div class="phrase-romanization">I-geo ju-se-yo</div>
+            <div class="phrase-english">I'll have this one (while pointing)</div>
+          </div>
+          <div class="phrase-play">▶</div>
+        </div>
+        <div class="phrase-item" data-text="맵지 않게 해주세요">
+          <div>
+            <div class="phrase-korean">맵지 않게 해주세요</div>
+            <div class="phrase-romanization">Maep-ji an-ke hae-ju-se-yo</div>
+            <div class="phrase-english">Not spicy, please</div>
+          </div>
+          <div class="phrase-play">▶</div>
+        </div>
+        <div class="phrase-item" data-text="물 주세요">
+          <div>
+            <div class="phrase-korean">물 주세요</div>
+            <div class="phrase-romanization">Mul ju-se-yo</div>
+            <div class="phrase-english">Water, please</div>
+          </div>
+          <div class="phrase-play">▶</div>
+        </div>
+        <div class="phrase-item" data-text="계산해 주세요">
+          <div>
+            <div class="phrase-korean">계산해 주세요</div>
+            <div class="phrase-romanization">Gye-san-hae ju-se-yo</div>
+            <div class="phrase-english">Check, please / I'd like to pay</div>
+          </div>
+          <div class="phrase-play">▶</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phrase-category">
+      <div class="phrase-category-title">— 03</div>
+      <div class="phrase-category-subtitle">Getting Around</div>
+      <div class="phrase-list">
+        <div class="phrase-item" data-text="얼마예요">
+          <div>
+            <div class="phrase-korean">얼마예요?</div>
+            <div class="phrase-romanization">Eol-ma-ye-yo?</div>
+            <div class="phrase-english">How much is it?</div>
+          </div>
+          <div class="phrase-play">▶</div>
+        </div>
+        <div class="phrase-item" data-text="어디에 있어요">
+          <div>
+            <div class="phrase-korean">어디에 있어요?</div>
+            <div class="phrase-romanization">Eo-di-e i-sseo-yo?</div>
+            <div class="phrase-english">Where is it?</div>
+          </div>
+          <div class="phrase-play">▶</div>
+        </div>
+        <div class="phrase-item" data-text="화장실이 어디예요">
+          <div>
+            <div class="phrase-korean">화장실이 어디예요?</div>
+            <div class="phrase-romanization">Hwa-jang-sil-i eo-di-ye-yo?</div>
+            <div class="phrase-english">Where is the restroom?</div>
+          </div>
+          <div class="phrase-play">▶</div>
+        </div>
+        <div class="phrase-item" data-text="이 주소로 가주세요">
+          <div>
+            <div class="phrase-korean">이 주소로 가주세요</div>
+            <div class="phrase-romanization">I ju-so-ro ga-ju-se-yo</div>
+            <div class="phrase-english">Please go to this address (in taxi)</div>
+          </div>
+          <div class="phrase-play">▶</div>
+        </div>
+        <div class="phrase-item" data-text="여기서 세워주세요">
+          <div>
+            <div class="phrase-korean">여기서 세워주세요</div>
+            <div class="phrase-romanization">Yeo-gi-seo se-wo-ju-se-yo</div>
+            <div class="phrase-english">Please stop here</div>
+          </div>
+          <div class="phrase-play">▶</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phrase-category">
+      <div class="phrase-category-title">— 04</div>
+      <div class="phrase-category-subtitle">Emergencies & Help</div>
+      <div class="phrase-list">
+        <div class="phrase-item" data-text="도와주세요">
+          <div>
+            <div class="phrase-korean">도와주세요!</div>
+            <div class="phrase-romanization">Do-wa-ju-se-yo!</div>
+            <div class="phrase-english">Help me, please!</div>
+          </div>
+          <div class="phrase-play">▶</div>
+        </div>
+        <div class="phrase-item" data-text="영어 할 수 있어요">
+          <div>
+            <div class="phrase-korean">영어 할 수 있어요?</div>
+            <div class="phrase-romanization">Yeong-eo hal su i-sseo-yo?</div>
+            <div class="phrase-english">Do you speak English?</div>
+          </div>
+          <div class="phrase-play">▶</div>
+        </div>
+        <div class="phrase-item" data-text="길을 잃었어요">
+          <div>
+            <div class="phrase-korean">길을 잃었어요</div>
+            <div class="phrase-romanization">Gil-eul ir-eo-sseo-yo</div>
+            <div class="phrase-english">I'm lost</div>
+          </div>
+          <div class="phrase-play">▶</div>
+        </div>
+        <div class="phrase-item" data-text="병원이 어디예요">
+          <div>
+            <div class="phrase-korean">병원이 어디예요?</div>
+            <div class="phrase-romanization">Byeong-won-i eo-di-ye-yo?</div>
+            <div class="phrase-english">Where is the hospital?</div>
+          </div>
+          <div class="phrase-play">▶</div>
+        </div>
+        <div class="phrase-item" data-text="경찰을 불러주세요">
+          <div>
+            <div class="phrase-korean">경찰을 불러주세요</div>
+            <div class="phrase-romanization">Gyeong-chal-eul bul-leo-ju-se-yo</div>
+            <div class="phrase-english">Please call the police</div>
+          </div>
+          <div class="phrase-play">▶</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phrases-tip">
+    <div class="phrases-tip-icon">!</div>
+    <div class="phrases-tip-text">
+      <h6>Pro Tip — A Small Bow Goes Far</h6>
+      <p>When saying hello or thank you, a slight nod of the head adds warmth. It's not required, but Koreans notice and appreciate the gesture. No need for deep bows — that's reserved for formal occasions.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<div class="section-header" id="faq">
+  <div>
+    <div class="section-num">— 06 / Frequently Asked</div>
+    <h3>Questions every traveler <em>actually</em> asks.</h3>
+  </div>
+  <div class="desc">Honest answers to the questions that don't always make it into guidebooks. Compiled from real visitor feedback.</div>
+</div>
+
+<section class="faq-section">
+  <div class="faq-grid">
+    <div class="faq-item">
+      <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <div class="faq-q-content">
+          <div class="faq-q-num">Q.01 — Money</div>
+          <div class="faq-q-text">Should I tip at restaurants?</div>
+        </div>
+        <div class="faq-toggle">+</div>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <strong>No, tipping is not customary in Korea.</strong> In fact, leaving extra money can confuse staff or even cause embarrassment. Service charges are already included in the bill at most restaurants. The same applies to taxis, hotels, and salons.
+          <div class="ko-note">팁 문화 없음 — 서비스 요금은 이미 포함되어 있습니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <div class="faq-q-content">
+          <div class="faq-q-num">Q.02 — Health</div>
+          <div class="faq-q-text">Is the tap water safe to drink?</div>
+        </div>
+        <div class="faq-toggle">+</div>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <strong>Yes, tap water in Korea is safe.</strong> It meets WHO standards and is regularly tested. However, most Koreans prefer bottled or boiled water due to old plumbing in some buildings. Restaurants serve free filtered water, and bottled water is cheap (₩500–1,000) at any convenience store.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <div class="faq-q-content">
+          <div class="faq-q-num">Q.03 — Money</div>
+          <div class="faq-q-text">Is Korea cash-only or card-friendly?</div>
+        </div>
+        <div class="faq-toggle">+</div>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <strong>Korea is one of the most card-friendly countries in the world.</strong> Credit and debit cards work almost everywhere — even at street food stalls and traditional markets. Visa and Mastercard are widely accepted. Bring a small amount of cash (₩50,000–100,000) for tiny vendors or temple donations, but you'll rarely need it.
+          <div class="ko-note">카드 결제 가능 — Most places accept international cards.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <div class="faq-q-content">
+          <div class="faq-q-num">Q.04 — Connectivity</div>
+          <div class="faq-q-text">How do I get internet during my trip?</div>
+        </div>
+        <div class="faq-toggle">+</div>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <strong>Three options, all reliable:</strong> Pocket Wi-Fi rental (~₩5,000/day, pickup at airport), prepaid SIM cards (~₩30,000/week from KT or SKT), or eSIM (best for newer phones — buy online before arrival from Airalo or similar). Free Wi-Fi is also widely available in cafés, subway stations, and city centers.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <div class="faq-q-content">
+          <div class="faq-q-num">Q.05 — Safety</div>
+          <div class="faq-q-text">Is it safe to walk alone at night?</div>
+        </div>
+        <div class="faq-toggle">+</div>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <strong>Korea is among the safest countries for solo travelers</strong>, including women. Cities are well-lit and many areas remain busy until 2–3 AM. CCTV is everywhere. Common sense still applies — avoid empty alleys after midnight, and be cautious near nightlife districts where drunk patrons can be loud. The Tourist Police hotline (1330) is available 24/7 in English.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <div class="faq-q-content">
+          <div class="faq-q-num">Q.06 — Etiquette</div>
+          <div class="faq-q-text">What manners should I know?</div>
+        </div>
+        <div class="faq-toggle">+</div>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <strong>A few key things:</strong> Remove shoes before entering homes and many traditional restaurants. Receive items from elders with both hands. Don't write someone's name in red ink (associated with death). Don't stick chopsticks upright in rice (resembles funeral offering). When pouring drinks, pour for others first — never for yourself. Subway priority seats are strictly for elderly, pregnant, and disabled.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <div class="faq-q-content">
+          <div class="faq-q-num">Q.07 — Food</div>
+          <div class="faq-q-text">Will the food be too spicy for me?</div>
+        </div>
+        <div class="faq-toggle">+</div>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <strong>Korean food has spicy options, but plenty of mild ones too.</strong> Bibimbap, bulgogi, galbi, japchae, samgyeopsal, kimbap, and most soups are not spicy. Avoid anything with "매운" (spicy) in the name — like 매운 닭갈비. Ask "맵지 않게 해주세요" (not spicy, please). Even kimchi varies — some types are quite mild. White rice and water always cool things down.
+          <div class="ko-note">맵지 않게 해주세요 — Maep-ji an-ke hae-ju-se-yo (Not spicy, please)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <div class="faq-q-content">
+          <div class="faq-q-num">Q.08 — Shopping</div>
+          <div class="faq-q-text">Can I get a tax refund as a tourist?</div>
+        </div>
+        <div class="faq-toggle">+</div>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <strong>Yes — keep your receipts and passport.</strong> Tourists can claim VAT refunds on purchases over ₩30,000 at participating stores (look for "Tax Free" signs). Some stores process refunds instantly. For others, get the refund slip, then claim at airport kiosks before departure. Allow extra time at the airport for this — about 30 minutes.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <div class="faq-q-content">
+          <div class="faq-q-num">Q.09 — Travel</div>
+          <div class="faq-q-text">Do I need to book attractions in advance?</div>
+        </div>
+        <div class="faq-toggle">+</div>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <strong>Most places accept walk-ins, but a few require reservations.</strong> Book ahead for: Hallasan summit trails (Jeju), Lotte World Tower observatory (Seoul), some popular hanbok rental shops near palaces during weekends, and N Seoul Tower cable car. KTX trains and intercity buses also fill up on Friday evenings and holidays — book 1–2 days in advance to be safe.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+        <div class="faq-q-content">
+          <div class="faq-q-num">Q.10 — Communication</div>
+          <div class="faq-q-text">How widely is English spoken?</div>
+        </div>
+        <div class="faq-toggle">+</div>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <strong>It varies a lot by location.</strong> In Seoul tourist areas (Myeongdong, Hongdae, Itaewon), most service workers speak basic English. Outside major cities and tourist zones, English is limited. Younger Koreans (under 30) are usually more comfortable. Papago app (by Naver) translates better than Google Translate for Korean. Most signs in subways, airports, and tourist sites have English translations.
+          <div class="ko-note">Tip — Download the Papago app before your trip.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- EMERGENCY -->
 <section class="emergency" id="emergency">
   <div class="emergency-inner">
     <div class="emergency-left">
-      <div class="label">— 05 / In Case of Need</div>
+      <div class="label">— 07 / In Case of Need</div>
       <h3>Save these numbers <em>before</em> you need them.</h3>
     </div>
     <div class="emergency-numbers">
@@ -2150,6 +2805,36 @@
 
   const currentTab = document.querySelector(`.season-tab[data-season="${currentSeason}"]`);
   if (currentTab) currentTab.click();
+
+  // Korean phrase pronunciation - uses browser's built-in speech synthesis
+  const phraseItems = document.querySelectorAll('.phrase-item');
+  phraseItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const text = item.dataset.text;
+      if (!text || !('speechSynthesis' in window)) return;
+
+      // Stop any currently playing speech
+      window.speechSynthesis.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'ko-KR';
+      utterance.rate = 0.85;
+
+      // Visual feedback
+      const playBtn = item.querySelector('.phrase-play');
+      const originalContent = playBtn.innerHTML;
+      playBtn.innerHTML = '♪';
+
+      utterance.onend = () => {
+        playBtn.innerHTML = originalContent;
+      };
+      utterance.onerror = () => {
+        playBtn.innerHTML = originalContent;
+      };
+
+      window.speechSynthesis.speak(utterance);
+    });
+  });
 </script>
 
 </body>
